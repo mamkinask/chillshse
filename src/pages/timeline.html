@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Таймлайн — ЧИЛЛС</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #000; color: #fff; font-family: 'Times New Roman', serif; overflow-x: hidden; padding-top: 57px; }
+
+    /* === Scale wrap === */
+    .scale-wrap { width: 100%; overflow-x: hidden; }
+    .timeline-page {
+      position: relative;
+      width: 1440px;
+      min-height: 1130px;
+      margin: 0 auto;
+      background: #000;
+      overflow: hidden;
+    }
+    @media (max-width: 1440px) {
+      .scale-wrap { width: 100vw; max-width: 100%; }
+      .timeline-page { transform: scale(calc(100vw / 1440)); transform-origin: 0 0; margin-left: 0; }
+    }
+
+    /* === Fixed header === */
+    .o-header { position: fixed; top: 0; left: 0; width: 100%; height: 57px; min-height: 57px; padding: 0 clamp(12px, 4vw, 80px); background: #949494; display: flex; align-items: center; justify-content: space-between; z-index: 999; box-sizing: border-box; }
+    .o-header .a-logo { width: clamp(28px, 2.6vw, 37px); height: clamp(28px, 2.6vw, 37px); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .o-header .a-logo img { width: 100%; height: 100%; object-fit: contain; }
+    .o-header-nav { display: flex; gap: clamp(10px, 2.9vw, 42px); align-items: center; position: absolute; left: 50%; transform: translateX(-50%); }
+    .o-header-nav .btn { border: 2px solid #000; padding: 4px 2px; font-size: clamp(11px, 1.25vw, 18px); text-align: center; background: #fff; font-family: 'Greybeard 22px', sans-serif; color: #000; text-decoration: none; white-space: nowrap; }
+    .o-header-nav .btn:hover { background: #eee; }
+    .o-header-nav .btn .blue { color: #1900ff; }
+    .o-header-nav .btn--active { background: #000; color: #fff; border-color: #000; }
+
+    /* === Toolbar (Figma top:128 − 57 = 71px) === */
+    .timeline-toolbar {
+      position: absolute;
+      left: 80px; top: 71px;
+      width: 1282px;
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 10;
+    }
+    .timeline-toolbar-left { display: flex; gap: 22px; align-items: center; }
+    .btn-white { border: 2px solid #fff; padding: 4px; color: #fff; font-family: 'Greybeard 22px', sans-serif; font-size: 18px; text-align: center; cursor: pointer; background: transparent; }
+    .btn-white span { display: block; border: 1px solid #fff; padding: 2px 6px; white-space: nowrap; }
+    .btn-search { background: #949494; border: 2px solid #760000; padding: 4px; }
+    .btn-search .input-wrap { border: 1px solid #696969; padding: 2px 4px; display: flex; align-items: center; gap: 10px; width: 176px; }
+    .btn-search input { background: none; border: none; color: #696969; font-size: 18px; font-family: 'Greybeard 22px', sans-serif; outline: none; width: 100%; }
+    .btn-search input::placeholder { color: #696969; }
+
+    /* === Timeline zone (Figma top:159 − 57 = 102px, height:804px) === */
+    .timeline-zone {
+      position: absolute;
+      left: 0; top: 102px;
+      width: 1440px; height: 804px;
+      overflow-x: auto; overflow-y: hidden;
+      z-index: 5;
+      box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+    }
+    .timeline-zone::-webkit-scrollbar { height: 4px; }
+    .timeline-zone::-webkit-scrollbar-track { background: #111; }
+    .timeline-zone::-webkit-scrollbar-thumb { background: #760000; border-radius: 2px; }
+
+    /* === Inner scroll container === */
+    .timeline-scroll {
+      position: relative;
+      display: inline-flex;
+      align-items: flex-start;
+      padding: 0 80px;
+      min-width: 100%;
+      height: 804px;
+    }
+
+    /* === Background === */
+    .timeline-zone-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+    .timeline-zone-bg-color { position: absolute; inset: 0; background: url('../assets/media/BackgroundIndex.png') center / cover no-repeat; }
+    .timeline-zone-bg-noise {
+      position: absolute; inset: 0; opacity: 0.35;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat; background-size: 256px 256px;
+    }
+    .timeline-zone-bg-grad {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, #000 0%, transparent 25%, transparent 75%, #000 100%);
+    }
+
+    /* === Horizontal timeline line === */
+    .timeline-line {
+      position: absolute;
+      left: 0; top: 167px;
+      width: 100%; min-width: 100%;
+      height: 2px; background: #fff;
+      pointer-events: none; z-index: 1;
+    }
+    .timeline-line::after {
+      content: '';
+      position: absolute;
+      right: 0; top: -7px;
+      border-left: 16px solid #fff;
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+    }
+
+    /* === Year groups === */
+    .year-groups {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 39px;
+      z-index: 2;
+      padding-top: 83px; /* groups start at top:83px within zone */
+    }
+
+    .year-group { position: relative; flex-shrink: 0; display: flex; flex-direction: column; }
+
+    /* Year header: label + tick occupy top area */
+    .year-header { position: relative; height: 141px; /* 83px padding already accounted + 58px for label area */ }
+
+    .year-label {
+      position: absolute;
+      top: 13px; left: 0; /* top:96 − 83 = 13px */
+      background: #760000;
+      padding: 8px 4px;
+      font-family: 'Greybeard 22px', sans-serif;
+      font-weight: 700; font-size: 40px; color: #fff;
+      white-space: nowrap; text-align: center;
+      box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+    }
+
+    .year-tick {
+      position: absolute;
+      left: 0; top: 84px; /* top:167 − 83 = 84px */
+      width: 2px; height: 46px;
+      background: #fff;
+    }
+
+    /* First-year intro text (top:83 within zone = top:0 within year-groups padding) */
+    .year-intro {
+      position: absolute;
+      top: 0px; left: 260px; /* to the right of the year label */
+      width: 413px;
+      font-family: 'Times New Roman', serif;
+      font-weight: 700; font-size: 14px; color: #fff;
+      line-height: 1.4; z-index: 3;
+    }
+    .year-intro u { text-decoration: underline; }
+
+    /* === Card row (cards start at top:224 within zone → 224−83 = 141px = header height) === */
+    .card-row { display: flex; gap: 16px; align-items: flex-start; }
+
+    .timeline-card {
+      width: 200px; flex-shrink: 0;
+      display: flex; flex-direction: column; gap: 0;
+      cursor: pointer; text-decoration: none;
+      position: relative;
+    }
+    .timeline-card-img {
+      width: 200px; height: 301px;
+      overflow: hidden; background: #1a1a1a;
+      box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+    }
+    .timeline-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .timeline-card-img .no-cover {
+      width: 100%; height: 100%;
+      background: #1a1a1a;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Greybeard 22px', sans-serif; font-size: 14px;
+      color: #444; text-align: center; padding: 8px;
+    }
+
+    .timeline-card-info {
+      background: #fff; color: #000;
+      padding: 4px; font-size: 12px;
+      font-family: 'Times New Roman', serif; line-height: 1.4;
+      opacity: 0; transition: opacity 0.2s ease;
+      margin-top: 0;
+    }
+    .timeline-card:hover .timeline-card-info { opacity: 1; }
+    .timeline-card-info .media-type { font-weight: 700; }
+    .timeline-card-info .genres { margin-top: 2px; color: #222; }
+    .timeline-card-info .desc { font-style: italic; margin-top: 2px; color: #333; font-size: 11px; }
+
+    /* === Loading / error states === */
+    .timeline-loading {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Greybeard 22px', sans-serif; font-size: 24px; color: #760000;
+      z-index: 10;
+    }
+
+    /* === Drag scrubber === */
+    .timeline-scrubber-wrap {
+      position: absolute;
+      left: 0; top: 906px; /* below timeline-zone (102 + 804) */
+      width: 1440px; height: 28px;
+      background: #1a1a1a;
+      border-top: 2px solid #760000;
+      z-index: 10;
+      user-select: none;
+    }
+    .timeline-scrubber-track {
+      position: relative;
+      width: calc(100% - 160px);
+      margin: 0 80px;
+      height: 100%;
+      display: flex; align-items: center;
+    }
+    .timeline-scrubber-thumb {
+      position: absolute;
+      left: 0;
+      width: 80px; height: 20px;
+      background: #760000;
+      border: 2px solid #fff;
+      cursor: grab;
+      transition: background 0.15s;
+    }
+    .timeline-scrubber-thumb:hover { background: #900; }
+    .timeline-scrubber-thumb.dragging { cursor: grabbing; background: #b00; }
+
+    /* === Footer (Figma top:1049 − 57 = 992px) === */
+    .o-footer { position: absolute; left: 80px; top: 992px; width: 1280px; min-height: 93px; display: flex; gap: 178px; align-items: flex-start; z-index: 10; }
+    .o-footer .footer-logo { background: #fff; border: 2px solid #000; width: 93px; height: 93px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: 5px; box-sizing: border-box; }
+    .o-footer .footer-logo img { width: 100%; height: auto; object-fit: contain; }
+    .o-footer .footer-right { display: flex; gap: 206px; align-items: flex-start; flex-shrink: 0; }
+    .o-footer .footer-info { display: flex; gap: 172px; align-items: flex-start; }
+    .o-footer .footer-col { display: flex; flex-direction: column; gap: 15px; font-size: 16px; }
+    .o-footer .footer-col > div { display: flex; flex-direction: column; }
+    .o-footer .footer-col p { margin: 0; }
+    .o-footer .footer-col .bold { font: 700 16px 'Greybeard 22px', sans-serif; color: #fff; }
+    .o-footer .footer-col .regular { font: 400 16px 'Times New Roman', serif; color: #fff; }
+    .o-footer .footer-col .red { font: 700 16px 'Greybeard 22px', sans-serif; color: red; }
+    .o-footer .footer-heart { width: 224px; height: 86px; border: 2px solid #fff; flex-shrink: 0; }
+    .o-footer .footer-heart img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  </style>
+</head>
+<body>
+
+  <header class="o-header" data-name="O_Header">
+    <a href="../index.html" class="a-logo" aria-label="На главную">
+      <img src="../assets/media/FillColorRed.svg" alt="">
+    </a>
+    <nav class="o-header-nav">
+      <a href="diagnostics.html" class="btn"><span class="blue">Д</span>ИАГНОСТИКА</a>
+      <a href="articles.html" class="btn"><span class="blue">Г</span>ИД</a>
+      <a href="timeline.html" class="btn btn--active"><span class="blue">Т</span>АЙМЛАЙН</a>
+    </nav>
+  </header>
+
+  <div class="scale-wrap">
+    <div class="timeline-page" data-name="Timline_page_1440_var1">
+
+      <div class="timeline-toolbar">
+        <div class="timeline-toolbar-left">
+          <div class="btn-white"><span>ГОТОВЫЕ МАРШРУТЫ</span></div>
+          <div class="btn-white"><span>СОСТАВИТЬ МАРШРУТ</span></div>
+        </div>
+        <div class="btn-search">
+          <div class="input-wrap">
+            <input type="text" placeholder="ПОИСК..." id="timeline-search">
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-zone" id="timeline-zone">
+        <div class="timeline-scroll" id="timeline-scroll">
+          <div class="timeline-zone-bg" aria-hidden="true">
+            <div class="timeline-zone-bg-color"></div>
+            <div class="timeline-zone-bg-noise"></div>
+            <div class="timeline-zone-bg-grad"></div>
+          </div>
+          <div class="timeline-line"></div>
+          <div class="year-groups" id="year-groups">
+            <div class="timeline-loading" id="timeline-loading">ЗАГРУЗКА...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-scrubber-wrap" id="scrubber-wrap">
+        <div class="timeline-scrubber-track" id="scrubber-track">
+          <div class="timeline-scrubber-thumb" id="scrubber-thumb"></div>
+        </div>
+      </div>
+
+      <footer class="o-footer" data-name="O_Footer">
+        <div class="footer-logo">
+          <img src="../assets/media/FillColorRed.svg" alt="ЧИЛЛС">
+        </div>
+        <div class="footer-right">
+          <div class="footer-info">
+            <div class="footer-col" style="width:204px;">
+              <div>
+                <p class="bold">Выполнила работу:</p>
+                <p class="regular">Мамкина Софья</p>
+              </div>
+              <div>
+                <p class="bold">Куратор:</p>
+                <p class="regular">Харитонов Захар</p>
+              </div>
+              <p class="red">Материалы защищены авторским правом,<br>и все права сохранены</p>
+            </div>
+            <div class="footer-col" style="width:203px;">
+              <div>
+                <p class="bold">Телеграм-канал</p>
+                <p class="regular">@smth</p>
+              </div>
+              <div>
+                <p class="bold">Электронная почта автора:</p>
+                <p class="regular">mamont09583@gmail.com</p>
+              </div>
+            </div>
+          </div>
+          <div class="footer-heart">
+            <img src="../assets/media/Q_HSEART.png" alt="HSE Art and Design School">
+          </div>
+        </div>
+      </footer>
+
+    </div><!-- /timeline-page -->
+  </div><!-- /scale-wrap -->
+
+  <script>
+    var AIRTABLE_BASE = 'YOUR_BASE_ID';
+    var AIRTABLE_TOKEN = 'YOUR_PERSONAL_ACCESS_TOKEN';
+    var TABLE_NAME = 'horror_media';
+
+    var isAirtableConfigured = (AIRTABLE_BASE !== 'YOUR_BASE_ID' && AIRTABLE_TOKEN !== 'YOUR_PERSONAL_ACCESS_TOKEN');
+
+    var MOCK_DATA = [
+      { Title: 'Хэллоуин',         Year: 1978, Type: 'Фильм',   Genres: 'Слэшер | Триллер',                              Cover: '../assets/media/CoverTFrankenstein.png', Description: 'Убийца сбегает из психбольницы и возвращается убивать.' },
+      { Title: 'Чужой',            Year: 1979, Type: 'Фильм',   Genres: 'Фантастический хоррор | Экшн | Триллер',        Cover: '../assets/media/CoverTAlienOneFilm.png', Url: 'alien-object.html', Description: 'Экипаж корабля встречает смертоносного инопланетянина.' },
+      { Title: 'Суспирия',         Year: 1977, Type: 'Фильм',   Genres: 'Сверхъестественный хоррор | Мистика',           Cover: '../assets/media/CoverTSuspiria.png', Description: 'Балерина раскрывает дьявольские тайны школы танцев.' },
+      { Title: 'Ребёнок Розмари',  Year: 1968, Type: 'Фильм',   Genres: 'Сверхъестественный хоррор | Триллер',           Cover: '../assets/media/CoverTChildRozmary.png', Description: 'Женщина подозревает нерождённого ребёнка в связи с дьяволом.' },
+      { Title: 'Зов Ктулху',       Year: 1928, Type: 'Книга',   Genres: 'Лавкрафтовский хоррор | Мистика | Фантастика',  Cover: '../assets/media/CoverTZovKtulhu.png', Description: 'Исследователь раскрывает культ спящего бога на дне океана.' },
+      { Title: 'Дракула',          Year: 1897, Type: 'Книга',   Genres: 'Готический роман | Сверхъестественный',         Cover: '../assets/media/CoverTDrakula.png', Description: 'Адвокат попадает в замок трансильванского вампира.' },
+      { Title: 'Франкенштейн',     Year: 1818, Type: 'Книга',   Genres: 'Готический роман | Фантастика | Философия',     Cover: '../assets/media/CoverTFrankenstein.png', Description: 'Учёный создаёт существо из мёртвой плоти и отвергает его.' },
+      { Title: 'Сияние',           Year: 1980, Type: 'Фильм',   Genres: 'Психологический хоррор | Триллер',              Cover: '../assets/media/CoverTShineFilm.png', Description: 'Писатель медленно сходит с ума в заснеженном отеле.' },
+      { Title: 'Нечто',            Year: 1982, Type: 'Фильм',   Genres: 'Фантастический хоррор | Мистика | Триллер',     Cover: '../assets/media/CoverTItFilm.png', Description: 'В Антарктиде группа встречает пришельца, меняющего облик.' },
+      { Title: 'Сияние (книга)',    Year: 1977, Type: 'Книга',   Genres: 'Роман ужасов | Психологический триллер',        Cover: '../assets/media/CoverTShineBook.png', Description: 'Смотритель горного отеля медленно сходит с ума.' },
+      { Title: 'Мизери',           Year: 1990, Type: 'Фильм',   Genres: 'Психологический триллер | Драма',               Cover: null, Description: 'Писатель в плену у психически нестабильной поклонницы.' },
+      { Title: 'Молчание ягнят',   Year: 1991, Type: 'Фильм',   Genres: 'Психологический триллер | Детектив | Криминал', Cover: null, Description: 'Агент ФБР сотрудничает с гениальным серийным убийцей.' },
+      { Title: 'Крик',             Year: 1996, Type: 'Фильм',   Genres: 'Слэшер | Мистика | Триллер',                    Cover: null, Description: 'Маньяк в маске играет с клише жанра ужасов.' },
+      { Title: 'Resident Evil 2',  Year: 1998, Type: 'Игра',    Genres: 'Survival Horror | Экшн | Триллер',              Cover: null, Description: 'Выбраться из города захваченного зомби-вирусом.' },
+      { Title: 'Дом листьев',      Year: 2000, Type: 'Книга',   Genres: 'Экспериментальный хоррор | Мистика',            Cover: null, Description: 'Дом который больше внутри, чем снаружи.' },
+      { Title: 'Сандмен',          Year: 1989, Type: 'Комикс',  Genres: 'Тёмное фэнтези | Мифология | Хоррор',          Cover: '../assets/media/CoverTSandmanComics.png', Description: 'Повелитель снов восстанавливает своё царство через кошмары.' },
+      { Title: '28 дней спустя',   Year: 2002, Type: 'Фильм',   Genres: 'Зомби-хоррор | Фантастика | Триллер',           Cover: null, Description: 'Выживший ищет людей среди заражённых в пустом Лондоне.' },
+      { Title: 'Silent Hill 2',    Year: 2001, Type: 'Игра',    Genres: 'Психологический хоррор | Приключения',          Cover: null, Description: 'Мужчина ищет мёртвую жену в туманном городе монстров.' },
+      { Title: 'Пила',             Year: 2004, Type: 'Фильм',   Genres: 'Психологический триллер | Детектив',            Cover: null, Description: 'Двое прикованных в подвале играют в смертельную игру.' },
+      { Title: 'Паранормальное явление', Year: 2007, Type: 'Фильм', Genres: 'Фаундфутаж | Сверхъестественный',          Cover: null, Description: 'Пара устанавливает камеры чтобы выяснить ночные беспокойства.' },
+      { Title: '[REC]',            Year: 2007, Type: 'Фильм',   Genres: 'Фаундфутаж | Триллер',                          Cover: null, Description: 'Журналист и оператор заперты в доме с заражёнными.' },
+      { Title: 'Dead Space',       Year: 2008, Type: 'Игра',    Genres: 'Survival Horror | Экшн | Фантастика',           Cover: null, Description: 'Инженер сталкивается с мутировавшими мертвецами на корабле.' },
+      { Title: 'Amnesia: The Dark Descent', Year: 2010, Type: 'Игра', Genres: 'Survival Horror | Приключения',           Cover: null, Description: 'Мужчина без воспоминаний прячется от монстров в замке.' },
+      { Title: 'Заклятие',         Year: 2013, Type: 'Фильм',   Genres: 'Сверхъестественный хоррор | Мистика | Триллер', Cover: null, Description: 'Исследователи помогают семье терроризируемой тёмной сущностью.' },
+      { Title: 'Синистер',         Year: 2012, Type: 'Фильм',   Genres: 'Сверхъестественный хоррор | Триллер | Мистика', Cover: null, Description: 'Писатель находит видеозаписи убийств и оказывается под угрозой.' },
+      { Title: 'The Last of Us',   Year: 2013, Type: 'Игра',    Genres: 'Survival Horror | Экшн | Драма',                Cover: null, Description: 'Контрабандист везёт девочку через постапокалиптическую Америку.' },
+      { Title: 'Ведьма',           Year: 2015, Type: 'Фильм',   Genres: 'Фолк-хоррор | Драма | Мистика',                 Cover: null, Description: 'Семья пуритан сталкивается с колдовством в лесной глуши.' },
+      { Title: 'Очень странные дела', Year: 2016, Type: 'Сериал', Genres: 'Сверхъестественный хоррор | Фантастика | Драма', Cover: null, Description: 'Дети в городке сталкиваются со сверхъестественными силами.' },
+      { Title: 'Прочь',            Year: 2017, Type: 'Фильм',   Genres: 'Психологический хоррор | Триллер | Мистика',    Cover: null, Description: 'Темнокожий парень обнаруживает нечто пугающее в семье девушки.' },
+      { Title: 'Оно',              Year: 2017, Type: 'Фильм',   Genres: 'Монстр-хоррор | Триллер | Драма',               Cover: null, Description: 'Группа детей противостоит древнему злу в образе клоуна.' },
+      { Title: 'Наследственное',   Year: 2018, Type: 'Фильм',   Genres: 'Психологический хоррор | Драма | Мистика',      Cover: null, Description: 'После смерти бабушки семья сталкивается с необъяснимыми событиями.' },
+      { Title: 'Тихое место',      Year: 2018, Type: 'Фильм',   Genres: 'Монстр-хоррор | Фантастика | Триллер',          Cover: null, Description: 'Семья выживает в мире где слепые монстры охотятся на звук.' },
+      { Title: 'Аннигиляция',      Year: 2018, Type: 'Фильм',   Genres: 'Фантастический хоррор | Триллер | Мистика',     Cover: null, Description: 'Биолог ведёт экспедицию в зону где законы природы не работают.' },
+      { Title: 'Солнцестояние',    Year: 2019, Type: 'Фильм',   Genres: 'Фолк-хоррор | Драма | Мистика',                 Cover: null, Description: 'Пара едет на шведский фестиваль оказывающийся намного темнее.' },
+      { Title: 'Маяк',             Year: 2019, Type: 'Фильм',   Genres: 'Психологический хоррор | Драма | Мистика',      Cover: null, Description: 'Два смотрителя маяка застревают на острове и сходят с ума.' },
+      { Title: 'Мы',               Year: 2019, Type: 'Фильм',   Genres: 'Психологический хоррор | Триллер',              Cover: null, Description: 'Отдых семьи превращается в кошмар когда появляются их двойники.' },
+      { Title: 'Поговори со мной', Year: 2022, Type: 'Фильм',   Genres: 'Сверхъестественный хоррор | Триллер | Драма',   Cover: null, Description: 'Подростки вызывают духов через набальзамированную руку.' },
+      { Title: 'Нет',              Year: 2022, Type: 'Фильм',   Genres: 'Монстр-хоррор | Фантастика | Мистика',          Cover: null, Description: 'Жители глуши замечают нечто зловещее в небе над ранчо.' },
+      { Title: 'Signalis',         Year: 2022, Type: 'Игра',    Genres: 'Survival Horror | Sci-Fi | Психологический хоррор', Cover: null, Description: 'Робот-репликант ищет напарника в разрушенной колонии.' },
+      { Title: 'Чужой: Ромул',     Year: 2024, Type: 'Фильм',   Genres: 'Фантастический хоррор | Фантастика | Триллер',  Cover: '../assets/media/CoverTAlienRomulFilm.png', Description: 'Молодые колонисты исследуют заброшенную станцию с ксеноморфами.' }
+    ];
+
+    function fetchAllFromAirtable(offset, accumulated) {
+      accumulated = accumulated || [];
+      var url = 'https://api.airtable.com/v0/' + AIRTABLE_BASE + '/' + encodeURIComponent(TABLE_NAME)
+        + '?pageSize=100'
+        + (offset ? '&offset=' + encodeURIComponent(offset) : '');
+      return fetch(url, {
+        headers: { 'Authorization': 'Bearer ' + AIRTABLE_TOKEN }
+      })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var records = (data.records || []).map(function(rec) {
+            var f = rec.fields || {};
+            var coverUrl = f.Cover && f.Cover[0] && f.Cover[0].url;
+            return {
+              Title:       f.Title || '',
+              Year:        Number(f.Year) || 0,
+              Type:        f.Type || '',
+              Genres:      f.Genres || '',
+              Cover:       coverUrl || null,
+              Description: f.Description || ''
+            };
+          });
+          var all = accumulated.concat(records);
+          if (data.offset) {
+            return fetchAllFromAirtable(data.offset, all);
+          }
+          return all;
+        });
+    }
+
+    function groupByYear(items) {
+      var map = {};
+      items.forEach(function(item) {
+        var y = item.Year;
+        if (!y) return;
+        if (!map[y]) map[y] = [];
+        map[y].push(item);
+      });
+      var years = Object.keys(map).map(Number).sort(function(a, b) { return a - b; });
+      return years.map(function(y) { return { year: y, items: map[y] }; });
+    }
+
+    function escH(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    function renderCard(item) {
+      var img = item.Cover
+        ? '<img src="' + escH(item.Cover) + '" alt="' + escH(item.Title) + '" loading="lazy">'
+        : '<div class="no-cover">' + escH(item.Title) + '</div>';
+      var genres = (item.Genres || '').split('|').map(function(g) { return g.trim(); }).filter(Boolean);
+      var genreHtml = genres.slice(0, 3).map(function(g) { return '‼ ' + escH(g); }).join('<br>');
+      var href = item.Url ? ' href="' + escH(item.Url) + '"' : '';
+      return '<a class="timeline-card"' + href + '>'
+        + '<div class="timeline-card-img">' + img + '</div>'
+        + '<div class="timeline-card-info">'
+        +   '<div class="media-type">▷ ' + escH(item.Type || 'Неизвестно') + '</div>'
+        +   (genreHtml ? '<div class="genres">' + genreHtml + '</div>' : '')
+        +   (item.Description ? '<div class="desc">' + escH(item.Description.slice(0, 80)) + (item.Description.length > 80 ? '…' : '') + '</div>' : '')
+        + '</div>'
+        + '</a>';
+    }
+
+    function renderTimeline(groups) {
+      var container = document.getElementById('year-groups');
+      if (!container) return;
+
+      if (!groups || groups.length === 0) {
+        container.innerHTML = '<div class="timeline-loading">НЕТ ДАННЫХ</div>';
+        return;
+      }
+
+      container.innerHTML = groups.map(function(group, idx) {
+        var cardsHtml = group.items.map(renderCard).join('');
+        var introHtml = '';
+        return '<div class="year-group">'
+          + '<div class="year-header">'
+          +   '<div class="year-label">[ ' + escH(group.year) + ' ]</div>'
+          +   '<div class="year-tick"></div>'
+          +   introHtml
+          + '</div>'
+          + '<div class="card-row">' + cardsHtml + '</div>'
+          + '</div>';
+      }).join('');
+
+      var page = document.querySelector('.timeline-page');
+      if (page) page.style.minHeight = '1130px';
+    }
+
+    var allGroups = [];
+    document.getElementById('timeline-search').addEventListener('input', function() {
+      var q = this.value.trim().toLowerCase();
+      if (!q) { renderTimeline(allGroups); return; }
+      var filtered = allGroups.map(function(g) {
+        return {
+          year: g.year,
+          items: g.items.filter(function(item) {
+            return (item.Title || '').toLowerCase().indexOf(q) !== -1
+              || (item.Genres || '').toLowerCase().indexOf(q) !== -1
+              || (item.Type || '').toLowerCase().indexOf(q) !== -1
+              || (item.Description || '').toLowerCase().indexOf(q) !== -1;
+          })
+        };
+      }).filter(function(g) { return g.items.length > 0; });
+      renderTimeline(filtered);
+    });
+
+    (function() {
+      var zone = document.getElementById('timeline-zone');
+      var track = document.getElementById('scrubber-track');
+      var thumb = document.getElementById('scrubber-thumb');
+      if (!zone || !track || !thumb) return;
+
+      function updateThumb() {
+        var scrollRatio = zone.scrollLeft / (zone.scrollWidth - zone.clientWidth || 1);
+        var trackW = track.clientWidth;
+        var thumbW = thumb.offsetWidth;
+        var maxLeft = trackW - thumbW;
+        thumb.style.left = Math.round(scrollRatio * maxLeft) + 'px';
+      }
+
+      zone.addEventListener('scroll', updateThumb, { passive: true });
+      window.addEventListener('resize', updateThumb);
+
+      var dragging = false, startX = 0, startLeft = 0;
+
+      thumb.addEventListener('mousedown', function(e) {
+        dragging = true;
+        startX = e.clientX;
+        startLeft = parseInt(thumb.style.left, 10) || 0;
+        thumb.classList.add('dragging');
+        e.preventDefault();
+      });
+
+      document.addEventListener('mousemove', function(e) {
+        if (!dragging) return;
+        var trackW = track.clientWidth;
+        var thumbW = thumb.offsetWidth;
+        var maxLeft = trackW - thumbW;
+        var newLeft = Math.min(maxLeft, Math.max(0, startLeft + (e.clientX - startX)));
+        thumb.style.left = newLeft + 'px';
+        var ratio = newLeft / (maxLeft || 1);
+        zone.scrollLeft = ratio * (zone.scrollWidth - zone.clientWidth);
+      });
+
+      document.addEventListener('mouseup', function() {
+        if (dragging) { dragging = false; thumb.classList.remove('dragging'); }
+      });
+
+      thumb.addEventListener('touchstart', function(e) {
+        dragging = true;
+        startX = e.touches[0].clientX;
+        startLeft = parseInt(thumb.style.left, 10) || 0;
+        thumb.classList.add('dragging');
+      }, { passive: true });
+
+      document.addEventListener('touchmove', function(e) {
+        if (!dragging) return;
+        var trackW = track.clientWidth;
+        var thumbW = thumb.offsetWidth;
+        var maxLeft = trackW - thumbW;
+        var newLeft = Math.min(maxLeft, Math.max(0, startLeft + (e.touches[0].clientX - startX)));
+        thumb.style.left = newLeft + 'px';
+        var ratio = newLeft / (maxLeft || 1);
+        zone.scrollLeft = ratio * (zone.scrollWidth - zone.clientWidth);
+      }, { passive: true });
+
+      document.addEventListener('touchend', function() {
+        if (dragging) { dragging = false; thumb.classList.remove('dragging'); }
+      });
+
+      setTimeout(updateThumb, 200);
+    })();
+
+    (function init() {
+      var loadingEl = document.getElementById('timeline-loading');
+
+      if (isAirtableConfigured) {
+        fetchAllFromAirtable()
+          .then(function(items) {
+            allGroups = groupByYear(items);
+            if (loadingEl) loadingEl.remove();
+            renderTimeline(allGroups);
+          })
+          .catch(function(err) {
+            console.error('Airtable error:', err);
+            if (loadingEl) loadingEl.textContent = 'ОШИБКА ЗАГРУЗКИ — используется мок';
+            allGroups = groupByYear(MOCK_DATA);
+            setTimeout(function() {
+              if (loadingEl) loadingEl.remove();
+              renderTimeline(allGroups);
+            }, 1500);
+          });
+      } else {
+        allGroups = groupByYear(MOCK_DATA);
+        if (loadingEl) loadingEl.remove();
+        renderTimeline(allGroups);
+      }
+    })();
+  </script>
+</body>
+</html>
