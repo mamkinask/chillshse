@@ -17,7 +17,7 @@ npm start
 
 ```js
 module.exports = {
-  AIRTABLE_BASE: 'твой_base_id',
-  AIRTABLE_TOKEN: 'твой_personal_access_token'
+  AIRTABLE_BASE: 'base_id',
+  AIRTABLE_TOKEN: 'personal_access_token'
 }
 ```
