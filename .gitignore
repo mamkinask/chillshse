@@ -1,5 +1,4 @@
 node_modules/
-docs/
 dev_build/
 .DS_Store
 airtable-secret.js
