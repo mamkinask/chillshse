@@ -6,10 +6,10 @@
 
 ```bash
 npm install
-npm run dev
+npm start
 ```
 
-Сайт откроется на `http://localhost:8080`.
+Сайт откроется автоматически в браузере.
 
 ## Airtable (опционально)
 
