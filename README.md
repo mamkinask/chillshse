@@ -11,9 +11,9 @@ npm start
 
 Сайт откроется автоматически в браузере.
 
-## Airtable (опционально)
+## Airtable
 
-Таймлайн по умолчанию работает на тестовых данных. Чтобы подключить Airtable, создай файл `airtable-secret.js` в корне проекта:
+Чтобы подключить Airtable, создай файл `airtable-secret.js` в корне проекта:
 
 ```js
 module.exports = {
@@ -21,5 +21,3 @@ module.exports = {
   AIRTABLE_TOKEN: 'твой_personal_access_token'
 }
 ```
-
-Файл не попадает в репозиторий — он добавлен в `.gitignore`.
