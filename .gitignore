@@ -1,0 +1,11 @@
+node_modules/
+docs/
+dev_build/
+.DS_Store
+airtable-secret.js
+.env
+*.log
+.claude/
+.cursor/
+*.md
+media_v4.csv

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>СТАТЬИ — ЧИЛЛС</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #000; overflow-x: hidden; padding-top: 57px; }
+
+    .scale-wrap { width: 100%; overflow-x: hidden; min-height: calc(100vh - 57px); }
+    .articles-page {
+      position: relative;
+      width: 1440px;
+      min-height: 1622px;
+      margin: 0 auto;
+      background: #fff;
+      overflow: hidden;
+    }
+    @media (max-width: 1440px) {
+      .scale-wrap { width: 100vw; max-width: 100%; }
+      .articles-page {
+        transform: scale(calc(100vw / 1440));
+        transform-origin: 0 0;
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+
+    /* === Background layers === */
+    .articles-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+    .articles-bg-base { position: absolute; inset: 0; background: #fff; }
+    .articles-bg-photo { position: absolute; inset: 0; }
+    .articles-bg-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .articles-bg-noise {
+      position: absolute; inset: 0;
+      opacity: 0.55;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+    }
+    .articles-bg-grad {
+      position: absolute; inset: 0;
+      background: linear-gradient(270deg,
+        rgba(0,0,0,0.53) 7.69%,
+        rgba(58,58,58,0.41) 16.35%,
+        rgba(255,255,255,0) 45.67%,
+        rgba(68,68,68,0.56) 79.81%,
+        rgba(0,0,0,0.77) 97.12%
+      );
+    }
+
+    /* === Fixed header === */
+    .o-header { position: fixed; top: 0; left: 0; width: 100%; height: 57px; min-height: 57px; padding: 0 clamp(12px, 4vw, 80px); background: #949494; display: flex; align-items: center; justify-content: space-between; z-index: 999; box-sizing: border-box; }
+    .o-header .a-logo { width: clamp(28px, 2.6vw, 37px); height: clamp(28px, 2.6vw, 37px); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .o-header .a-logo img { width: 100%; height: 100%; object-fit: contain; }
+    .o-header-nav { display: flex; gap: clamp(10px, 2.9vw, 42px); align-items: center; position: absolute; left: 50%; transform: translateX(-50%); }
+    .o-header-nav .btn { border: 2px solid #000; padding: 4px 2px; font-size: clamp(11px, 1.25vw, 18px); text-align: center; background: #fff; font-family: 'Greybeard 22px', sans-serif; color: #000; text-decoration: none; white-space: nowrap; }
+    .o-header-nav .btn:hover { background: #eee; }
+    .o-header-nav .btn .blue { color: #1900ff; }
+    .o-header-nav .btn--active { background: #000; color: #fff; border-color: #000; }
+    .o-header-nav .btn--active .blue { color: #fff; }
+
+    /* === Filter bar — top:127px = 47px + 80px сдвиг === */
+    .filter-bar {
+      position: absolute; left: 537px; top: 107px;
+      display: flex; gap: 13px; align-items: center;
+      z-index: 10; cursor: pointer;
+    }
+    .filter-btn {
+      background: #000;
+      display: flex; gap: 8px; align-items: center;
+      padding: 4px 4px;
+    }
+    .filter-btn .cb { width: 17px; height: 17px; border: 1px solid #fff; flex-shrink: 0; }
+    .filter-btn .cb.checked { background: #fff; }
+    .filter-btn span {
+      font: 500 18.9px 'Greybeard 22px', sans-serif;
+      color: #fff; white-space: nowrap; text-align: center;
+    }
+
+    /* === Article grid — top:179px = 99px + 80px сдвиг === */
+    .articles-grid {
+      position: absolute; left: 80px; top: 159px;
+      display: grid;
+      grid-template-columns: repeat(3, 416px);
+      gap: 14px 16px;
+      z-index: 10;
+    }
+
+    /* === Article card base === */
+    .article-card {
+      width: 416px; height: 338px;
+      position: relative;
+      box-shadow: 3px 4px 4px rgba(0,0,0,0.46);
+      overflow: hidden;
+    }
+    .article-card.light { background: #fff; }
+    .article-card.dark  { background: #000; }
+
+    /* Card image */
+    .card-img {
+      position: absolute; left: 0; top: 0;
+      width: 416px; height: 248px; overflow: hidden;
+    }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* White label bar (guide cards only) */
+    .card-label-bar {
+      position: absolute; top: 0; left: 0; width: 416px;
+      background: #fff; display: flex; align-items: stretch;
+      z-index: 2;
+    }
+    .card-label-bar .idx {
+      padding: 4px 2px;
+      font: 700 16px 'Greybeard 22px', sans-serif;
+      color: #000; text-transform: uppercase; white-space: nowrap;
+    }
+    .card-label-bar .section {
+      padding: 4px 2px;
+      font: 700 16px 'Greybeard 22px', sans-serif;
+      color: #000; text-transform: uppercase; width: 294px;
+    }
+
+    /* Card bottom block */
+    .card-info {
+      position: absolute; left: 0; top: 252px; width: 416px;
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .card-title {
+      font: 700 24px/normal 'Greybeard 22px', sans-serif;
+      text-decoration: underline;
+      text-decoration-skip-ink: none;
+      width: 100%;
+    }
+    .article-card.light .card-title { color: #000; }
+    .article-card.dark  .card-title { color: #fff; }
+
+    .card-meta {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .card-tags {
+      display: flex; flex-direction: column; gap: 3px;
+      padding: 2px; width: 141px; flex-shrink: 0;
+    }
+    .card-tags p { font: 400 12px/normal 'Times New Roman', serif; white-space: nowrap; }
+    .article-card.light .card-tags p { color: #616161; }
+    .article-card.dark  .card-tags p { color: #707070; }
+
+    /* Read button — light card: black bg */
+    .article-card.light .read-btn-outer {
+      background: #000; border: 1px solid #000;
+      padding: 4px; display: inline-flex; flex-direction: column; align-items: flex-start;
+      flex-shrink: 0;
+    }
+    .article-card.light .read-btn-inner {
+      border: 1px solid #fff;
+      display: flex; gap: 4px; align-items: flex-end;
+      padding: 4px 2px;
+    }
+    .article-card.light .read-btn-text {
+      font: italic 12px/normal 'Times New Roman', serif;
+      color: #fff; text-transform: capitalize; white-space: nowrap;
+    }
+    .article-card.light .read-btn-arrow { width: 18px; height: 14px; }
+    .article-card.light .read-btn-arrow img { width: 100%; height: 100%; display: block; }
+
+    /* Read button — dark card: white bg */
+    .article-card.dark .read-btn-outer {
+      background: #fff; border: 1px solid #fff;
+      padding: 4px; display: inline-flex; flex-direction: column; align-items: flex-start;
+      flex-shrink: 0;
+    }
+    .article-card.dark .read-btn-inner {
+      border: 1px solid #000;
+      display: flex; gap: 4px; align-items: flex-end;
+      padding: 4px 2px;
+    }
+    .article-card.dark .read-btn-text {
+      font: italic 12px/normal 'Times New Roman', serif;
+      color: #000; text-transform: capitalize; white-space: nowrap;
+    }
+    .article-card.dark .read-btn-arrow { width: 18px; height: 14px; }
+    .article-card.dark .read-btn-arrow img { width: 100%; height: 100%; display: block; }
+
+    /* === Footer === */
+    .o-footer { position: absolute; left: 80px; top: 1401px; width: 1280px; min-height: 93px; display: flex; gap: 178px; align-items: flex-start; z-index: 10; }
+    .o-footer .footer-logo { background: #fff; border: 2px solid #000; width: 93px; height: 93px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: 5px; box-sizing: border-box; }
+    .o-footer .footer-logo img { width: 100%; height: auto; object-fit: contain; }
+    .o-footer .footer-right { display: flex; gap: 206px; align-items: flex-start; flex-shrink: 0; }
+    .o-footer .footer-info { display: flex; gap: 172px; align-items: flex-start; }
+    .o-footer .footer-col { display: flex; flex-direction: column; gap: 15px; font-size: 16px; }
+    .o-footer .footer-col > div { display: flex; flex-direction: column; }
+    .o-footer .footer-col p { margin: 0; }
+    .o-footer .footer-col .bold { font: 700 16px 'Greybeard 22px', sans-serif; color: #fff; }
+    .o-footer .footer-col .regular { font: 400 16px 'Times New Roman', serif; color: #fff; }
+    .o-footer .footer-col .red { font: 700 16px 'Greybeard 22px', sans-serif; color: red; }
+    .o-footer .footer-heart { width: 224px; height: 86px; border: 2px solid #fff; flex-shrink: 0; }
+    .o-footer .footer-heart img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  </style>
+</head>
+<body>
+
+  <header class="o-header" data-name="O_Header">
+    <a href="../index.html" class="a-logo" aria-label="На главную">
+      <img src="../assets/media/FillColorRed.svg" alt="">
+    </a>
+    <nav class="o-header-nav">
+      <a href="diagnostics.html" class="btn"><span class="blue">Д</span>ИАГНОСТИКА</a>
+      <a href="articles.html" class="btn btn--active"><span class="blue">Г</span>ИД</a>
+      <a href="timeline.html" class="btn"><span class="blue">Т</span>АЙМЛАЙН</a>
+    </nav>
+  </header>
+
+  <div class="scale-wrap">
+    <div class="articles-page" data-name="Main_Artivle_page">
+
+      <div class="articles-bg" aria-hidden="true">
+        <div class="articles-bg-base"></div>
+        <div class="articles-bg-photo">
+          <img src="../assets/media/BackgroundVoid.png" alt="">
+        </div>
+        <div class="articles-bg-noise"></div>
+        <div class="articles-bg-grad"></div>
+      </div>
+
+      <div class="filter-bar" data-name="filter-bar">
+        <div class="filter-btn" data-name="A_NavigatorButtonGuide" data-filter="навигаторы">
+          <div class="cb"></div>
+          <span>НАВИГАТОРЫ</span>
+        </div>
+        <div class="filter-btn" data-name="A_DictionaryButtonGuide" data-filter="справочные">
+          <div class="cb"></div>
+          <span>СПРАВОЧНЫЕ МАТЕРИАЛЫ</span>
+        </div>
+      </div>
+
+      <div class="articles-grid" data-name="S_GuideGrid">
+
+        <a href="#" class="article-card light" data-category="справочные" style="text-decoration:none;">
+          <div class="card-img">
+            <img src="../assets/media/GuideHellWay.png" alt="Дорога ужаса">
+          </div>
+          <div class="card-label-bar">
+            <div class="idx">[1]&nbsp;</div>
+            <div class="section">Составление Маршрута</div>
+          </div>
+          <div class="card-info">
+            <p class="card-title">Дорога ужаса: как собрать свой кошмар и остаться целым</p>
+            <div class="card-meta">
+              <div class="card-tags">
+                <p>!СПРАВОЧНЫЕ МАТЕРИАЛЫ!</p>
+                <p>⁕Время чтения ~ 2 минуты⁕</p>
+              </div>
+              <div class="read-btn-outer">
+                <div class="read-btn-inner">
+                  <span class="read-btn-text">Читать статью</span>
+                  <span class="read-btn-arrow"><img src="../assets/media/Q_WhiteArrowGuide.svg" alt="→"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="article-card dark" data-category="навигаторы" style="text-decoration:none;">
+          <div class="card-img">
+            <img src="../assets/media/GuideAlien.png" alt="Чужой">
+          </div>
+          <div class="card-info">
+            <p class="card-title">Весь «Чужой» в полной хронологии</p>
+            <div class="card-meta">
+              <div class="card-tags">
+                <p>!НАВИГАТОРЫ!</p>
+                <p>⁕Время чтения ~ 5 минут⁕</p>
+              </div>
+              <div class="read-btn-outer">
+                <div class="read-btn-inner">
+                  <span class="read-btn-text">Читать статью</span>
+                  <span class="read-btn-arrow"><img src="../assets/media/Q_BlackArrowGuide.svg" alt="→"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="article-card dark" data-category="навигаторы" style="text-decoration:none;">
+          <div class="card-img">
+            <img src="../assets/media/GuideVens.png" alt="Боди-хоррор">
+          </div>
+          <div class="card-info">
+            <p class="card-title">Анатомия паники: полная эволюция жанра «боди-хоррор»</p>
+            <div class="card-meta">
+              <div class="card-tags">
+                <p>!НАВИГАТОРЫ!</p>
+                <p>⁕Время чтения ~ 5 минут⁕</p>
+              </div>
+              <div class="read-btn-outer">
+                <div class="read-btn-inner">
+                  <span class="read-btn-text">Читать статью</span>
+                  <span class="read-btn-arrow"><img src="../assets/media/Q_BlackArrowGuide.svg" alt="→"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="article-card dark" data-category="навигаторы" style="text-decoration:none;">
+          <div class="card-img">
+            <img src="../assets/media/GuideObryad.png" alt="Сатанинские культы">
+          </div>
+          <div class="card-info">
+            <p class="card-title">Тени прошлого: сатанисткие культы и тёмная магия нас пугают</p>
+            <div class="card-meta">
+              <div class="card-tags">
+                <p>!НАВИГАТОРЫ!</p>
+                <p>⁕Время чтения ~ 5 минут⁕</p>
+              </div>
+              <div class="read-btn-outer">
+                <div class="read-btn-inner">
+                  <span class="read-btn-text">Читать статью</span>
+                  <span class="read-btn-arrow"><img src="../assets/media/Q_BlackArrowGuide.svg" alt="→"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="article-card dark" data-category="навигаторы" style="text-decoration:none;">
+          <div class="card-img">
+            <img src="../assets/media/GuideCat.png" alt="Пугающие комиксы">
+          </div>
+          <div class="card-info">
+            <p class="card-title">Читать страшно, но очень интересно: обзор пугающих комиксов</p>
+            <div class="card-meta">
+              <div class="card-tags">
+                <p>!НАВИГАТОРЫ!</p>
+                <p>⁕Время чтения ~ 5 минут⁕</p>
+              </div>
+              <div class="read-btn-outer">
+                <div class="read-btn-inner">
+                  <span class="read-btn-text">Читать статью</span>
+                  <span class="read-btn-arrow"><img src="../assets/media/Q_BlackArrowGuide.svg" alt="→"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="article-card light" data-category="справочные" style="text-decoration:none;">
+          <div class="card-img">
+            <img src="../assets/media/GuideMonitor.png" alt="О ЧИЛЛС">
+          </div>
+          <div class="card-label-bar">
+            <div class="idx">[2]&nbsp;</div>
+            <div class="section">КТО МЫ ТАКИЕ :)</div>
+          </div>
+          <div class="card-info">
+            <p class="card-title">ЧИЛЛС: нашем названии, миссии и о навигаторе ужаса в целом</p>
+            <div class="card-meta">
+              <div class="card-tags">
+                <p>!СПРАВОЧНЫЕ МАТЕРИАЛЫ!</p>
+                <p>⁕Время чтения ~ 5 минут⁕</p>
+              </div>
+              <div class="read-btn-outer">
+                <div class="read-btn-inner">
+                  <span class="read-btn-text">Читать статью</span>
+                  <span class="read-btn-arrow"><img src="../assets/media/Q_WhiteArrowGuide.svg" alt="→"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="article-card dark" data-category="навигаторы" style="text-decoration:none;">
+          <div class="card-img">
+            <img src="../assets/media/GuideField.png" alt="Survival хоррор">
+          </div>
+          <div class="card-info">
+            <p class="card-title">Искусство выживания: Эволюция Survival хоррора и его особенности</p>
+            <div class="card-meta">
+              <div class="card-tags">
+                <p>!НАВИГАТОРЫ!</p>
+                <p>⁕Время чтения ~ 5 минут⁕</p>
+              </div>
+              <div class="read-btn-outer">
+                <div class="read-btn-inner">
+                  <span class="read-btn-text">Читать статью</span>
+                  <span class="read-btn-arrow"><img src="../assets/media/Q_BlackArrowGuide.svg" alt="→"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="article-card dark" data-category="навигаторы" style="text-decoration:none;">
+          <div class="card-img">
+            <img src="../assets/media/GuideChild.png" alt="Образ ребёнка в хорроре">
+          </div>
+          <div class="card-info">
+            <p class="card-title">Не мило, а очень страшно: Образ ребёнка в хорроре</p>
+            <div class="card-meta">
+              <div class="card-tags">
+                <p>!НАВИГАТОРЫ!</p>
+                <p>⁕Время чтения ~ 5 минут⁕</p>
+              </div>
+              <div class="read-btn-outer">
+                <div class="read-btn-inner">
+                  <span class="read-btn-text">Читать статью</span>
+                  <span class="read-btn-arrow"><img src="../assets/media/Q_BlackArrowGuide.svg" alt="→"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="guide-alien.html" class="article-card dark" data-category="навигаторы" style="text-decoration:none;">
+          <div class="card-img">
+            <img src="../assets/media/GuideRobot.png" alt="Аниматроники">
+          </div>
+          <div class="card-info">
+            <p class="card-title">Аниматроники и механическая резня: о том, почему нас пугают роботы</p>
+            <div class="card-meta">
+              <div class="card-tags">
+                <p>!НАВИГАТОРЫ!</p>
+                <p>⁕Время чтения ~ 5 минут⁕</p>
+              </div>
+              <div class="read-btn-outer">
+                <div class="read-btn-inner">
+                  <span class="read-btn-text">Читать статью</span>
+                  <span class="read-btn-arrow"><img src="../assets/media/Q_BlackArrowGuide.svg" alt="→"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+      </div><!-- /articles-grid -->
+
+      <footer class="o-footer" data-name="O_Footer">
+        <div class="footer-logo">
+          <img src="../assets/media/FillColorRed.svg" alt="ЧИЛЛС">
+        </div>
+        <div class="footer-right">
+          <div class="footer-info">
+            <div class="footer-col" style="width:204px;">
+              <div>
+                <p class="bold">Выполнила работу:</p>
+                <p class="regular">Мамкина Софья</p>
+              </div>
+              <div>
+                <p class="bold">Куратор:</p>
+                <p class="regular">Харитонов Захар</p>
+              </div>
+              <p class="red">Материалы защищены авторским правом,<br>и все права сохранены</p>
+            </div>
+            <div class="footer-col" style="width:203px;">
+              <div>
+                <p class="bold">Телеграм-канал</p>
+                <p class="regular">@smth</p>
+              </div>
+              <div>
+                <p class="bold">Электронная почта автора:</p>
+                <p class="regular">mamont09583@gmail.com</p>
+              </div>
+            </div>
+          </div>
+          <div class="footer-heart">
+            <img src="../assets/media/Q_HSEART.png" alt="HSE Art and Design School">
+          </div>
+        </div>
+      </footer>
+
+    </div><!-- /articles-page -->
+  </div><!-- /scale-wrap -->
+
+  <script>
+    document.querySelectorAll('.filter-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var cb = this.querySelector('.cb');
+        var isChecked = cb.classList.contains('checked');
+        var category = this.getAttribute('data-filter');
+
+        document.querySelectorAll('.filter-btn .cb').forEach(function(c) {
+          c.classList.remove('checked');
+        });
+
+        if (isChecked) {
+          document.querySelectorAll('.article-card').forEach(function(card) {
+            card.style.display = '';
+          });
+        } else {
+          cb.classList.add('checked');
+          document.querySelectorAll('.article-card').forEach(function(card) {
+            card.style.display = card.getAttribute('data-category') === category ? '' : 'none';
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
