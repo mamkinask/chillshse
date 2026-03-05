@@ -7,5 +7,7 @@ airtable-secret.js
 *.log
 .claude/
 .cursor/
-*.md
+AIRTABLE.md
+DEVTOOLS_OVERRIDES.md
+FIGMA_MCP_SETUP.md
 media_v4.csv
