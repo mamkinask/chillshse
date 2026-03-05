@@ -160,20 +160,10 @@
 
   <script>
     (function() {
-      var AIRTABLE_BASE = '';
-      var AIRTABLE_TOKEN = '';
-      var AIRTABLE_TABLE = 'Table 1';
-      (function loadConfig(done) {
-        var s = document.createElement('script');
-        s.src = '../airtable-secret.js';
-        s.onload = s.onerror = function() {
-          if (window.AIRTABLE_BASE) AIRTABLE_BASE = window.AIRTABLE_BASE;
-          if (window.AIRTABLE_TOKEN) AIRTABLE_TOKEN = window.AIRTABLE_TOKEN;
-          if (window.AIRTABLE_TABLE) AIRTABLE_TABLE = window.AIRTABLE_TABLE || 'Table 1';
-          done();
-        };
-        document.head.appendChild(s);
-      })(function() {
+      var AIRTABLE_BASE = 'YOUR_BASE_ID';
+      var AIRTABLE_TOKEN = 'YOUR_PERSONAL_ACCESS_TOKEN';
+      var AIRTABLE_TABLE = 'YOUR_TABLE_NAME';
+      (function() {
       var DIAGNOSTICS_QUESTIONS = [
         {
           imageUrl: '../assets/media/ImageTest1.jpg',
