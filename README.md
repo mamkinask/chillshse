@@ -22,3 +22,5 @@ module.exports = {
   AIRTABLE_TOKEN: 'personal_access_token'
 }
 ```
+
+## upd 06.04.2026 обошлись json базой
