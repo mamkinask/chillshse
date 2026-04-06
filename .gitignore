@@ -5,8 +5,7 @@ docs/
 airtable-secret.js
 .env
 *.log
-.claude/
-.cursor/
+.mcp.json
 AIRTABLE.md
 DEVTOOLS_OVERRIDES.md
 FIGMA_MCP_SETUP.md

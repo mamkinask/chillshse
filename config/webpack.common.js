@@ -10,12 +10,21 @@ const projectRoot = path.resolve(__dirname, '..')
 
 module.exports = {
   entry: {
-    index: './src/javascripts/index.js'
+    shared: './src/javascript/shared.js',
+    home: './src/javascript/home.js',
+    diagnostics: './src/javascript/diagnostics.js',
+    'diagnostics-test': './src/javascript/diagnostics-test.js',
+    timeline: './src/javascript/timeline.js',
+    articles: './src/javascript/articles.js',
+    object: './src/javascript/object.js',
+    'alien-object': './src/javascript/alien-object.js',
+    'guide-robot': './src/javascript/guide-robot.js'
   },
   output: {
     filename: '[name].js',
     path: path.resolve('.', 'docs'),
-    publicPath: '/chillshse/'
+    publicPath: '/chillshse/',
+    clean: true
   },
   module: {
     rules: [
