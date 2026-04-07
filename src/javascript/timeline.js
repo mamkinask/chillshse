@@ -58,7 +58,7 @@ function renderCard(item) {
   var genreStr = item.Subgenres || item.Genres || ''
   var genres = genreStr.split('|').map(function (g) { return g.trim() }).filter(Boolean)
   var genreHtml = genres.slice(0, 3).map(function (g) { return '‼ ' + escH(g) }).join('<br>')
-  var href = item.id ? ' href="object.html?id=' + encodeURIComponent(item.id) + '"' : ''
+  var href = item.id ? ' href="' + item.id + '.html"' : ''
   return '<a class="timeline-card"' + href + '>'
     + '<div class="timeline-card-img">' + img + '</div>'
     + '<div class="timeline-card-info">'
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.addEventListener('click', function (e) {
     var t = e.target
     if (!t || !t.closest) return
-    var a = t.closest('a.timeline-card[href*="object.html"]')
+    var a = t.closest('a.timeline-card[href]')
     if (a) persistTimelineScroll(document.getElementById('timeline-zone'))
   }, true)
 

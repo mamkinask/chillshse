@@ -35,7 +35,7 @@ function buildMetaRow(label, value) {
 function buildMediaCard(item) {
   var a = document.createElement('a')
   a.className = 'media-card'
-  a.href = 'object.html?id=' + encodeURIComponent(item.id || '')
+  a.href = (item.id || '') + '.html'
 
   var imgWrap = document.createElement('div')
   imgWrap.className = 'media-card-img'
@@ -167,17 +167,19 @@ function initObjectPage() {
         var trailerThumb = document.getElementById('obj-trailer-thumb')
         if (trailerThumb) {
           var tImg = document.createElement('img')
-          tImg.src = '../assets/media/trailers_pictures/' + id + '.jpg'
+          tImg.src = item.TrailerCover || ('../assets/media/trailers_pictures/' + id + '.jpg')
           tImg.alt = 'Трейлер'
           tImg.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;'
           tImg.onerror = function () {
-            trailerThumb.innerHTML = '<div class="obj-trailer-thumb-placeholder">НЕТ ПРЕВЬЮ</div>'
+            this.src = '../assets/media/trailers_pictures/trailer-stub.jpg'
+            this.onerror = null
           }
           trailerThumb.innerHTML = ''
           trailerThumb.appendChild(tImg)
         }
-        if (item.Link) {
-          setAttr('obj-trailer-link', 'href', item.Link)
+        var trailerHref = item.TrailerLink || item.Link
+        if (trailerHref) {
+          setAttr('obj-trailer-link', 'href', trailerHref)
         }
       }
 

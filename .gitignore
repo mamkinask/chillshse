@@ -1,12 +1,11 @@
 node_modules/
 dev_build/
-docs/
 .DS_Store
 airtable-secret.js
-.env
+# .env
 *.log
-.mcp.json
+# .mcp.json
 AIRTABLE.md
 DEVTOOLS_OVERRIDES.md
-FIGMA_MCP_SETUP.md
+# FIGMA_MCP_SETUP.md
 media_v4.csv

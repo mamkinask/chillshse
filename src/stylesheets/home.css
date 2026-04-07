@@ -59,7 +59,7 @@ body {
 .running-line-track span {
   color: #1100ff;
   font: 700 28px 'Greybeard 22px', Roboto, sans-serif;
-  padding-right: 2em;
+  padding-right: 56px;
 }
 
 @keyframes running-line-scroll {
@@ -675,7 +675,7 @@ body {
 .hands-section-bg {
   position: absolute;
   left: 50%;
-  top: 3292px;
+  top: 3352px;
   transform: translateX(-50%);
   width: 950px;
   height: 475px;
@@ -685,7 +685,7 @@ body {
 
 .hand-left {
   left: -79px;
-  top: 3362px;
+  top: 3422px;
   width: 638px;
   height: 490px;
   display: flex;
@@ -705,7 +705,7 @@ body {
 
 .hand-right {
   left: 858px;
-  top: 3343px;
+  top: 3403px;
   width: 646px;
   height: 506px;
   display: flex;
@@ -725,7 +725,7 @@ body {
 
 .m-youre-welcome {
   left: 581px;
-  top: 3362px;
+  top: 3422px;
   width: 277px;
   height: 208px;
   z-index: 5;

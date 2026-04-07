@@ -301,7 +301,7 @@ function fillResultCard(item) {
   if (!item || !titleEl) return
 
   titleEl.textContent = item.Title || ''
-  titleEl.href = 'object.html?id=' + encodeURIComponent(item.id || '')
+  titleEl.href = (item.id || '') + '.html'
   if (typeEl) typeEl.textContent = item.Type || ''
   if (genresEl) genresEl.textContent = item.Subgenres || ''
   if (descEl) descEl.textContent = item.Description || ''

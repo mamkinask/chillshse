@@ -92,10 +92,10 @@ body {
 
 .diag-hand img {
   position: absolute;
-  top: -13.92%;
-  left: -6.45%;
-  width: 110.74%;
-  height: 125.24%;
+  top: -36px;
+  left: -33px;
+  width: 563px;
+  height: 326px;
   object-fit: cover;
 }
 
@@ -137,7 +137,7 @@ body {
   text-transform: uppercase;
   line-height: 1.4;
   max-width: 578px;
-  text-shadow: 0 7px 4px rgba(0, 0, 0, 0.51);
+  text-shadow: 0 7px 4px rgba(0, 0, 0, 0.5);
 }
 
 .diag-intro .text p {
@@ -184,4 +184,101 @@ body {
   top: 1129px;
   width: 1280px;
   z-index: 10;
+}
+
+.footer-col--info {
+  width: 204px;
+}
+
+.footer-col--contacts {
+  width: 203px;
+}
+
+.diag-deco--1 {
+  left: 686px;
+  top: 78px;
+}
+
+.diag-deco--2 {
+  left: 1284px;
+  top: 114px;
+}
+
+.diag-deco--3 {
+  left: 93px;
+  top: 127px;
+}
+
+.diag-deco--4 {
+  left: 1065px;
+  top: 131px;
+}
+
+.diag-deco--5 {
+  left: 312px;
+  top: 159px;
+}
+
+.diag-deco--6 {
+  left: 263px;
+  top: 504px;
+}
+
+.diag-deco--7 {
+  left: 1254px;
+  top: 498px;
+  width: 62px;
+}
+
+.diag-deco--8 {
+  left: 147px;
+  top: 566px;
+}
+
+.diag-deco--9 {
+  left: 76px;
+  top: 704px;
+  width: 74px;
+}
+
+.diag-deco--10 {
+  left: 209px;
+  top: 704px;
+}
+
+.diag-deco--11 {
+  left: 1160px;
+  top: 683px;
+  width: 52px;
+}
+
+.diag-deco--12 {
+  left: 1338px;
+  top: 731px;
+}
+
+.diag-deco--13 {
+  left: 583px;
+  top: 778px;
+}
+
+.diag-deco--14 {
+  left: 1068px;
+  top: 761px;
+}
+
+.diag-deco--15 {
+  left: 296px;
+  top: 892px;
+  width: 52px;
+}
+
+.diag-deco--16 {
+  left: 906px;
+  top: 919px;
+}
+
+.diag-deco--17 {
+  left: 1228px;
+  top: 934px;
 }

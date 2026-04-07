@@ -1,0 +1,290 @@
+'use strict'
+
+const fs = require('fs')
+const path = require('path')
+
+const DATA_PATH = path.resolve(__dirname, '../src/assets/data/horror_media.json')
+const OUTPUT_DIR = path.resolve(__dirname, '../docs/pages')
+const PLACEHOLDER = '../assets/media/elements_pictures/place-holder-picture.png'
+
+const data = JSON.parse(fs.readFileSync(DATA_PATH, 'utf8'))
+
+const byTitle = {}
+data.forEach(function (item) {
+  if (item.Title) byTitle[item.Title] = item
+})
+
+function esc(s) {
+  return String(s || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+function buildMetaRow(label, value) {
+  if (!value || !String(value).trim()) return ''
+  return '<div class="meta-row">'
+    + '<span class="meta-label">' + esc(label) + ':</span>'
+    + '<span class="meta-value">' + esc(String(value)) + '</span>'
+    + '</div>'
+}
+
+function buildMetaHtml(item, year) {
+  var t = item.Type
+  var html = ''
+  if (t === 'Фильм' || t === 'Сериал') {
+    html += buildMetaRow('Медиаформат', t)
+    html += buildMetaRow('Год', year)
+    html += buildMetaRow('Поджанры', item.Subgenres)
+    html += buildMetaRow('Франшиза', item.FranchiseName)
+    html += buildMetaRow('Страны', item.Country)
+    html += buildMetaRow('Режиссёр', item.Director)
+    html += buildMetaRow('Рейтинг', item.Rating)
+    html += buildMetaRow('Платформы', item.Platform)
+    html += buildMetaRow('Длительность', item.Duration)
+    html += buildMetaRow('Возраст', item.AgeRating)
+  } else if (t === 'Игра') {
+    html += buildMetaRow('Медиаформат', t)
+    html += buildMetaRow('Год', year)
+    html += buildMetaRow('Поджанры', item.Subgenres)
+    html += buildMetaRow('Разработчик', item.Developer)
+    html += buildMetaRow('Издатель', item.Publisher)
+    html += buildMetaRow('Платформы', item.Platform)
+    html += buildMetaRow('Рейтинг', item.Rating)
+    html += buildMetaRow('Возраст', item.AgeRating)
+  } else if (t === 'Книга') {
+    html += buildMetaRow('Медиаформат', t)
+    html += buildMetaRow('Год', year)
+    html += buildMetaRow('Поджанры', item.Subgenres)
+    html += buildMetaRow('Автор', item.Author)
+    html += buildMetaRow('Издательство', item.Publisher)
+    html += buildMetaRow('Страниц', item.Pages)
+    html += buildMetaRow('Рейтинг', item.Rating)
+    html += buildMetaRow('Возраст', item.AgeRating)
+  } else if (t === 'Комикс') {
+    html += buildMetaRow('Медиаформат', t)
+    html += buildMetaRow('Год', year)
+    html += buildMetaRow('Поджанры', item.Subgenres)
+    html += buildMetaRow('Автор', item.Author)
+    html += buildMetaRow('Издательство', item.Publisher)
+    html += buildMetaRow('Выпусков', item.Issues)
+    html += buildMetaRow('Рейтинг', item.Rating)
+    html += buildMetaRow('Возраст', item.AgeRating)
+  } else {
+    html += buildMetaRow('Медиаформат', t)
+    html += buildMetaRow('Год', year)
+    html += buildMetaRow('Поджанры', item.Subgenres)
+    html += buildMetaRow('Рейтинг', item.Rating)
+    html += buildMetaRow('Возраст', item.AgeRating)
+  }
+  return html
+}
+
+function buildMediaCard(item) {
+  var cover = item.Cover || PLACEHOLDER
+  var href = item.id ? item.id + '.html' : '#'
+  return '<a class="media-card" href="' + esc(href) + '">'
+    + '<div class="media-card-img">'
+    + '<img src="' + esc(cover) + '" alt="' + esc(item.Title) + '" loading="lazy"'
+    + ' onerror="this.src=\'' + PLACEHOLDER + '\';this.onerror=null;">'
+    + '</div>'
+    + '<div class="media-card-title">' + esc(item.Title) + '</div>'
+    + '</a>'
+}
+
+function buildCardSection(headerClass, title, fieldValue) {
+  if (!fieldValue || !fieldValue.trim()) return ''
+  var names = fieldValue.split('|').map(function (s) { return s.trim() }).filter(Boolean)
+  var cards = names.map(function (name) { return byTitle[name] }).filter(Boolean)
+  if (!cards.length) return ''
+  return '<div class="sec-blk">'
+    + '<div class="' + headerClass + '">' + esc(title) + '</div>'
+    + '<div class="cards-scroll-wrap"><div class="cards-row">'
+    + cards.map(buildMediaCard).join('')
+    + '</div></div>'
+    + '</div>'
+}
+
+function buildTrailerSection(item) {
+  var t = item.Type
+  if (t !== 'Фильм' && t !== 'Сериал' && t !== 'Игра') return ''
+  var typeLabel = t === 'Игра' ? 'ГЕЙМПЛЕЙ'
+    : 'ТРЕЙЛЕР ' + (t === 'Сериал' ? 'СЕРИАЛА' : 'ФИЛЬМА')
+  var trailerSrc = item.TrailerCover
+    || ('../assets/media/trailers_pictures/' + item.id + '.jpg')
+  var trailerLink = item.TrailerLink || item.Link || '#'
+  return '<div class="obj-trailer">'
+    + '<div class="obj-trailer-header">▷ ' + esc(typeLabel) + '</div>'
+    + '<div class="obj-trailer-thumb">'
+    + '<img src="' + esc(trailerSrc) + '" alt="Трейлер"'
+    + ' style="width:100%;height:100%;object-fit:cover;display:block;"'
+    + ' onerror="this.src=\'../assets/media/trailers_pictures/trailer-stub.jpg\';this.onerror=null;">'
+    + '</div>'
+    + '<a class="obj-trailer-link" href="' + esc(trailerLink) + '" target="_blank" rel="noopener noreferrer">Посмотреть трейлер ←</a>'
+    + '<img src="../assets/media/elements_pictures/AlienBloodDecor.png" class="obj-trailer-decor" alt="" aria-hidden="true">'
+    + '</div>'
+}
+
+function generatePage(item) {
+  var year = item.YearEnd && String(item.YearEnd).trim()
+    ? String(item.YearEnd)
+    : String(item.Year || '')
+  var posterSrc = item.Cover || PLACEHOLDER
+
+  var tropesHtml = ''
+  if (item.Tropes && item.Tropes.trim()) {
+    tropesHtml = item.Tropes.split('|').map(function (t) {
+      return '<span class="trope-tag">' + esc(t.trim()) + '</span>'
+    }).join('')
+  }
+
+  var rightColHtml = ''
+
+  rightColHtml += '<div class="sec-blk">'
+    + '<div class="sec-h-black">Метаданные:</div>'
+    + '<div class="meta-block">' + buildMetaHtml(item, year) + '</div>'
+    + '</div>'
+
+  if (tropesHtml) {
+    rightColHtml += '<div class="sec-blk">'
+      + '<div class="sec-h-grey">ТРОПЫ:</div>'
+      + '<div class="tropes-bar">' + tropesHtml + '</div>'
+      + '</div>'
+  }
+
+  if (item.Description && item.Description.trim()) {
+    rightColHtml += '<div class="obj-desc">'
+      + '<div class="obj-desc-hdr">Описание:</div>'
+      + '<p class="obj-desc-text">' + esc(item.Description) + '</p>'
+      + '</div>'
+  }
+
+  if (item.Quote && item.Quote.trim()) {
+    rightColHtml += '<div class="obj-quote">'
+      + '<p class="obj-quote-text">«' + esc(item.Quote) + '»</p>'
+      + '</div>'
+  }
+
+  rightColHtml += buildCardSection('sec-h-darkred', 'ВЛИЯНИЕ (ЧТО ВДОХНОВИЛО):', item.Influence)
+  rightColHtml += buildCardSection('sec-h-darkred', 'НАСЛЕДИЕ (ЧТО ПОРОДИЛО):', item.Legacy)
+  rightColHtml += buildCardSection('sec-h-darkred', 'ВСЕЛЕННАЯ ФРАНШИЗЫ:', item.Franchise)
+  rightColHtml += buildCardSection('sec-h-darkred', 'В ТОМ ЖЕ ЖАНРЕ:', item.SameGenre)
+
+  return '<!DOCTYPE html>\n'
+    + '<html lang="ru">\n'
+    + '<head>\n'
+    + '  <meta charset="UTF-8">\n'
+    + '  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
+    + '  <title>' + esc(item.Title) + ' — ЧИЛЛС</title>\n'
+    + '  <link href="/chillshse/shared.css" rel="stylesheet">\n'
+    + '  <link href="/chillshse/object.css" rel="stylesheet">\n'
+    + '</head>\n'
+    + '<body>\n\n'
+    + '  <header class="o-header" data-name="O_Header">\n'
+    + '    <a href="../index.html" class="a-logo" aria-label="На главную">\n'
+    + '      <img src="../assets/media/elements_pictures/FillColorRed.svg" alt="">\n'
+    + '    </a>\n'
+    + '    <nav class="o-header-nav">\n'
+    + '      <a href="diagnostics.html" class="btn"><span class="blue">Д</span>ИАГНОСТИКА</a>\n'
+    + '      <a href="articles.html" class="btn"><span class="blue">Г</span>ИД</a>\n'
+    + '      <a href="timeline.html" class="btn"><span class="blue">Т</span>АЙМЛАЙН</a>\n'
+    + '    </nav>\n'
+    + '  </header>\n\n'
+    + '  <div class="scale-wrap">\n'
+    + '    <div class="object-page object-page--static" id="object-page">\n\n'
+    + '      <div class="obj-bg" aria-hidden="true">\n'
+    + '        <img src="../assets/media/background_pictures/AlienPageBackground.png" alt="">\n'
+    + '        <div class="obj-bg-overlay"></div>\n'
+    + '      </div>\n\n'
+    + '      <div class="obj-nav">\n'
+    + '        <button class="obj-nav-btn" onclick="history.back()" type="button" aria-label="Назад">\n'
+    + '          <div class="obj-nav-btn-inner">\n'
+    + '            <span class="arrow">←</span>\n'
+    + '            <span class="label">Назад</span>\n'
+    + '          </div>\n'
+    + '        </button>\n'
+    + '        <a href="timeline.html" class="obj-nav-btn" aria-label="К таймлайну">\n'
+    + '          <div class="obj-nav-btn-inner">\n'
+    + '            <span class="label">К таймлайну</span>\n'
+    + '          </div>\n'
+    + '        </a>\n'
+    + '      </div>\n\n'
+    + '      <div class="obj-content">\n'
+    + '        <div class="obj-top">\n'
+    + '          <div class="obj-title-bar">\n'
+    + '            <div class="obj-title-inner">\n'
+    + '              <p class="obj-title-name">▷ ' + esc(item.Title) + ' ◁</p>\n'
+    + '              <p class="obj-title-year">' + (year ? '(' + esc(year) + ')' : '') + '</p>\n'
+    + '            </div>\n'
+    + '          </div>\n\n'
+    + '          <div class="obj-cols">\n\n'
+    + '            <div class="obj-col-left">\n'
+    + '              <div class="obj-poster">\n'
+    + '                <img src="' + esc(posterSrc) + '" alt="' + esc(item.Title) + '"'
+    + ' style="width:100%;height:100%;object-fit:cover;display:block;"'
+    + ' onerror="this.src=\'' + PLACEHOLDER + '\';this.onerror=null;">\n'
+    + '              </div>\n'
+    + buildTrailerSection(item)
+    + '            </div>\n\n'
+    + '            <div class="obj-col-right">\n'
+    + rightColHtml
+    + '            </div>\n'
+    + '          </div>\n'
+    + '        </div>\n'
+    + '      </div>\n\n'
+    + '      <footer class="o-footer" style="position:relative; margin-left:80px; margin-top:40px;">\n'
+    + '        <div class="footer-logo">\n'
+    + '          <img src="../assets/media/elements_pictures/FillColorRed.svg" alt="ЧИЛЛС">\n'
+    + '        </div>\n'
+    + '        <div class="footer-right">\n'
+    + '          <div class="footer-info">\n'
+    + '            <div class="footer-col footer-col--info">\n'
+    + '              <div>\n'
+    + '                <p class="bold">Выполнила работу:</p>\n'
+    + '                <p class="regular">Мамкина Софья</p>\n'
+    + '              </div>\n'
+    + '              <div>\n'
+    + '                <p class="bold">Куратор:</p>\n'
+    + '                <p class="regular">Харитонов Захар</p>\n'
+    + '              </div>\n'
+    + '              <p class="red">Материалы защищены авторским правом,<br>и все права сохранены</p>\n'
+    + '            </div>\n'
+    + '            <div class="footer-col footer-col--contacts">\n'
+    + '              <div>\n'
+    + '                <p class="bold">Телеграм-канал</p>\n'
+    + '                <p class="regular">@smth</p>\n'
+    + '              </div>\n'
+    + '              <div>\n'
+    + '                <p class="bold">Электронная почта автора:</p>\n'
+    + '                <p class="regular">mamont09583@gmail.com</p>\n'
+    + '              </div>\n'
+    + '            </div>\n'
+    + '          </div>\n'
+    + '          <div class="footer-heart">\n'
+    + '            <img src="../assets/media/elements_pictures/Q_HSEART.png" alt="HSE Art and Design School">\n'
+    + '          </div>\n'
+    + '        </div>\n'
+    + '      </footer>\n\n'
+    + '    </div>\n'
+    + '  </div>\n\n'
+    + '  <script defer src="/chillshse/shared.js"></script>\n'
+    + '</body>\n'
+    + '</html>\n'
+}
+
+if (!fs.existsSync(OUTPUT_DIR)) {
+  fs.mkdirSync(OUTPUT_DIR, { recursive: true })
+}
+
+var count = 0
+data.forEach(function (item) {
+  if (!item.id) return
+  var html = generatePage(item)
+  var outPath = path.join(OUTPUT_DIR, item.id + '.html')
+  fs.writeFileSync(outPath, html, 'utf8')
+  count++
+})
+
+console.log('Generated ' + count + ' static pages in docs/pages/')

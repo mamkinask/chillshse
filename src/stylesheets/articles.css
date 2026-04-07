@@ -9,10 +9,11 @@ body {
 .articles-page {
   position: relative;
   width: 1440px;
-  min-height: 1622px;
+  min-height: auto;
   margin: 0 auto;
   background: #fff;
   overflow: hidden;
+  padding-bottom: 80px;
 }
 
 @media (max-width: 1440px) {
@@ -101,9 +102,9 @@ body {
 }
 
 .articles-grid {
-  position: absolute;
-  left: 80px;
-  top: 159px;
+  position: relative;
+  margin-left: 80px;
+  margin-top: 159px;
   display: grid;
   grid-template-columns: repeat(3, 416px);
   gap: 14px 16px;
@@ -195,6 +196,18 @@ body {
 }
 
 .article-card[data-guide="robot"]:hover .card-title {
+  color: #4000ff;
+}
+
+.article-card[data-guide="found-footage"]:hover .card-title {
+  color: #4000ff;
+}
+
+.article-card[data-guide="pagan-cults"]:hover .card-title {
+  color: #4000ff;
+}
+
+.article-card[data-guide="survival-horror"]:hover .card-title {
   color: #4000ff;
 }
 
@@ -300,9 +313,9 @@ body {
 }
 
 .o-footer {
-  position: absolute;
-  left: 80px;
-  top: 1401px;
+  position: relative;
+  margin-left: 80px;
+  margin-top: 60px;
   width: 1280px;
   z-index: 10;
 }

@@ -10,6 +10,11 @@ body {
   overflow: hidden;
 }
 
+.object-page--static {
+  overflow: visible;
+  padding-bottom: 40px;
+}
+
 @media (max-width: 1440px) {
   .object-page {
     transform: scale(calc(100vw / 1440));
