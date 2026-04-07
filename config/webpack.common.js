@@ -17,8 +17,10 @@ module.exports = {
     timeline: './src/javascript/timeline.js',
     articles: './src/javascript/articles.js',
     object: './src/javascript/object.js',
-    'alien-object': './src/javascript/alien-object.js',
-    'guide-robot': './src/javascript/guide-robot.js'
+    'guide-robot': './src/javascript/guide-robot.js',
+    'guide-found-footage': './src/javascript/guide-found-footage.js',
+    'guide-pagan-cults': './src/javascript/guide-pagan-cults.js',
+    'guide-survival-horror': './src/javascript/guide-survival-horror.js'
   },
   output: {
     filename: '[name].js',
