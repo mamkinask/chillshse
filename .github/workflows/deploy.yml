@@ -24,12 +24,6 @@ jobs:
 
       - run: npm install
 
-      - name: Inject Airtable secrets
-        run: |
-          sed -i "s/YOUR_BASE_ID/${{ secrets.AIRTABLE_BASE }}/g" src/pages/timeline.html src/pages/diagnostics-test.html
-          sed -i "s/YOUR_PERSONAL_ACCESS_TOKEN/${{ secrets.AIRTABLE_TOKEN }}/g" src/pages/timeline.html src/pages/diagnostics-test.html
-          sed -i "s/YOUR_TABLE_NAME/${{ secrets.AIRTABLE_TABLE }}/g" src/pages/diagnostics-test.html
-
       - run: npm run build
 
       - uses: actions/upload-pages-artifact@v3
