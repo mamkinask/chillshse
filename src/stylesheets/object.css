@@ -1,5 +1,5 @@
 body {
-  background: #111;
+  background: #000;
 }
 
 .object-page {
@@ -15,6 +15,20 @@ body {
   padding-bottom: 40px;
 }
 
+.object-page--static .obj-nav {
+  position: relative;
+  left: auto;
+  top: auto;
+  margin: 20px 0 0 80px;
+}
+
+.object-page--static .obj-content {
+  position: relative;
+  left: auto;
+  top: auto;
+  margin: 16px 0 0 80px;
+}
+
 @media (max-width: 1440px) {
   .object-page {
     transform: scale(calc(100vw / 1440));
@@ -25,7 +39,10 @@ body {
 
 .obj-bg {
   position: absolute;
-  inset: 0;
+  top: -57px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
@@ -34,8 +51,8 @@ body {
 .obj-bg img {
   position: absolute;
   top: 0;
-  left: -11.88%;
-  width: 123.76%;
+  left: -12%;
+  width: 124%;
   height: 100%;
   object-fit: cover;
 }
@@ -308,38 +325,64 @@ body {
 .meta-block {
   background: #000;
   display: flex;
+  gap: 16px;
+  padding: 4px 2px;
+}
+
+.meta-col {
+  flex: 1;
+  display: flex;
   flex-direction: column;
-  padding: 6px 8px;
-  gap: 0;
+  gap: 10px;
+  padding: 2px;
 }
 
 .meta-row {
   display: flex;
+  gap: 16px;
   align-items: flex-start;
-  border-bottom: 1px solid #1a1a1a;
-  padding: 4px 2px;
-}
-
-.meta-row:last-child {
-  border-bottom: none;
 }
 
 .meta-label {
   font-family: 'Times New Roman', serif;
   font-size: 12px;
-  color: #9a9a9a;
-  width: 130px;
+  color: #fff;
+  width: 92px;
   flex-shrink: 0;
-  padding-right: 8px;
-  line-height: 1.6;
+  line-height: normal;
+  padding: 4px 2px;
 }
 
 .meta-value {
   font-family: 'Times New Roman', serif;
   font-size: 12px;
   color: #fff;
-  line-height: 1.6;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  line-height: normal;
   flex: 1;
+  padding: 4px 2px;
+}
+
+.meta-value--plain {
+  text-decoration: none;
+}
+
+.meta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 10px;
+  flex: 1;
+}
+
+.meta-tag {
+  font-family: 'Times New Roman', serif;
+  font-size: 12px;
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  line-height: normal;
+  padding: 4px 2px;
 }
 
 .tropes-bar {
@@ -406,7 +449,7 @@ body {
   color: #000;
   text-align: center;
   font-style: italic;
-  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.47);
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
 }
 
 .cast-scroll-wrap {
@@ -559,4 +602,293 @@ body {
   font-size: 28px;
   color: #760000;
   z-index: 10;
+}
+
+/* Карточки статей на страницах произведений */
+.article-card {
+  width: 416px;
+  height: 338px;
+  position: relative;
+  box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: block;
+}
+
+.article-card.dark {
+  background: #000;
+}
+
+.article-card .card-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 416px;
+  height: 248px;
+  overflow: hidden;
+}
+
+.article-card .card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.article-card .card-info {
+  position: absolute;
+  left: 0;
+  top: 252px;
+  width: 416px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 4px;
+}
+
+.article-card .card-title {
+  font: 700 24px/normal 'Greybeard 22px', sans-serif;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  width: 100%;
+}
+
+.article-card.dark .card-title {
+  color: #fff;
+}
+
+.article-card.dark:hover .card-title {
+  color: #4000ff;
+}
+
+.article-card .card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.article-card .card-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 2px;
+  width: 141px;
+  flex-shrink: 0;
+}
+
+.article-card.dark .card-tags p {
+  font: 400 12px/normal 'Times New Roman', serif;
+  color: #707070;
+  white-space: nowrap;
+}
+
+.article-card.dark .read-btn-outer {
+  background: #fff;
+  border: 1px solid #fff;
+  padding: 4px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+.article-card.dark .read-btn-inner {
+  border: 1px solid #000;
+  display: flex;
+  gap: 4px;
+  align-items: flex-end;
+  padding: 4px 2px;
+}
+
+.article-card.dark .read-btn-text {
+  font: italic 12px/normal 'Times New Roman', serif;
+  color: #000;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.article-card.dark .read-btn-arrow {
+  width: 18px;
+  height: 14px;
+}
+
+.article-card.dark .read-btn-arrow img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Mobile 360px ── */
+@media (max-width: 480px) {
+  .object-page {
+    transform: none !important;
+    width: 100%;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .object-page--static {
+    padding-bottom: 40px;
+  }
+
+  .object-page--static .obj-nav {
+    margin: 12px 16px 0;
+    flex-wrap: wrap;
+    gap: 8px;
+    left: auto;
+    top: auto;
+    position: relative;
+  }
+
+  .obj-nav-btn-inner .label {
+    font-size: 14px;
+  }
+
+  .object-page--static .obj-content {
+    margin: 12px 0 0 0;
+    padding: 0 16px;
+    width: 100%;
+    box-sizing: border-box;
+    gap: 24px;
+  }
+
+  .obj-title-inner {
+    width: calc(100% - 10px);
+  }
+
+  .obj-title-name {
+    font-size: 20px;
+    word-break: break-word;
+    white-space: normal;
+  }
+
+  .obj-title-year {
+    font-size: 15px;
+  }
+
+  /* Two columns → single column */
+  .obj-cols {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .obj-col-left {
+    width: 100%;
+    gap: 16px;
+  }
+
+  .obj-poster {
+    width: 100%;
+    height: auto;
+  }
+  .obj-poster img {
+    height: auto;
+    object-fit: contain;
+  }
+
+  .obj-trailer {
+    width: 100%;
+  }
+
+  /* Meta block: vertical stack */
+  .meta-block {
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px;
+  }
+
+  .meta-col {
+    width: 100%;
+  }
+
+  .meta-label {
+    width: 80px;
+    font-size: 11px;
+  }
+
+  .meta-value,
+  .meta-tag {
+    font-size: 11px;
+  }
+
+  /* Media cards (наследие/влияние) — вертикальная сетка */
+  .cards-scroll-wrap {
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+  .cards-row {
+    flex-wrap: wrap;
+    overflow: visible;
+    padding-bottom: 0;
+  }
+  .media-card {
+    width: calc(50% - 8px);
+  }
+  .media-card-img {
+    width: 100%;
+    height: 0;
+    padding-bottom: 150%;
+    position: relative;
+    overflow: hidden;
+  }
+  .media-card-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Article cards — вертикально, 1 в строку */
+  .article-card {
+    width: 100%;
+    height: auto;
+    min-height: 260px;
+    flex-shrink: 0;
+  }
+
+  .article-card .card-img {
+    width: 100%;
+    height: 170px;
+    position: relative;
+  }
+
+  .article-card .card-info {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    padding: 6px 6px 8px;
+  }
+
+  .article-card .card-title {
+    font-size: 14px;
+  }
+
+  .obj-quote-text {
+    font-size: 18px;
+  }
+
+  .obj-desc-text {
+    font-size: 15px;
+  }
+
+  .object-page--static .o-footer {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    margin-top: 32px;
+  }
+
+  .o-footer {
+    width: 100%;
+    margin-top: 32px;
+  }
+
+  .obj-loading {
+    position: relative;
+    padding-top: 60px;
+  }
 }

@@ -23,7 +23,7 @@ function esc(s) {
     .replace(/'/g, '&#39;')
 }
 
-function buildMetaRow(label, value) {
+function buildMetaRowU(label, value) {
   if (!value || !String(value).trim()) return ''
   return '<div class="meta-row">'
     + '<span class="meta-label">' + esc(label) + ':</span>'
@@ -31,55 +31,110 @@ function buildMetaRow(label, value) {
     + '</div>'
 }
 
+function buildMetaRowPlain(label, value) {
+  if (!value || !String(value).trim()) return ''
+  return '<div class="meta-row">'
+    + '<span class="meta-label">' + esc(label) + ':</span>'
+    + '<span class="meta-value meta-value--plain">' + esc(String(value)) + '</span>'
+    + '</div>'
+}
+
+function buildMetaRowTags(label, value) {
+  if (!value || !String(value).trim()) return ''
+  var tags = String(value).split('|').map(function (s) { return s.trim() }).filter(Boolean)
+  if (!tags.length) return ''
+  return '<div class="meta-row">'
+    + '<span class="meta-label">' + esc(label) + ':</span>'
+    + '<div class="meta-tags">'
+    + tags.map(function (t) { return '<span class="meta-tag">' + esc(t) + '</span>' }).join('')
+    + '</div>'
+    + '</div>'
+}
+
+var WORK_ARTICLES = {
+  'alien': [
+    { title: '«Анатомия паники»: полная эволюция жанра «боди-хоррор»', href: 'body_horror.html', cover: '../assets/media/guides_pictures/cover-body-horror.png', guide: 'body-horror', section: 'НАВИГАТОРЫ', readTime: '5 минут' },
+    { title: 'Аниматроники и механическая резня: о том, почему нас пугают роботы', href: 'guide_horror_robot.html', cover: '../assets/media/elements_pictures/GuideRobot.png', guide: 'robot', section: 'НАВИГАТОРЫ', readTime: '7 минут' }
+  ],
+  'dead-space': [
+    { title: '«Анатомия паники»: полная эволюция жанра «боди-хоррор»', href: 'body_horror.html', cover: '../assets/media/guides_pictures/cover-body-horror.png', guide: 'body-horror', section: 'НАВИГАТОРЫ', readTime: '5 минут' }
+  ],
+  'the-thing': [
+    { title: '«Анатомия паники»: полная эволюция жанра «боди-хоррор»', href: 'body_horror.html', cover: '../assets/media/guides_pictures/cover-body-horror.png', guide: 'body-horror', section: 'НАВИГАТОРЫ', readTime: '5 минут' }
+  ],
+  'alien-isolation': [
+    { title: 'Искусство Выживания: Эволюция Survival Horror в видеоиграх', href: 'survival_horror.html', cover: '../assets/media/guides_pictures/cover-survival-horror.png', guide: 'survival-horror', section: 'НАВИГАТОРЫ', readTime: '5 минут' }
+  ],
+  'amnesia-the-dark-descent': [
+    { title: 'Искусство Выживания: Эволюция Survival Horror в видеоиграх', href: 'survival_horror.html', cover: '../assets/media/guides_pictures/cover-survival-horror.png', guide: 'survival-horror', section: 'НАВИГАТОРЫ', readTime: '5 минут' }
+  ],
+  'silent-hill-1-game': [
+    { title: 'Искусство Выживания: Эволюция Survival Horror в видеоиграх', href: 'survival_horror.html', cover: '../assets/media/guides_pictures/cover-survival-horror.png', guide: 'survival-horror', section: 'НАВИГАТОРЫ', readTime: '5 минут' }
+  ],
+  'rosemarys-baby': [
+    { title: 'Не мило, а очень страшно: Образ ребёнка в хорроре', href: 'child_imagery.html', cover: '../assets/media/guides_pictures/cover-child-imagery.png', guide: 'child-imagery', section: 'НАВИГАТОРЫ', readTime: '5 минут' }
+  ],
+  'the-shining': [
+    { title: 'Не мило, а очень страшно: Образ ребёнка в хорроре', href: 'child_imagery.html', cover: '../assets/media/guides_pictures/cover-child-imagery.png', guide: 'child-imagery', section: 'НАВИГАТОРЫ', readTime: '5 минут' }
+  ],
+  'it': [
+    { title: 'Не мило, а очень страшно: Образ ребёнка в хорроре', href: 'child_imagery.html', cover: '../assets/media/guides_pictures/cover-child-imagery.png', guide: 'child-imagery', section: 'НАВИГАТОРЫ', readTime: '5 минут' }
+  ]
+}
+
 function buildMetaHtml(item, year) {
   var t = item.Type
-  var html = ''
+  var col1 = '', col2 = '', col3 = ''
+
   if (t === 'Фильм' || t === 'Сериал') {
-    html += buildMetaRow('Медиаформат', t)
-    html += buildMetaRow('Год', year)
-    html += buildMetaRow('Поджанры', item.Subgenres)
-    html += buildMetaRow('Франшиза', item.FranchiseName)
-    html += buildMetaRow('Страны', item.Country)
-    html += buildMetaRow('Режиссёр', item.Director)
-    html += buildMetaRow('Рейтинг', item.Rating)
-    html += buildMetaRow('Платформы', item.Platform)
-    html += buildMetaRow('Длительность', item.Duration)
-    html += buildMetaRow('Возраст', item.AgeRating)
+    col1 = buildMetaRowU('Медиаформат', t)
+         + buildMetaRowU('Год выпуска', year)
+         + buildMetaRowTags('Поджанры', item.Subgenres)
+    col2 = buildMetaRowU('Франшизы', item.FranchiseName)
+         + buildMetaRowTags('Страны', item.Country)
+         + buildMetaRowU('Режиссёр', item.Director)
+         + buildMetaRowPlain('Рейтинг', item.Rating)
+    col3 = buildMetaRowU('Платформы', item.Platform)
+         + buildMetaRowPlain('Длительность', item.Duration)
+         + buildMetaRowPlain('Возраст', item.AgeRating)
   } else if (t === 'Игра') {
-    html += buildMetaRow('Медиаформат', t)
-    html += buildMetaRow('Год', year)
-    html += buildMetaRow('Поджанры', item.Subgenres)
-    html += buildMetaRow('Разработчик', item.Developer)
-    html += buildMetaRow('Издатель', item.Publisher)
-    html += buildMetaRow('Платформы', item.Platform)
-    html += buildMetaRow('Рейтинг', item.Rating)
-    html += buildMetaRow('Возраст', item.AgeRating)
+    col1 = buildMetaRowU('Медиаформат', t)
+         + buildMetaRowU('Год выпуска', year)
+         + buildMetaRowTags('Поджанры', item.Subgenres)
+    col2 = buildMetaRowU('Разработчик', item.Developer)
+         + buildMetaRowU('Издатель', item.Publisher)
+         + buildMetaRowPlain('Рейтинг', item.Rating)
+    col3 = buildMetaRowU('Платформы', item.Platform)
+         + buildMetaRowPlain('Возраст', item.AgeRating)
   } else if (t === 'Книга') {
-    html += buildMetaRow('Медиаформат', t)
-    html += buildMetaRow('Год', year)
-    html += buildMetaRow('Поджанры', item.Subgenres)
-    html += buildMetaRow('Автор', item.Author)
-    html += buildMetaRow('Издательство', item.Publisher)
-    html += buildMetaRow('Страниц', item.Pages)
-    html += buildMetaRow('Рейтинг', item.Rating)
-    html += buildMetaRow('Возраст', item.AgeRating)
+    col1 = buildMetaRowU('Медиаформат', t)
+         + buildMetaRowU('Год выпуска', year)
+         + buildMetaRowTags('Поджанры', item.Subgenres)
+    col2 = buildMetaRowU('Автор', item.Author)
+         + buildMetaRowU('Издательство', item.Publisher)
+         + buildMetaRowPlain('Страниц', item.Pages)
+         + buildMetaRowPlain('Рейтинг', item.Rating)
+    col3 = buildMetaRowPlain('Возраст', item.AgeRating)
   } else if (t === 'Комикс') {
-    html += buildMetaRow('Медиаформат', t)
-    html += buildMetaRow('Год', year)
-    html += buildMetaRow('Поджанры', item.Subgenres)
-    html += buildMetaRow('Автор', item.Author)
-    html += buildMetaRow('Издательство', item.Publisher)
-    html += buildMetaRow('Выпусков', item.Issues)
-    html += buildMetaRow('Рейтинг', item.Rating)
-    html += buildMetaRow('Возраст', item.AgeRating)
+    col1 = buildMetaRowU('Медиаформат', t)
+         + buildMetaRowU('Год выпуска', year)
+         + buildMetaRowTags('Поджанры', item.Subgenres)
+    col2 = buildMetaRowU('Автор', item.Author)
+         + buildMetaRowU('Издательство', item.Publisher)
+         + buildMetaRowPlain('Выпусков', item.Issues)
+         + buildMetaRowPlain('Рейтинг', item.Rating)
+    col3 = buildMetaRowPlain('Возраст', item.AgeRating)
   } else {
-    html += buildMetaRow('Медиаформат', t)
-    html += buildMetaRow('Год', year)
-    html += buildMetaRow('Поджанры', item.Subgenres)
-    html += buildMetaRow('Рейтинг', item.Rating)
-    html += buildMetaRow('Возраст', item.AgeRating)
+    col1 = buildMetaRowU('Медиаформат', t)
+         + buildMetaRowU('Год выпуска', year)
+         + buildMetaRowTags('Поджанры', item.Subgenres)
+    col2 = buildMetaRowPlain('Рейтинг', item.Rating)
+    col3 = buildMetaRowPlain('Возраст', item.AgeRating)
   }
-  return html
+
+  return (col1 ? '<div class="meta-col">' + col1 + '</div>' : '')
+       + (col2 ? '<div class="meta-col">' + col2 + '</div>' : '')
+       + (col3 ? '<div class="meta-col">' + col3 + '</div>' : '')
 }
 
 function buildMediaCard(item) {
@@ -167,6 +222,37 @@ function generatePage(item) {
       + '</div>'
   }
 
+  var workArticles = WORK_ARTICLES[item.id]
+  if (workArticles && workArticles.length) {
+    rightColHtml += '<div class="sec-blk">'
+      + '<div class="sec-h-red">СТАТЬИ НА ТЕМУ:</div>'
+      + '<div class="cards-scroll-wrap"><div class="cards-row">'
+      + workArticles.map(function (a) {
+          return '<a class="article-card dark" href="' + esc(a.href) + '"'
+            + ' data-guide="' + esc(a.guide || '') + '" style="text-decoration:none;">'
+            + '<div class="card-img">'
+            + '<img src="' + esc(a.cover) + '" alt="' + esc(a.title) + '" loading="lazy"'
+            + ' onerror="this.src=\'' + PLACEHOLDER + '\';this.onerror=null;">'
+            + '</div>'
+            + '<div class="card-info">'
+            + '<p class="card-title">' + esc(a.title) + '</p>'
+            + '<div class="card-meta">'
+            + '<div class="card-tags">'
+            + '<p>!' + esc(a.section || 'НАВИГАТОРЫ') + '!</p>'
+            + '<p>⁕Время чтения ~ ' + esc(a.readTime || '5 минут') + '⁕</p>'
+            + '</div>'
+            + '<div class="read-btn-outer"><div class="read-btn-inner">'
+            + '<span class="read-btn-text">Читать статью</span>'
+            + '<span class="read-btn-arrow"><img src="../assets/media/elements_pictures/Q_BlackArrowGuide.svg" alt="→"></span>'
+            + '</div></div>'
+            + '</div>'
+            + '</div>'
+            + '</a>'
+        }).join('')
+      + '</div></div>'
+      + '</div>'
+  }
+
   rightColHtml += buildCardSection('sec-h-darkred', 'ВЛИЯНИЕ (ЧТО ВДОХНОВИЛО):', item.Influence)
   rightColHtml += buildCardSection('sec-h-darkred', 'НАСЛЕДИЕ (ЧТО ПОРОДИЛО):', item.Legacy)
   rightColHtml += buildCardSection('sec-h-darkred', 'ВСЕЛЕННАЯ ФРАНШИЗЫ:', item.Franchise)
@@ -199,12 +285,12 @@ function generatePage(item) {
     + '        <div class="obj-bg-overlay"></div>\n'
     + '      </div>\n\n'
     + '      <div class="obj-nav">\n'
-    + '        <button class="obj-nav-btn" onclick="history.back()" type="button" aria-label="Назад">\n'
+    + '        <a href="timeline.html" class="obj-nav-btn" aria-label="Назад">\n'
     + '          <div class="obj-nav-btn-inner">\n'
     + '            <span class="arrow">←</span>\n'
     + '            <span class="label">Назад</span>\n'
     + '          </div>\n'
-    + '        </button>\n'
+    + '        </a>\n'
     + '        <a href="timeline.html" class="obj-nav-btn" aria-label="К таймлайну">\n'
     + '          <div class="obj-nav-btn-inner">\n'
     + '            <span class="label">К таймлайну</span>\n'
@@ -270,8 +356,62 @@ function generatePage(item) {
     + '    </div>\n'
     + '  </div>\n\n'
     + '  <script defer src="/chillshse/shared.js"></script>\n'
+    + '  <script defer src="/chillshse/object-from.js"></script>\n'
     + '</body>\n'
     + '</html>\n'
+}
+
+function buildTimelineCard(item) {
+  var cover = item.Cover || PLACEHOLDER
+  var href = item.id ? item.id + '.html' : '#'
+  var genreStr = item.Subgenres || item.Genres || ''
+  var genres = genreStr.split('|').map(function (s) { return s.trim() }).filter(Boolean)
+  var genreHtml = genres.slice(0, 3).map(function (g) { return '‼ ' + esc(g) }).join('<br>')
+  var desc = item.Description ? esc(item.Description.slice(0, 80)) + (item.Description.length > 80 ? '…' : '') : ''
+  return '<a class="timeline-card" href="' + esc(href) + '">'
+    + '<div class="timeline-card-img">'
+    + '<img src="' + esc(cover) + '" alt="' + esc(item.Title) + '" loading="lazy"'
+    + ' onerror="this.src=\'' + PLACEHOLDER + '\';this.onerror=null;">'
+    + '</div>'
+    + '<div class="timeline-card-info">'
+    + '<div class="media-type">▷ ' + esc(item.Type || 'Неизвестно') + '</div>'
+    + (genreHtml ? '<div class="genres">' + genreHtml + '</div>' : '')
+    + (desc ? '<div class="desc">' + desc + '</div>' : '')
+    + '</div>'
+    + '</a>'
+}
+
+function generateTimeline() {
+  var timelinePath = path.join(OUTPUT_DIR, 'timeline.html')
+  if (!fs.existsSync(timelinePath)) return
+
+  var map = {}
+  data.forEach(function (item) {
+    var y = item.Year
+    if (!y) return
+    if (!map[y]) map[y] = []
+    map[y].push(item)
+  })
+  var years = Object.keys(map).map(Number).sort(function (a, b) { return a - b })
+
+  var groupsHtml = years.map(function (y) {
+    var cardsHtml = map[y].map(buildTimelineCard).join('')
+    return '<div class="year-group">'
+      + '<div class="year-header">'
+      + '<div class="year-label">[ ' + y + ' ]</div>'
+      + '<div class="year-tick"></div>'
+      + '</div>'
+      + '<div class="card-row">' + cardsHtml + '</div>'
+      + '</div>'
+  }).join('')
+
+  var html = fs.readFileSync(timelinePath, 'utf8')
+  html = html.replace(
+    /<div class="year-groups" id="year-groups">[\s\S]*?<\/div>\s*<\/div>/,
+    '<div class="year-groups" id="year-groups">' + groupsHtml + '</div>'
+  )
+  fs.writeFileSync(timelinePath, html, 'utf8')
+  console.log('Pre-rendered timeline with ' + data.length + ' items')
 }
 
 if (!fs.existsSync(OUTPUT_DIR)) {
@@ -286,5 +426,7 @@ data.forEach(function (item) {
   fs.writeFileSync(outPath, html, 'utf8')
   count++
 })
+
+generateTimeline()
 
 console.log('Generated ' + count + ' static pages in docs/pages/')

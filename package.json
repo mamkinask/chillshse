@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node node_modules/webpack-cli/bin/cli.js serve --open --config config/webpack.dev.js",
     "watch": "node node_modules/webpack-cli/bin/cli.js --config config/webpack.dev.js",
-    "build": "node node_modules/webpack-cli/bin/cli.js --config config/webpack.prod.js && node scripts/generate-pages.js"
+    "build": "node node_modules/webpack-cli/bin/cli.js --config config/webpack.prod.js && node scripts/generate-pages.js",
+    "preview": "node scripts/preview.js"
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",

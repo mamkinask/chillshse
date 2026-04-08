@@ -7,6 +7,7 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
   min-height: 100vh;
+  margin-top: -5px;
 }
 
 .promo-page {
@@ -30,6 +31,238 @@ body {
     transform: scale(calc(100vw / 1440));
     margin-left: 0;
     margin-right: 0;
+  }
+}
+
+/* ── Mobile 360px: полный переверстанный лейаут ── */
+@media (max-width: 480px) {
+  .promo-scale-wrap {
+    height: auto !important;
+    padding-bottom: 0 !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    position: static !important;
+  }
+
+  .promo-page {
+    position: relative !important;
+    width: 100% !important;
+    min-height: auto !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    transform-origin: unset !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    padding-bottom: 40px;
+    overflow: visible !important;
+  }
+
+  /* Все abs-элементы переводим в поток */
+  .promo-page .abs {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  .running-line {
+    display: none !important;
+  }
+
+  .hero-bg-img {
+    display: none !important;
+  }
+
+  .hero-monster {
+    width: 100% !important;
+    height: 220px !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+  }
+  .hero-monster img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: top center !important;
+  }
+
+  .eye-group-left,
+  .eye-group-right {
+    display: none !important;
+  }
+
+  .hero-title {
+    font-size: 90px !important;
+    text-align: center !important;
+    padding: 4px 8px !important;
+    -webkit-text-stroke: 3px #760000 !important;
+    width: 100% !important;
+    line-height: 1 !important;
+  }
+
+  .hero-subtitle {
+    width: calc(100% - 32px) !important;
+    margin: 0 16px !important;
+    min-height: 36px !important;
+    padding: 4px !important;
+  }
+  .hero-subtitle p {
+    font-size: 16px !important;
+  }
+
+  .m-what-chills {
+    width: calc(100% - 32px) !important;
+    margin: 20px 16px 0 !important;
+    gap: 10px !important;
+  }
+  .m-what-chills .label {
+    font-size: 15px !important;
+  }
+  .m-what-chills .body {
+    font-size: 20px !important;
+  }
+
+  .gif-qqq {
+    display: none !important;
+  }
+
+  .m-text-arrow {
+    display: none !important;
+  }
+
+  .a-fear-the-one {
+    width: 100% !important;
+    min-height: 56px !important;
+    height: auto !important;
+    padding: 10px 16px !important;
+    margin: 20px 0 0 !important;
+  }
+  .a-fear-the-one p {
+    font-size: 36px !important;
+    white-space: normal !important;
+    -webkit-text-stroke: 1px #000 !important;
+  }
+
+  .dialog-mac {
+    width: 280px !important;
+    max-width: calc(100% - 32px) !important;
+    height: auto !important;
+    min-height: 160px !important;
+    margin: 20px auto 0 !important;
+    align-self: center !important;
+    border-radius: 6px !important;
+    overflow: visible !important;
+  }
+  .dialog-view {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 160px !important;
+    position: relative !important;
+    inset: auto !important;
+  }
+  .dialog-mac .title-bar {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    padding: 5px 8px !important;
+    display: block !important;
+    font-size: 10px !important;
+  }
+  .dialog-mac .close-btn {
+    position: absolute !important;
+    left: auto !important;
+    right: 0 !important;
+    top: 0 !important;
+    width: 40px !important;
+  }
+  .dialog-mac .body {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 10px 8px 16px !important;
+    box-sizing: border-box !important;
+  }
+  .dialog-mac .body h4 {
+    font-size: 12px !important;
+    margin-bottom: 10px !important;
+    white-space: normal !important;
+  }
+  .dialog-mac .row {
+    gap: 8px !important;
+    margin-bottom: 10px !important;
+  }
+  .dialog-mac .meta {
+    font-size: 12px !important;
+  }
+  .dialog-mac .win-btn {
+    font-size: 12px !important;
+    height: 20px !important;
+    width: 70px !important;
+  }
+  .dialog-mac .back-btn {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: auto !important;
+    margin: 8px auto !important;
+    display: block !important;
+  }
+
+  .arrow-left-timeline,
+  .arrow-right {
+    display: none !important;
+  }
+
+  .a-click-timeline {
+    width: calc(100% - 32px) !important;
+    margin: 16px 16px 0 !important;
+    min-height: 50px !important;
+    padding: 8px 10px !important;
+  }
+  .a-click-timeline p {
+    font-size: 17px !important;
+  }
+
+  .hands-section-bg,
+  .guess-section,
+  .hand-left,
+  .hand-right {
+    display: none !important;
+  }
+
+  .m-youre-welcome {
+    width: 100% !important;
+    height: auto !important;
+    margin: 24px 0 0 !important;
+    padding: 16px !important;
+    align-items: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+  .m-youre-welcome .fun-logo {
+    font-size: 40px !important;
+    width: 64px !important;
+    height: 64px !important;
+  }
+  .m-youre-welcome .text {
+    font-size: 22px !important;
+  }
+
+  .home-footer {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    margin: 24px 0 0 !important;
   }
 }
 
@@ -362,14 +595,14 @@ body {
 .dialog-mac {
   left: 50%;
   top: 2027px;
-  transform: translateX(calc(-50% - 0.5px));
+  transform: translateX(-50%);
   width: 517px;
   height: 240px;
   border: 1px solid #000;
   border-radius: 10px;
-  box-shadow: 2px 2px 4.3px rgba(255, 255, 255, 0.35);
+  box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.35);
   overflow: hidden;
-  background: linear-gradient(180deg, #fff 6.33%, rgba(172, 172, 172, 0.862) 34.25%, rgba(74, 74, 74, 0.7) 56.32%, rgba(176, 176, 176, 0.87) 77.93%, #fff 100%);
+  background: linear-gradient(180deg, #fff 6%, rgba(172, 172, 172, 0.85) 34%, rgba(74, 74, 74, 0.7) 56%, rgba(176, 176, 176, 0.85) 78%, #fff 100%);
   z-index: 50;
 }
 
@@ -390,7 +623,7 @@ body {
   position: absolute;
   inset: 0;
   mix-blend-mode: color-burn;
-  opacity: 0.26;
+  opacity: 0.25;
   overflow: hidden;
   pointer-events: none;
   border-radius: 10px;
@@ -398,10 +631,10 @@ body {
 
 .dialog-mac-texture img {
   position: absolute;
-  width: 133.05%;
-  height: 143.18%;
-  left: -23.3%;
-  top: -5.28%;
+  width: 133%;
+  height: 143%;
+  left: -23%;
+  top: -5%;
   object-fit: cover;
 }
 
@@ -424,7 +657,7 @@ body {
   border: 1px solid #000;
   border-radius: 0 0 3px 3px;
   cursor: pointer;
-  background: linear-gradient(180deg, rgb(255, 38, 38) 0%, rgb(255, 101, 101) 14.9%, rgb(255, 108, 108) 18.75%, rgb(255, 69, 69) 35.58%, rgb(70, 0, 0) 75.96%, rgb(98, 41, 41) 85.58%, rgb(143, 96, 96) 97.12%);
+  background: linear-gradient(180deg, rgb(255, 38, 38) 0%, rgb(255, 101, 101) 15%, rgb(255, 108, 108) 19%, rgb(255, 69, 69) 36%, rgb(70, 0, 0) 76%, rgb(98, 41, 41) 86%, rgb(143, 96, 96) 97%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -476,7 +709,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 2px 2px 3.5px rgba(0, 0, 0, 0.25);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   font-family: 'Greybeard 22px', sans-serif;
 }
 
@@ -522,14 +755,14 @@ body {
   cursor: pointer;
   border-radius: 2px;
   font-family: 'Greybeard 22px', sans-serif;
-  background: linear-gradient(180deg, #e6e6e6 0%, #adadad 35.58%, #969696 75.96%, #878787 85.58%, #c9c9c9 97.12%);
+  background: linear-gradient(180deg, #e6e6e6 0%, #adadad 36%, #969696 76%, #878787 86%, #c9c9c9 97%);
   white-space: nowrap;
   padding: 0 2px;
 }
 
 .dialog-mac .win-btn--yes {
   width: 76px;
-  background: linear-gradient(180deg, #e6e6e6 0%, #2be72b 35.58%, #2ec42e 75.96%, #2ea32e 85.58%, #97ff97 97.12%);
+  background: linear-gradient(180deg, #e6e6e6 0%, #2be72b 36%, #2ec42e 76%, #2ea32e 86%, #97ff97 97%);
 }
 
 .dialog-mac .back-btn {
@@ -541,7 +774,7 @@ body {
   border: 1px solid #000;
   border-radius: 2px;
   cursor: pointer;
-  background: linear-gradient(180deg, rgb(131, 131, 131) 0%, rgb(231, 43, 43) 35.58%, rgb(196, 46, 46) 75.96%, rgb(163, 46, 46) 85.58%, rgb(0, 0, 0) 97.12%);
+  background: linear-gradient(180deg, rgb(131, 131, 131) 0%, rgb(231, 43, 43) 36%, rgb(196, 46, 46) 76%, rgb(163, 46, 46) 86%, rgb(0, 0, 0) 97%);
   font: 16px 'Greybeard 22px', sans-serif;
   color: #000;
   padding: 0 2px;
@@ -558,14 +791,14 @@ body {
   width: 1440px;
   height: 744px;
   position: absolute;
-  background: linear-gradient(180deg, #000 0%, #fff 45.508%, #000 100%);
+  background: linear-gradient(180deg, #000 0%, #fff 46%, #000 100%);
   overflow: hidden;
 }
 
 .guess-section .bg-img {
   position: absolute;
   inset: 0;
-  opacity: 0.51;
+  opacity: 0.5;
 }
 
 .guess-section .bg-img img {
@@ -601,7 +834,7 @@ body {
   width: 315px;
   height: 62px;
   background: #000;
-  opacity: 0.79;
+  opacity: 0.8;
   z-index: 2;
   padding: 4px 8px;
   font-size: 14px;
@@ -618,7 +851,7 @@ body {
 }
 
 @keyframes guess-hint-fade {
-  0%, 100% { opacity: 0.79; }
+  0%, 100% { opacity: 0.8; }
   50% { opacity: 0.25; }
 }
 
@@ -779,7 +1012,7 @@ body {
   position: relative;
 }
 
-.a-logo {
+.promo-page .a-logo {
   width: 93px;
   height: 93px;
   flex-shrink: 0;
@@ -788,7 +1021,7 @@ body {
   justify-content: center;
 }
 
-.a-logo img {
+.promo-page .a-logo img {
   width: 100%;
   height: 100%;
   object-fit: contain;

@@ -177,6 +177,82 @@ body {
 .o-footer .footer-heart img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
+}
+
+/* ── Mobile 360px ── */
+@media (max-width: 480px) {
+  body {
+    padding-top: 48px;
+  }
+
+  .o-header {
+    height: 48px;
+    min-height: 48px;
+    padding: 0 12px;
+  }
+
+  .o-header .a-logo {
+    width: 26px;
+    height: 26px;
+  }
+
+  .o-header-nav {
+    position: static;
+    transform: none;
+    gap: 6px;
+  }
+
+  .o-header-nav .btn {
+    font-size: 9px;
+    padding: 3px 4px;
+    border-width: 1px;
+  }
+
+  .o-footer {
+    display: grid;
+    grid-template-columns: 52px 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 10px 12px;
+    padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: start;
+  }
+
+  .o-footer .footer-right {
+    display: contents;
+  }
+
+  .o-footer .footer-info {
+    display: contents;
+  }
+
+  .o-footer .footer-logo {
+    grid-column: 1;
+    grid-row: 1;
+    width: 52px;
+    height: 52px;
+    padding: 4px;
+  }
+
+  .o-footer .footer-col {
+    font-size: 11px;
+    gap: 5px;
+  }
+
+  .o-footer .footer-col .bold,
+  .o-footer .footer-col .regular,
+  .o-footer .footer-col .red {
+    font-size: 11px;
+  }
+
+  /* Heart spans all 3 columns, row 2 */
+  .o-footer .footer-heart {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    height: 46px;
+  }
 }

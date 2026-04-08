@@ -488,7 +488,7 @@ function fillResultCard(item) {
   var cardEl = document.getElementById('result-card');
   if (!item || !titleEl) return;
   titleEl.textContent = item.Title || '';
-  titleEl.href = (item.id || '') + '.html';
+  titleEl.href = (item.id || '') + '.html?from=diagnostics-test.html';
   if (typeEl) typeEl.textContent = item.Type || '';
   if (genresEl) genresEl.textContent = item.Subgenres || '';
   if (descEl) descEl.textContent = item.Description || '';

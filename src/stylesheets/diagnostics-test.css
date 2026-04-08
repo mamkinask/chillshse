@@ -1,5 +1,5 @@
 body {
-  background: #111;
+  background: #000;
 }
 
 .test-page {
@@ -21,7 +21,10 @@ body {
 
 .test-bg {
   position: absolute;
-  inset: 0;
+  top: -57px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
@@ -358,4 +361,93 @@ body {
   font-size: 13px;
   color: #999;
   line-height: 1.4;
+}
+
+/* ── Mobile 360px ── */
+@media (max-width: 480px) {
+  .test-page {
+    transform: none !important;
+    width: 100%;
+    min-height: auto;
+    overflow: visible;
+    padding-bottom: 40px;
+  }
+
+  /* Content area: full width */
+  .test-content {
+    width: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
+    margin-top: 16px;
+  }
+
+  /* Test card: full width, auto height */
+  .test-card {
+    min-height: auto;
+  }
+
+  .test-card-image {
+    height: 200px;
+  }
+
+  .test-card-body {
+    padding: 16px 16px 60px;
+    gap: 16px;
+  }
+
+  .test-card-question {
+    font-size: 20px;
+  }
+
+  .test-card-number {
+    font-size: 22px;
+  }
+
+  .test-card-options {
+    max-width: 100%;
+  }
+
+  /* Nav buttons inside the card */
+  .test-card-nav {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    padding: 12px 0 4px;
+    gap: 16px;
+  }
+
+  /* Progress dots */
+  .test-progress {
+    left: auto;
+    transform: none;
+    max-width: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
+  /* Result screen: full width */
+  .test-result-screen {
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+  }
+
+  .test-result-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .test-result-card {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  /* Footer: full width */
+  .test-page .o-footer {
+    left: auto;
+    transform: none;
+    width: 100%;
+    padding: 24px 16px 40px;
+    box-sizing: border-box;
+  }
 }

@@ -18,7 +18,13 @@ const htmlPages = [
   createPage('./src/pages/found_footage.html', './pages/found_footage.html', ['shared', 'guide-found-footage']),
   createPage('./src/pages/pagan_cults.html', './pages/pagan_cults.html', ['shared', 'guide-pagan-cults']),
   createPage('./src/pages/survival_horror.html', './pages/survival_horror.html', ['shared', 'guide-survival-horror']),
-  createPage('./src/pages/object.html', './pages/object.html', ['shared', 'object'])
+  createPage('./src/pages/body_horror.html', './pages/body_horror.html', ['shared', 'guide-body-horror']),
+  createPage('./src/pages/child_imagery.html', './pages/child_imagery.html', ['shared', 'guide-child-imagery']),
+  createPage('./src/pages/without_monster.html', './pages/without_monster.html', ['shared', 'guide-without-monster']),
+  createPage('./src/pages/scandinavian.html', './pages/scandinavian.html', ['shared', 'guide-scandinavian']),
+  createPage('./src/pages/paper_nightmares.html', './pages/paper_nightmares.html', ['shared', 'guide-paper-nightmares']),
+  createPage('./src/pages/gothic.html', './pages/gothic.html', ['shared', 'guide-gothic']),
+  createPage('./src/pages/object.html', './pages/object.html', ['shared', 'object-from', 'object'])
 ]
 
 module.exports = htmlPages

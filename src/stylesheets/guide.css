@@ -29,8 +29,8 @@ body {
 .guide-bg img {
   position: absolute;
   top: 0;
-  left: -10.79%;
-  width: 121.57%;
+  left: -11%;
+  width: 122%;
   height: 100%;
   object-fit: cover;
 }
@@ -38,7 +38,7 @@ body {
 .guide-bg-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(270deg, rgba(0, 0, 0, 0.53) 7.69%, rgba(58, 58, 58, 0.41) 16.35%, rgba(255, 255, 255, 0) 45.67%, rgba(68, 68, 68, 0.56) 79.81%, rgba(0, 0, 0, 0.77) 97.12%);
+  background: linear-gradient(270deg, rgba(0, 0, 0, 0.53) 8%, rgba(58, 58, 58, 0.4) 16%, rgba(255, 255, 255, 0) 46%, rgba(68, 68, 68, 0.55) 80%, rgba(0, 0, 0, 0.75) 97%);
 }
 
 .guide-main {
@@ -353,6 +353,34 @@ body {
   width: 1280px;
 }
 
+/* Blue title bar variant (without_monster и др.) */
+.guide-title-bar--blue {
+  border-color: #2600ff;
+  height: auto;
+  min-height: 99px;
+  padding: 16px 0;
+}
+
+.guide-title-bar--blue .guide-title-inner {
+  border-color: #4000ff;
+  height: auto;
+  padding: 8px 16px;
+}
+
+.guide-title-bar--blue .guide-title-text {
+  color: #4000ff;
+  font-size: 40px;
+  font-style: normal;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* Section with 1px blue border (without_monster) */
+.guide-section-bordered {
+  border: 1px solid #4000ff;
+  width: 100%;
+}
+
 /* Found footage image block wrapper */
 .ff-img-block {
   display: flex;
@@ -361,7 +389,7 @@ body {
   width: 100%;
 }
 
-/* 10px spacing between images, section body, and captions */
+/* Отступы между текстом и картинками */
 .guide-section-body + .guide-section-img,
 .guide-section-body + .ff-img-block,
 .guide-section-body + .guide-imgs-row,
@@ -406,4 +434,221 @@ body {
 
 .ff-imgs-row .guide-section-img {
   flex: 1;
+}
+
+/* ── Works section on guide pages ── */
+.guide-works-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.guide-works-heading {
+  background: #760000;
+  color: #fff;
+  font-family: 'Greybeard 22px', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  padding: 6px 16px;
+}
+
+.guide-works-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px 0 0;
+}
+
+.guide-works-row .media-card {
+  width: 200px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.guide-works-row .media-card:hover .media-card-img {
+  opacity: 0.8;
+}
+
+.guide-works-row .media-card-img {
+  width: 200px;
+  height: 284px;
+  overflow: hidden;
+  background: #1a1a1a;
+  transition: opacity 0.15s;
+}
+
+.guide-works-row .media-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.guide-works-row .media-card-title {
+  font-family: 'Times New Roman', serif;
+  font-size: 12px;
+  color: #fff;
+  line-height: 1.3;
+  text-align: center;
+  padding: 0 2px;
+}
+
+/* ── Mobile 360px ── */
+@media (max-width: 480px) {
+  .guide-page {
+    transform: none !important;
+    width: 100%;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .guide-bg img {
+    left: 0;
+    width: 100%;
+  }
+
+  .guide-main {
+    padding: 16px 16px 40px;
+    gap: 16px;
+  }
+
+  .guide-nav-row {
+    gap: 10px;
+  }
+
+  .guide-back-text {
+    font-size: 14px;
+  }
+
+  .guide-content {
+    width: 100%;
+    gap: 40px;
+    padding: 0;
+  }
+
+  .guide-sections {
+    gap: 20px;
+  }
+
+  /* Title bar: compact on mobile */
+  .guide-title-bar {
+    height: auto;
+    min-height: 56px;
+    padding: 8px 0;
+  }
+
+  .guide-title-inner {
+    padding: 6px 8px;
+    width: calc(100% - 12px);
+    height: auto;
+  }
+
+  .guide-title-text {
+    font-size: 20px;
+  }
+
+  .guide-title-bar--blue {
+    padding: 8px 0;
+    min-height: 56px;
+  }
+
+  .guide-title-bar--blue .guide-title-inner {
+    padding: 6px 8px;
+  }
+
+  .guide-title-bar--blue .guide-title-text {
+    font-size: 20px;
+  }
+
+  .guide-section-heading {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .guide-section-body {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .guide-section-img {
+    width: 100%;
+    border-width: 2px;
+  }
+
+  .guide-imgs-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ff-imgs-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .guide-caption,
+  .ff-caption {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  /* Posters and film sections */
+  .guide-poster {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2/3;
+  }
+
+  .guide-poster-pair {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .guide-film-header {
+    font-size: 18px;
+  }
+
+  /* Final / darkred block */
+  .guide-section--final .guide-section-heading,
+  .guide-darkred-block .guide-section-heading {
+    font-size: 14px;
+  }
+
+  .guide-darkred-block .guide-section-body,
+  .guide-section--final .guide-section-body {
+    font-size: 14px;
+  }
+
+  /* Footer inside guide pages */
+  .guide-main > .o-footer,
+  .guide-main footer.o-footer {
+    width: 100%;
+    margin-top: 24px;
+  }
+
+  /* Works section: 2-column grid on mobile */
+  .guide-works-row {
+    flex-wrap: wrap;
+    overflow: visible;
+    padding-bottom: 0;
+  }
+  .guide-works-row .media-card {
+    width: calc(50% - 8px);
+  }
+  .guide-works-row .media-card-img {
+    height: 0;
+    padding-bottom: 150%;
+    position: relative;
+  }
+  .guide-works-row .media-card-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }

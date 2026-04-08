@@ -282,3 +282,64 @@ body {
   left: 1228px;
   top: 934px;
 }
+
+/* ── Mobile 360px ── */
+@media (max-width: 480px) {
+  .diag-page {
+    transform: none !important;
+    width: 100%;
+    min-height: auto;
+    overflow: visible;
+    padding-bottom: 40px;
+  }
+
+  /* CTA button: centred in normal flow */
+  .diag-cta {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: calc(100% - 32px);
+    height: auto;
+    padding: 20px 12px;
+    margin: 80px auto 0;
+  }
+
+  .diag-cta p {
+    font-size: 32px;
+    white-space: normal;
+    text-align: center;
+  }
+
+  /* Hands and decorations: hide on mobile */
+  .diag-hand,
+  .deco {
+    display: none;
+  }
+
+  /* Intro text block */
+  .diag-intro {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: calc(100% - 32px);
+    height: auto;
+    padding: 16px;
+    margin: 24px auto 0;
+  }
+
+  .diag-intro .text {
+    font-size: 15px;
+    max-width: 100%;
+  }
+
+  /* Footer */
+  .diag-page .o-footer {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    margin-top: 32px;
+  }
+}
