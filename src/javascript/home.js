@@ -1,4 +1,23 @@
 import '../stylesheets/home.css'
+import coverDefault from '../assets/media/elements_pictures/CoverVariantsDefault.png'
+import coverVideogame from '../assets/media/elements_pictures/CoverVariantsVideogame.png'
+import coverBook from '../assets/media/elements_pictures/CoverVariantsBook.png'
+import coverFilm from '../assets/media/elements_pictures/CoverVariantsFilm.png'
+import coverComics from '../assets/media/elements_pictures/CoverVariantsComics.png'
+
+var COVER_MAP = {
+  'CoverVariantsDefault.png': coverDefault,
+  'CoverVariantsVideogame.png': coverVideogame,
+  'CoverVariantsBook.png': coverBook,
+  'CoverVariantsFilm.png': coverFilm,
+  'CoverVariantsComics.png': coverComics
+}
+
+function resolveCover(attr) {
+  if (!attr) return null
+  var filename = attr.split('/').pop()
+  return COVER_MAP[filename] || null
+}
 
 function showDialogState(state) {
   var dialog = document.getElementById('dialog-mac')
@@ -16,8 +35,9 @@ function initGuessCards() {
   document.querySelectorAll('.guess-cards .card').forEach(function (card) {
     var img = card.querySelector('img')
     if (!img) return
-    var defaultSrc = card.getAttribute('data-cover-default') || img.src
-    var hoverSrc = card.getAttribute('data-cover-hover') || defaultSrc
+    var defaultSrc = resolveCover(card.getAttribute('data-cover-default')) || img.src
+    var hoverSrc = resolveCover(card.getAttribute('data-cover-hover')) || defaultSrc
+    img.src = defaultSrc
     card.addEventListener('mouseenter', function () { img.src = hoverSrc })
     card.addEventListener('mouseleave', function () { img.src = defaultSrc })
   })
