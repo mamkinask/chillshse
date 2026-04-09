@@ -2,9 +2,11 @@ body {
   background: #000;
 }
 
+/* ─────────────────────────────────────────────
+   ОБЁРТКА И СТРАНИЦА (десктоп)
+───────────────────────────────────────────── */
 .promo-scale-wrap {
   width: 100%;
-  overflow-x: hidden;
   overflow-y: visible;
   min-height: 100vh;
   margin-top: -5px;
@@ -21,255 +23,14 @@ body {
   transform-origin: 0 0;
 }
 
-@media (max-width: 1440px) {
-  .promo-scale-wrap {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .promo-page {
-    transform: scale(calc(100vw / 1440));
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-
-/* ── Mobile 360px: полный переверстанный лейаут ── */
-@media (max-width: 480px) {
-  .promo-scale-wrap {
-    height: auto !important;
-    padding-bottom: 0 !important;
-    min-height: auto !important;
-    overflow: visible !important;
-    position: static !important;
-  }
-
-  .promo-page {
-    position: relative !important;
-    width: 100% !important;
-    min-height: auto !important;
-    top: auto !important;
-    left: auto !important;
-    transform: none !important;
-    transform-origin: unset !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 0 !important;
-    padding-bottom: 40px;
-    overflow: visible !important;
-  }
-
-  /* Все abs-элементы переводим в поток */
-  .promo-page .abs {
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    transform: none !important;
-    width: 100% !important;
-    box-sizing: border-box;
-  }
-
-  .running-line {
-    display: none !important;
-  }
-
-  .hero-bg-img {
-    display: none !important;
-  }
-
-  .hero-monster {
-    width: 100% !important;
-    height: 220px !important;
-    overflow: hidden !important;
-    margin: 0 !important;
-  }
-  .hero-monster img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: top center !important;
-  }
-
-  .eye-group-left,
-  .eye-group-right {
-    display: none !important;
-  }
-
-  .hero-title {
-    font-size: 90px !important;
-    text-align: center !important;
-    padding: 4px 8px !important;
-    -webkit-text-stroke: 3px #760000 !important;
-    width: 100% !important;
-    line-height: 1 !important;
-  }
-
-  .hero-subtitle {
-    width: calc(100% - 32px) !important;
-    margin: 0 16px !important;
-    min-height: 36px !important;
-    padding: 4px !important;
-  }
-  .hero-subtitle p {
-    font-size: 16px !important;
-  }
-
-  .m-what-chills {
-    width: calc(100% - 32px) !important;
-    margin: 20px 16px 0 !important;
-    gap: 10px !important;
-  }
-  .m-what-chills .label {
-    font-size: 15px !important;
-  }
-  .m-what-chills .body {
-    font-size: 20px !important;
-  }
-
-  .gif-qqq {
-    display: none !important;
-  }
-
-  .m-text-arrow {
-    display: none !important;
-  }
-
-  .a-fear-the-one {
-    width: 100% !important;
-    min-height: 56px !important;
-    height: auto !important;
-    padding: 10px 16px !important;
-    margin: 20px 0 0 !important;
-  }
-  .a-fear-the-one p {
-    font-size: 36px !important;
-    white-space: normal !important;
-    -webkit-text-stroke: 1px #000 !important;
-  }
-
-  .dialog-mac {
-    width: 280px !important;
-    max-width: calc(100% - 32px) !important;
-    height: auto !important;
-    min-height: 160px !important;
-    margin: 20px auto 0 !important;
-    align-self: center !important;
-    border-radius: 6px !important;
-    overflow: visible !important;
-  }
-  .dialog-view {
-    width: 100% !important;
-    height: auto !important;
-    min-height: 160px !important;
-    position: relative !important;
-    inset: auto !important;
-  }
-  .dialog-mac .title-bar {
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
-    padding: 5px 8px !important;
-    display: block !important;
-    font-size: 10px !important;
-  }
-  .dialog-mac .close-btn {
-    position: absolute !important;
-    left: auto !important;
-    right: 0 !important;
-    top: 0 !important;
-    width: 40px !important;
-  }
-  .dialog-mac .body {
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 10px 8px 16px !important;
-    box-sizing: border-box !important;
-  }
-  .dialog-mac .body h4 {
-    font-size: 12px !important;
-    margin-bottom: 10px !important;
-    white-space: normal !important;
-  }
-  .dialog-mac .row {
-    gap: 8px !important;
-    margin-bottom: 10px !important;
-  }
-  .dialog-mac .meta {
-    font-size: 12px !important;
-  }
-  .dialog-mac .win-btn {
-    font-size: 12px !important;
-    height: 20px !important;
-    width: 70px !important;
-  }
-  .dialog-mac .back-btn {
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
-    width: auto !important;
-    margin: 8px auto !important;
-    display: block !important;
-  }
-
-  .arrow-left-timeline,
-  .arrow-right {
-    display: none !important;
-  }
-
-  .a-click-timeline {
-    width: calc(100% - 32px) !important;
-    margin: 16px 16px 0 !important;
-    min-height: 50px !important;
-    padding: 8px 10px !important;
-  }
-  .a-click-timeline p {
-    font-size: 17px !important;
-  }
-
-  .hands-section-bg,
-  .guess-section,
-  .hand-left,
-  .hand-right {
-    display: none !important;
-  }
-
-  .m-youre-welcome {
-    width: 100% !important;
-    height: auto !important;
-    margin: 24px 0 0 !important;
-    padding: 16px !important;
-    align-items: center !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 8px !important;
-  }
-  .m-youre-welcome .fun-logo {
-    font-size: 40px !important;
-    width: 64px !important;
-    height: 64px !important;
-  }
-  .m-youre-welcome .text {
-    font-size: 22px !important;
-  }
-
-  .home-footer {
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
-    width: 100% !important;
-    margin: 24px 0 0 !important;
-  }
-}
-
+/* Все дочерние .abs — абсолютные (десктоп) */
 .promo-page .abs {
   position: absolute;
 }
 
+/* ─────────────────────────────────────────────
+   БЕГУЩАЯ СТРОКА
+───────────────────────────────────────────── */
 .running-line {
   left: 0;
   top: 0;
@@ -296,10 +57,13 @@ body {
 }
 
 @keyframes running-line-scroll {
-  0% { transform: translateX(0); }
+  0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
+/* ─────────────────────────────────────────────
+   МОНСТР И ФОН
+───────────────────────────────────────────── */
 .hero-bg-img {
   left: 0;
   top: 162px;
@@ -329,6 +93,9 @@ body {
   object-fit: cover;
 }
 
+/* ─────────────────────────────────────────────
+   ЗАГОЛОВОК
+───────────────────────────────────────────── */
 .hero-title {
   left: 50%;
   top: 601px;
@@ -345,6 +112,9 @@ body {
   paint-order: stroke fill;
 }
 
+/* ─────────────────────────────────────────────
+   ПОДЗАГОЛОВОК
+───────────────────────────────────────────── */
 .hero-subtitle {
   left: 353px;
   top: 893px;
@@ -379,6 +149,9 @@ body {
   color: red;
 }
 
+/* ─────────────────────────────────────────────
+   БЛОК "ЧТО ТАКОЕ ЧИЛЛС"
+───────────────────────────────────────────── */
 .m-what-chills {
   left: 188px;
   top: 1095px;
@@ -419,6 +192,9 @@ body {
   text-decoration: underline;
 }
 
+/* ─────────────────────────────────────────────
+   GIF ВОПРОСИТЕЛЬНЫХ ЗНАКОВ
+───────────────────────────────────────────── */
 .gif-qqq {
   left: 769px;
   top: 1134px;
@@ -438,6 +214,9 @@ body {
   mix-blend-mode: luminosity;
 }
 
+/* ─────────────────────────────────────────────
+   ТЕКСТ СО СТРЕЛКОЙ
+───────────────────────────────────────────── */
 .m-text-arrow {
   left: 496px;
   top: 1459px;
@@ -475,9 +254,12 @@ body {
 
 @keyframes arrow-down-up {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(12px); }
+  50%       { transform: translateY(12px); }
 }
 
+/* ─────────────────────────────────────────────
+   БАНЕР "ВЕДЬ СТРАХ ЕДИН"
+───────────────────────────────────────────── */
 .a-fear-the-one {
   left: 0;
   top: 1801px;
@@ -506,92 +288,9 @@ body {
   paint-order: stroke fill;
 }
 
-.arrow-left-timeline {
-  left: 150px;
-  top: 2386px;
-  width: 184px;
-  height: 99px;
-  z-index: 6;
-  animation: arrow-toward-center 2.5s ease-in-out infinite;
-}
-
-.arrow-left-timeline img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.a-click-timeline {
-  left: 349px;
-  top: 2396px;
-  width: 742px;
-  min-height: 80px;
-  padding: 8px 12px;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Greybeard 22px', sans-serif;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-.a-click-timeline p {
-  font-size: 36px;
-  color: #000;
-  text-align: center;
-  margin: 0;
-  max-width: 100%;
-  overflow-wrap: break-word;
-}
-
-.a-click-timeline .red-u {
-  color: red;
-  text-decoration: underline;
-}
-
-.a-click-timeline a.red-u {
-  color: red;
-  text-decoration: underline;
-}
-
-.a-click-timeline a.red-u:hover {
-  opacity: 0.9;
-}
-
-@keyframes arrow-toward-center {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(15px); }
-}
-
-@keyframes arrow-toward-center-right {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(-15px); }
-}
-
-.arrow-left {
-  left: 150px;
-  top: 2386px;
-  width: 184px;
-  height: 99px;
-  transform: rotate(180deg);
-}
-
-.arrow-right {
-  left: 1106px;
-  top: 2386px;
-  width: 184px;
-  height: 99px;
-  animation: arrow-toward-center-right 2.5s ease-in-out infinite;
-}
-
-.arrow-left img,
-.arrow-right img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
+/* ─────────────────────────────────────────────
+   ДИАЛОГ
+───────────────────────────────────────────── */
 .dialog-mac {
   left: 50%;
   top: 2027px;
@@ -784,6 +483,94 @@ body {
   justify-content: center;
 }
 
+/* ─────────────────────────────────────────────
+   СТРЕЛКИ И ТАЙМЛАЙН
+───────────────────────────────────────────── */
+.arrow-left-timeline {
+  left: 150px;
+  top: 2386px;
+  width: 184px;
+  height: 99px;
+  z-index: 6;
+  animation: arrow-toward-center 2.5s ease-in-out infinite;
+}
+
+.arrow-left-timeline img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.a-click-timeline {
+  left: 349px;
+  top: 2396px;
+  width: 742px;
+  min-height: 80px;
+  padding: 8px 12px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Greybeard 22px', sans-serif;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.a-click-timeline p {
+  font-size: 36px;
+  color: #000;
+  text-align: center;
+  margin: 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.a-click-timeline .red-u,
+.a-click-timeline a.red-u {
+  color: red;
+  text-decoration: underline;
+}
+
+.a-click-timeline a.red-u:hover {
+  opacity: 0.9;
+}
+
+@keyframes arrow-toward-center {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(15px); }
+}
+
+@keyframes arrow-toward-center-right {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(-15px); }
+}
+
+.arrow-left {
+  left: 150px;
+  top: 2386px;
+  width: 184px;
+  height: 99px;
+  transform: rotate(180deg);
+}
+
+.arrow-right {
+  left: 1106px;
+  top: 2386px;
+  width: 184px;
+  height: 99px;
+  animation: arrow-toward-center-right 2.5s ease-in-out infinite;
+}
+
+.arrow-left img,
+.arrow-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ─────────────────────────────────────────────
+   СЕКЦИЯ "УГАДАЙТЕ"
+───────────────────────────────────────────── */
 .guess-section {
   left: 50%;
   top: 2518px;
@@ -848,7 +635,7 @@ body {
 
 @keyframes guess-hint-fade {
   0%, 100% { opacity: 0.8; }
-  50% { opacity: 0.25; }
+  50%       { opacity: 0.25; }
 }
 
 .guess-content {
@@ -901,6 +688,9 @@ body {
   object-fit: cover;
 }
 
+/* ─────────────────────────────────────────────
+   РУКИ И ФИНАЛЬНЫЙ БЛОК
+───────────────────────────────────────────── */
 .hands-section-bg {
   position: absolute;
   left: 50%;
@@ -983,6 +773,9 @@ body {
   font-family: 'Greybeard 22px', sans-serif;
 }
 
+/* ─────────────────────────────────────────────
+   ФУТЕР
+───────────────────────────────────────────── */
 .o-footer.home-footer {
   left: 80px;
   top: 3925px;
@@ -990,6 +783,9 @@ body {
   z-index: 10;
 }
 
+/* ─────────────────────────────────────────────
+   ДЕКОР ГЛАЗ
+───────────────────────────────────────────── */
 .eye-decor {
   pointer-events: none;
   z-index: 4;
@@ -1021,4 +817,288 @@ body {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+/* ─────────────────────────────────────────────
+   УМЕНЬШЕНИЕ ДЛЯ ЭКРАНОВ < 1440px (масштаб)
+───────────────────────────────────────────── */
+@media (max-width: 1440px) {
+  .promo-scale-wrap {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .promo-page {
+    transform: scale(calc(100vw / 1440));
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   МОБИЛЬНЫЙ АДАПТИВ (≤ 480px)
+   Этот блок идёт ПОСЛЕДНИМ — перебивает всё
+   выше без !important, за счёт каскада CSS.
+───────────────────────────────────────────── */
+@media (max-width: 480px) {
+
+  /* Обёртка — убираем масштаб, делаем обычный поток */
+  .promo-scale-wrap {
+    min-height: auto;
+    overflow: visible;
+  }
+
+  /* Страница — флекс-колонка вместо абсолютного позиционирования */
+  .promo-page {
+    position: relative;
+    width: 100%;
+    min-height: auto;
+    top: auto;
+    left: auto;
+    transform: none;
+    transform-origin: unset;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-bottom: 40px;
+    overflow: visible;
+  }
+
+  /* Все .abs переводим в поточный режим */
+  .promo-page .abs {
+    position: relative;
+    left: auto;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    transform: none;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Бегущая строка — скрываем */
+  .running-line {
+    display: none;
+  }
+
+  /* Фоновое изображение — скрываем */
+  .hero-bg-img {
+    display: none;
+  }
+
+  /* Монстр — баннер-изображение */
+  .hero-monster {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    margin: 0;
+  }
+
+  .hero-monster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  /* Глаза — скрываем */
+  .eye-group-left,
+  .eye-group-right {
+    display: none;
+  }
+
+  /* Заголовок ЧИЛЛС */
+  .hero-title {
+    font-size: 90px;
+    text-align: center;
+    padding: 4px 8px;
+    -webkit-text-stroke: 3px #760000;
+    width: 100%;
+    line-height: 1;
+  }
+
+  /* Подзаголовок */
+  .hero-subtitle {
+    width: calc(100% - 32px);
+    margin: 0 16px;
+    min-height: 36px;
+    padding: 4px;
+  }
+
+  .hero-subtitle p {
+    font-size: 16px;
+  }
+
+  /* Блок "Что такое ЧИЛЛС" */
+  .m-what-chills {
+    width: calc(100% - 32px);
+    margin: 20px 16px 0;
+    gap: 10px;
+  }
+
+  .m-what-chills .label {
+    font-size: 15px;
+  }
+
+  .m-what-chills .body {
+    font-size: 20px;
+  }
+
+  /* GIF и стрелка со текстом — скрываем */
+  .gif-qqq {
+    display: none;
+  }
+
+  .m-text-arrow {
+    display: none;
+  }
+
+  /* Баннер "ВЕДЬ СТРАХ ЕДИН" */
+  .a-fear-the-one {
+    width: 100%;
+    min-height: 56px;
+    height: auto;
+    padding: 10px 16px;
+    margin: 20px 0 0;
+  }
+
+  .a-fear-the-one p {
+    font-size: 36px;
+    white-space: normal;
+    -webkit-text-stroke: 1px #000;
+  }
+
+  /* Диалог */
+  .dialog-mac {
+    width: 280px;
+    max-width: calc(100% - 32px);
+    height: auto;
+    min-height: 160px;
+    margin: 20px auto 0;
+    align-self: center;
+    border-radius: 6px;
+    overflow: visible;
+  }
+
+  .dialog-view {
+    width: 100%;
+    height: auto;
+    min-height: 160px;
+    position: relative;
+    inset: auto;
+  }
+
+  .dialog-mac .title-bar {
+    position: relative;
+    left: auto;
+    top: auto;
+    padding: 5px 8px;
+    display: block;
+    font-size: 10px;
+  }
+
+  .dialog-mac .close-btn {
+    position: absolute;
+    left: auto;
+    right: 0;
+    top: 0;
+    width: 40px;
+  }
+
+  .dialog-mac .body {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    margin: 0;
+    padding: 10px 8px 16px;
+    box-sizing: border-box;
+  }
+
+  .dialog-mac .body h4 {
+    font-size: 12px;
+    margin-bottom: 10px;
+    white-space: normal;
+  }
+
+  .dialog-mac .row {
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .dialog-mac .meta {
+    font-size: 12px;
+  }
+
+  .dialog-mac .win-btn {
+    font-size: 12px;
+    height: 20px;
+    width: 70px;
+  }
+
+  .dialog-mac .back-btn {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+    margin: 8px auto;
+    display: block;
+  }
+
+  /* Стрелки к таймлайну — скрываем */
+  .arrow-left-timeline,
+  .arrow-right {
+    display: none;
+  }
+
+  /* Ссылка на таймлайн */
+  .a-click-timeline {
+    width: calc(100% - 32px);
+    margin: 16px 16px 0;
+    min-height: 50px;
+    padding: 8px 10px;
+  }
+
+  .a-click-timeline p {
+    font-size: 17px;
+  }
+
+  /* Руки, фон и секция "угадайте" — скрываем */
+  .hands-section-bg,
+  .guess-section,
+  .hand-left,
+  .hand-right {
+    display: none;
+  }
+
+  /* Финальный блок */
+  .m-youre-welcome {
+    width: 100%;
+    height: auto;
+    margin: 24px 0 0;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .m-youre-welcome .fun-logo {
+    font-size: 40px;
+    width: 64px;
+    height: 64px;
+  }
+
+  .m-youre-welcome .text {
+    font-size: 22px;
+  }
+
+  /* Футер */
+  .o-footer.home-footer {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    margin: 24px 0 0;
+  }
 }
