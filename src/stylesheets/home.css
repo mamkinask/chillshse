@@ -5,7 +5,7 @@ body {
 .promo-scale-wrap {
   width: 100%;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: visible;
   min-height: 100vh;
   margin-top: -5px;
 }
@@ -23,7 +23,7 @@ body {
 
 @media (max-width: 1440px) {
   .promo-scale-wrap {
-    width: 100vw;
+    width: 100%;
     max-width: 100%;
   }
 
@@ -272,7 +272,7 @@ body {
 
 .running-line {
   left: 0;
-  top: 8px;
+  top: 0;
   width: 1440px;
   height: 36px;
   background: #ff0000;
@@ -798,15 +798,11 @@ body {
 .guess-section .bg-img {
   position: absolute;
   inset: 0;
-  opacity: 0.5;
-}
-
-.guess-section .bg-img img {
-  width: 117%;
-  height: 123%;
-  object-fit: cover;
-  margin-left: -8%;
-  margin-top: -4%;
+  z-index: 0;
+  background-image: url("../assets/media/background_pictures/BackgroundIndex.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .guess-title {

@@ -5,13 +5,13 @@
 }
 
 html {
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
 body {
   color: #fff;
   font-family: 'Times New Roman', serif;
-  overflow-x: hidden;
   padding-top: 57px;
 }
 
