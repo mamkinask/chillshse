@@ -31,15 +31,67 @@ function showDialogState(state) {
   }
 }
 
+function isGuessClickMode() {
+  return window.matchMedia('(max-width: 767px)').matches
+}
+
+function setGuessHintText() {
+  var hint = document.querySelector('.guess-hint')
+  if (!hint) return
+  hint.textContent = isGuessClickMode()
+    ? '▷ Нажмите на карточку, чтобы увидеть медиаформат.'
+    : '▷ Удерживайте курсор на синих карточках, чтобы посмотреть, какого формата произведение перед вами'
+}
+
 function initGuessCards() {
   document.querySelectorAll('.guess-cards .card').forEach(function (card) {
     var img = card.querySelector('img')
     if (!img) return
     var defaultSrc = resolveCover(card.getAttribute('data-cover-default')) || img.src
     var hoverSrc = resolveCover(card.getAttribute('data-cover-hover')) || defaultSrc
+
     img.src = defaultSrc
-    card.addEventListener('mouseenter', function () { img.src = hoverSrc })
-    card.addEventListener('mouseleave', function () { img.src = defaultSrc })
+
+    card.addEventListener('mouseenter', function () {
+      if (isGuessClickMode()) return
+      img.src = hoverSrc
+    })
+    card.addEventListener('mouseleave', function () {
+      if (isGuessClickMode()) return
+      img.src = defaultSrc
+    })
+    card.addEventListener('click', function (e) {
+      if (!isGuessClickMode()) return
+      e.preventDefault()
+      if (card.getAttribute('data-guess-flipped') === '1') {
+        card.removeAttribute('data-guess-flipped')
+        img.src = defaultSrc
+      } else {
+        card.setAttribute('data-guess-flipped', '1')
+        img.src = hoverSrc
+      }
+    })
+  })
+
+  setGuessHintText()
+  var resizeGuessTimer
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeGuessTimer)
+    resizeGuessTimer = setTimeout(function () {
+      setGuessHintText()
+      document.querySelectorAll('.guess-cards .card').forEach(function (card) {
+        var img = card.querySelector('img')
+        if (!img) return
+        var defaultSrc = resolveCover(card.getAttribute('data-cover-default')) || img.src
+        var hoverSrc = resolveCover(card.getAttribute('data-cover-hover')) || defaultSrc
+        if (!isGuessClickMode()) {
+          card.removeAttribute('data-guess-flipped')
+          img.src = defaultSrc
+        } else {
+          img.src = card.getAttribute('data-guess-flipped') === '1' ? hoverSrc : defaultSrc
+        }
+      })
+    }, 150)
   })
 }
 

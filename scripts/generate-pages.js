@@ -197,7 +197,7 @@ function generatePage(item) {
 
   var rightColHtml = ''
 
-  rightColHtml += '<div class="sec-blk">'
+  rightColHtml += '<div class="sec-blk" id="sec-meta">'
     + '<div class="sec-h-black">Метаданные:</div>'
     + '<div class="meta-block">' + buildMetaHtml(item, year) + '</div>'
     + '</div>'

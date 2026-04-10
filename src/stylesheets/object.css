@@ -29,14 +29,6 @@ body {
   margin: 16px 0 0 80px;
 }
 
-@media (max-width: 1440px) {
-  .object-page {
-    transform: scale(calc(100vw / 1440));
-    transform-origin: 0 0;
-    margin-left: 0;
-  }
-}
-
 .obj-bg {
   position: absolute;
   top: -57px;
@@ -719,119 +711,387 @@ body {
   display: block;
 }
 
-/* ── Mobile 360px ── */
-@media (max-width: 480px) {
+/* Декор трейлера скрыт на узких экранах (как в макете мобильной версии) */
+@media (max-width: 767px) {
+  .obj-trailer-decor {
+    display: none !important;
+  }
+}
+
+/* ── Mobile 0–767px ── */
+@media (max-width: 767px) {
   .object-page {
-    transform: none !important;
     width: 100%;
-    min-height: auto;
-    overflow: visible;
   }
 
   .object-page--static {
-    padding-bottom: 40px;
+    padding-bottom: 16px;
   }
 
   .object-page--static .obj-nav {
-    margin: 12px 16px 0;
-    flex-wrap: wrap;
-    gap: 8px;
-    left: auto;
-    top: auto;
-    position: relative;
-  }
-
-  .obj-nav-btn-inner .label {
-    font-size: 14px;
+    margin: 12px 12px 0;
   }
 
   .object-page--static .obj-content {
-    margin: 12px 0 0 0;
-    padding: 0 16px;
-    width: 100%;
-    box-sizing: border-box;
-    gap: 24px;
+    margin: 10px 12px 0;
+    width: calc(100% - 24px);
+  }
+
+  .obj-title-bar {
+    min-height: 60px;
   }
 
   .obj-title-inner {
-    width: calc(100% - 10px);
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .obj-title-name {
-    font-size: 20px;
-    word-break: break-word;
-    white-space: normal;
+    font-size: 22px;
   }
 
   .obj-title-year {
-    font-size: 15px;
+    font-size: 14px;
   }
 
-  /* Two columns → single column */
   .obj-cols {
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
   }
 
   .obj-col-left {
     width: 100%;
-    gap: 16px;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
   }
 
   .obj-poster {
-    width: 100%;
-    height: auto;
-  }
-  .obj-poster img {
-    height: auto;
-    object-fit: contain;
+    width: 130px;
+    height: 186px;
+    flex-shrink: 0;
   }
 
   .obj-trailer {
-    width: 100%;
+    width: auto;
+    flex: 1;
   }
 
-  /* Meta block: vertical stack */
+  .obj-trailer-header {
+    font-size: 14px;
+  }
+
+  .obj-trailer-thumb {
+    height: 110px;
+  }
+
+  .obj-col-right {
+    gap: 20px;
+  }
+
+  .meta-block {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .obj-quote-text {
+    font-size: 18px;
+  }
+
+  .article-card {
+    width: 260px;
+    height: 216px;
+  }
+
+  .article-card .card-img {
+    width: 260px;
+    height: 160px;
+  }
+
+  .article-card .card-info {
+    width: 260px;
+    top: 164px;
+  }
+
+  .article-card .card-title {
+    font-size: 14px;
+  }
+
+  .media-card {
+    width: 120px;
+  }
+
+  .media-card-img {
+    width: 120px;
+    height: 170px;
+  }
+
+  .o-footer {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 24px;
+    padding: 0 12px;
+    box-sizing: border-box;
+  }
+
+  .footer-col--info,
+  .footer-col--contacts {
+    width: auto;
+  }
+}
+
+/* ── 0–599px: постер, метаданные, трейлер — столбиком (порядок через grid-row) ── */
+@media (max-width: 599px) {
+  .obj-cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+
+  .obj-col-left,
+  .obj-col-right {
+    display: contents;
+  }
+
+  .obj-col-left {
+    width: auto;
+    flex-direction: unset;
+    align-items: unset;
+    gap: 0;
+  }
+
+  .obj-poster {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 308 / 436;
+    flex-shrink: 0;
+  }
+
+  .obj-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #sec-meta,
+  .sec-blk:has(> .sec-h-black) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-width: 0;
+  }
+
+  .obj-trailer {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    width: 100%;
+    max-width: none;
+    flex: none;
+  }
+
+  .obj-trailer-header {
+    font-size: 14px;
+  }
+
+  .obj-trailer-thumb {
+    height: 110px;
+  }
+
+  .sec-blk:not(:has(> .sec-h-black)),
+  .obj-desc,
+  .obj-quote {
+    grid-column: 1 / -1;
+  }
+
+  .obj-col-right {
+    gap: 0;
+  }
+}
+
+/* ── 0–560px: плотная адаптивная вёрстка (типографика, мета, карточки, навигация SPA) ── */
+@media (max-width: 560px) {
+  .object-page:not(.object-page--static) .obj-nav {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    box-sizing: border-box;
+    margin: clamp(8px, 3vw, 12px) 0 0;
+    padding: 0 clamp(8px, 3vw, 12px);
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .object-page:not(.object-page--static) .obj-content {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+    max-width: none;
+    margin: 10px clamp(8px, 3vw, 12px) 0;
+    box-sizing: border-box;
+  }
+
+  .object-page--static .obj-nav {
+    margin-left: clamp(8px, 3vw, 12px);
+    margin-right: clamp(8px, 3vw, 12px);
+  }
+
+  .object-page--static .obj-content {
+    margin-left: clamp(8px, 3vw, 12px);
+    margin-right: clamp(8px, 3vw, 12px);
+    width: calc(100% - clamp(16px, 6vw, 24px));
+  }
+
+  .obj-title-name {
+    font-size: clamp(17px, 5vw, 22px);
+    word-break: break-word;
+    hyphens: auto;
+    padding: 0 4px;
+    box-sizing: border-box;
+  }
+
+  .obj-title-year {
+    font-size: clamp(11px, 3.2vw, 14px);
+  }
+
+  .obj-cols {
+    gap: clamp(10px, 3vw, 14px);
+  }
+
+  .obj-poster {
+    border-width: clamp(2px, 0.9vw, 4px);
+  }
+
+  .sec-h-black,
+  .sec-h-grey,
+  .sec-h-red,
+  .sec-h-darkred {
+    font-size: clamp(12px, 3.6vw, 18px);
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .sec-h-white {
+    font-size: clamp(12px, 3.6vw, 18px);
+    white-space: normal;
+    word-break: break-word;
+  }
+
   .meta-block {
     flex-direction: column;
     gap: 8px;
-    padding: 4px;
+    padding: 6px 4px;
   }
 
   .meta-col {
     width: 100%;
+    min-width: 0;
+  }
+
+  .meta-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
   }
 
   .meta-label {
-    width: 80px;
-    font-size: 11px;
+    width: auto;
+    max-width: 100%;
+    flex: none;
+    font-size: clamp(11px, 3.1vw, 12px);
+    padding: 2px 0;
   }
 
   .meta-value,
   .meta-tag {
-    font-size: 11px;
+    font-size: clamp(11px, 3.1vw, 12px);
+    word-break: break-word;
+    overflow-wrap: anywhere;
   }
 
-  /* Media cards (наследие/влияние) — вертикальная сетка */
-  .cards-scroll-wrap {
+  .tropes-bar {
+    min-height: 0;
+    padding: 6px 4px;
+    gap: 8px;
+  }
+
+  .trope-tag {
+    white-space: normal;
+    word-break: break-word;
+    font-size: clamp(10px, 2.9vw, 12px);
+  }
+
+  .obj-desc-hdr {
+    font-size: clamp(14px, 3.8vw, 18px);
+    white-space: normal;
+  }
+
+  .obj-desc-text {
+    font-size: clamp(14px, 3.8vw, 18px);
+    padding: 8px 6px 10px;
+  }
+
+  .obj-quote {
+    padding: clamp(10px, 3.5vw, 16px) clamp(10px, 3.5vw, 20px);
+    min-height: 0;
+  }
+
+  .obj-quote-text {
+    font-size: clamp(15px, 4.2vw, 22px);
+  }
+
+  .obj-trailer-thumb {
+    height: clamp(84px, 26vw, 118px);
+  }
+
+  .obj-trailer-header {
+    font-size: clamp(11px, 3.2vw, 14px);
+  }
+
+  .obj-trailer-link {
+    font-size: clamp(10px, 2.8vw, 12px);
+    line-height: 1.3;
+    min-height: auto;
+    padding: 4px 2px;
+  }
+
+  .o-footer {
+    padding-left: clamp(8px, 3vw, 12px);
+    padding-right: clamp(8px, 3vw, 12px);
+  }
+
+  .cards-scroll-wrap,
+  .cast-scroll-wrap {
     overflow-x: visible;
     overflow-y: visible;
   }
+
   .cards-row {
-    flex-wrap: wrap;
-    overflow: visible;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 12px;
     padding-bottom: 0;
   }
+
   .media-card {
-    width: calc(50% - 8px);
+    width: 100%;
+    max-width: 100%;
   }
+
   .media-card-img {
     width: 100%;
-    height: 0;
-    padding-bottom: 150%;
+    height: auto;
+    aspect-ratio: 201 / 284;
     position: relative;
-    overflow: hidden;
   }
+
   .media-card-img img {
     position: absolute;
     inset: 0;
@@ -840,55 +1100,311 @@ body {
     object-fit: cover;
   }
 
-  /* Article cards — вертикально, 1 в строку */
   .article-card {
-    width: 100%;
-    height: auto;
-    min-height: 260px;
-    flex-shrink: 0;
+    width: 100% !important;
+    max-width: 100%;
+    height: auto !important;
+    min-height: 0;
   }
 
   .article-card .card-img {
+    position: relative !important;
+    width: 100% !important;
+    height: 0 !important;
+    padding-bottom: 60%;
+  }
+
+  .article-card .card-img img {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    height: 170px;
-    position: relative;
+    height: 100%;
+    object-fit: cover;
   }
 
   .article-card .card-info {
-    position: relative;
-    top: auto;
-    left: auto;
-    width: 100%;
-    padding: 6px 6px 8px;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    padding: 8px 6px;
+    box-sizing: border-box;
   }
 
-  .article-card .card-title {
+  .cast-grid {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 12px;
+    padding-bottom: 0;
+  }
+
+  .cast-item {
+    width: 100%;
+    max-width: none;
+  }
+
+  .cast-photo {
+    width: 100%;
+    max-width: 220px;
+    margin: 0 auto;
+    height: auto;
+    aspect-ratio: 146 / 160;
+    position: relative;
+  }
+
+  .cast-photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cast-name {
+    white-space: normal;
+  }
+}
+
+/* ── 600–767px: постер слева по высоте блока метаданных; ниже — трейлер и остальное столбиком ── */
+@media (min-width: 600px) and (max-width: 767px) {
+  .obj-cols {
+    display: grid;
+    grid-template-columns: minmax(100px, 34vw) minmax(0, 1fr);
+    gap: 12px 14px;
+    align-items: stretch;
+  }
+
+  .obj-col-left,
+  .obj-col-right {
+    display: contents;
+  }
+
+  .obj-col-left {
+    width: auto;
+    flex-direction: unset;
+    align-items: unset;
+    gap: 0;
+  }
+
+  .obj-poster {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    max-width: 168px;
+    min-height: 0;
+    height: 100%;
+    align-self: stretch;
+    aspect-ratio: unset;
+    flex-shrink: 0;
+  }
+
+  .obj-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #sec-meta,
+  .sec-blk:has(> .sec-h-black) {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    align-self: stretch;
+    height: auto;
+  }
+
+  .obj-trailer {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    max-width: none;
+    flex: none;
+  }
+
+  .obj-trailer-header {
     font-size: 14px;
   }
 
-  .obj-quote-text {
-    font-size: 18px;
+  .obj-trailer-thumb {
+    height: 110px;
   }
 
-  .obj-desc-text {
-    font-size: 15px;
+  .sec-blk:not(:has(> .sec-h-black)),
+  .obj-desc,
+  .obj-quote {
+    grid-column: 1 / -1;
   }
 
-  .object-page--static .o-footer {
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
-    width: 100% !important;
-    margin-top: 32px;
+  .obj-col-right {
+    gap: 0;
+  }
+}
+
+/* ── 600–665px: постер по ширине первого столбца сетки (без жёсткого max-width) ── */
+@media (min-width: 600px) and (max-width: 665px) {
+  .obj-cols {
+    /* ~32% ширины под обложку, остальное — метаданные; нижняя граница столбца постера ~308:436 */
+    grid-template-columns: minmax(112px, 32vw) minmax(0, 1fr);
+    gap: 12px 12px;
   }
 
-  .o-footer {
+  .obj-poster {
     width: 100%;
-    margin-top: 32px;
+    max-width: none;
+    justify-self: stretch;
+    box-sizing: border-box;
+  }
+}
+
+/* ── 665–767px: постер на всю ширину первого столбца (сетка уже из 600–767) ── */
+@media (min-width: 665px) and (max-width: 767px) {
+  .obj-cols {
+    /* узкий столбец обложки ~27vw, остальное — метаданные */
+    grid-template-columns: minmax(120px, 27vw) minmax(0, 1fr);
+    gap: 12px 14px;
   }
 
-  .obj-loading {
+  .obj-poster {
+    width: 100%;
+    max-width: none;
+    justify-self: stretch;
+    box-sizing: border-box;
+  }
+}
+
+/* ── Очень узкие экраны 0–359px: один вертикальный столбец ── */
+@media (max-width: 359px) {
+  .object-page--static .obj-nav,
+  .obj-nav {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .obj-nav-btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .obj-nav-btn-inner {
+    justify-content: center;
+  }
+
+  .obj-col-left {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 14px;
+  }
+
+  .obj-poster {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 308 / 436;
     position: relative;
-    padding-top: 60px;
+  }
+
+  .obj-poster img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .obj-trailer {
+    width: 100%;
+    flex: none;
+  }
+
+  .cards-scroll-wrap,
+  .cast-scroll-wrap {
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  .cards-row {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 14px;
+    padding-bottom: 0;
+  }
+
+  .media-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .media-card-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 201 / 284;
+    position: relative;
+  }
+
+  .media-card-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .article-card {
+    width: 100% !important;
+    max-width: 100%;
+    height: auto !important;
+    min-height: 0;
+  }
+
+  .article-card .card-img {
+    position: relative !important;
+    width: 100% !important;
+    height: 0 !important;
+    padding-bottom: 60%;
+  }
+
+  .article-card .card-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .article-card .card-info {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    padding: 8px 6px;
+    box-sizing: border-box;
+  }
+
+  .cast-grid {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 12px;
+    padding-bottom: 0;
+  }
+
+  .cast-item {
+    width: 100%;
+    max-width: none;
+  }
+
+  .cast-photo {
+    width: 100%;
+    max-width: 220px;
+    margin: 0 auto;
+  }
+
+  .cast-name {
+    white-space: normal;
   }
 }

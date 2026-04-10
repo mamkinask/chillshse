@@ -4,6 +4,7 @@ body {
 
 .scale-wrap {
   min-height: calc(100vh - 57px);
+  overflow-x: visible;
 }
 
 .articles-page {
@@ -14,15 +15,6 @@ body {
   background: #fff;
   overflow: hidden;
   padding-bottom: 80px;
-}
-
-@media (max-width: 1440px) {
-  .articles-page {
-    transform: scale(calc(100vw / 1440));
-    transform-origin: 0 0;
-    margin-left: 0;
-    margin-right: 0;
-  }
 }
 
 .articles-bg {
@@ -338,86 +330,105 @@ body {
   z-index: 10;
 }
 
-/* ── Mobile 360px ── */
-@media (max-width: 480px) {
+/* ── Mobile ≤767px ── */
+@media (max-width: 767px) {
   .articles-page {
-    transform: none !important;
     width: 100%;
-    min-height: auto;
+    /* фон должен заполнять хотя бы весь экран */
+    min-height: calc(100vh - 57px);
     overflow: visible;
     padding-bottom: 40px;
   }
 
-  /* Filter bar: relative, wrapping */
+  /* фон на всю ширину экрана */
+  .articles-bg {
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+
+  /* Filter bar: flow, centred */
   .filter-bar {
     position: relative;
     left: auto;
     top: auto;
-    padding: 16px 16px 8px;
+    margin: 24px 16px 0;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 8px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .filter-btn {
-    padding: 4px 8px;
   }
 
   .filter-btn span {
-    font-size: 12px;
+    font-size: 15px;
   }
 
-  /* Grid: single column, full width */
+  /* Grid: 2 columns */
   .articles-grid {
-    position: relative;
-    margin-left: 0;
-    margin-top: 0;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 16px;
-    width: 100%;
+    margin: 16px 16px 0;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: calc(100% - 32px);
     box-sizing: border-box;
   }
 
-  /* Cards: full-width, auto height */
+  /* Card: flow layout, reset absolute children */
   .article-card {
     width: 100%;
     height: auto;
-    min-height: 300px;
+    overflow: visible;
   }
 
   .card-img {
-    width: 100%;
-    height: 190px;
     position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: 0;
+    padding-bottom: 73%;
+  }
+
+  .card-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
   .card-label-bar {
-    position: relative;
-    top: auto;
-    left: auto;
     width: 100%;
+  }
+
+  .card-label-bar .section {
+    width: auto;
   }
 
   .card-info {
     position: relative;
-    top: auto;
     left: auto;
+    top: auto;
     width: 100%;
-    padding: 8px 6px 6px;
+    padding: 6px 0 8px;
   }
 
   .card-title {
-    font-size: 16px;
+    font-size: 14px;
   }
 
-  .card-meta {
-    width: 100%;
+  .card-tags p {
+    font-size: 9px;
   }
 
-  .articles-page .o-footer {
+  /* Footer — match index.html (shared.css grid takes over) */
+  .o-footer {
     margin-left: 0;
     width: 100%;
+    margin-top: 32px;
+  }
+}
+
+/* ── Small mobile ≤560px: карточки в одну колонку ── */
+@media (max-width: 560px) {
+  .articles-grid {
+    grid-template-columns: 1fr;
   }
 }

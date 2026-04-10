@@ -819,286 +819,411 @@ body {
   object-fit: contain;
 }
 
-/* ─────────────────────────────────────────────
-   УМЕНЬШЕНИЕ ДЛЯ ЭКРАНОВ < 1440px (масштаб)
-───────────────────────────────────────────── */
-@media (max-width: 1440px) {
-  .promo-scale-wrap {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .promo-page {
-    transform: scale(calc(100vw / 1440));
-    margin-left: 0;
-    margin-right: 0;
-  }
+/* Составное изображение «руки + лого» — только мобильная вёрстка */
+.index-mobile-hands-banner {
+  display: none;
 }
 
-/* ─────────────────────────────────────────────
-   МОБИЛЬНЫЙ АДАПТИВ (≤ 480px)
-   Этот блок идёт ПОСЛЕДНИМ — перебивает всё
-   выше без !important, за счёт каскада CSS.
-───────────────────────────────────────────── */
-@media (max-width: 480px) {
+/* ── Mobile 360–767px ── */
+@media (max-width: 767px) {
 
-  /* Обёртка — убираем масштаб, делаем обычный поток */
+  /* ── Page wrapper ── */
   .promo-scale-wrap {
-    min-height: auto;
-    overflow: visible;
+    overflow-x: hidden;
   }
 
-  /* Страница — флекс-колонка вместо абсолютного позиционирования */
   .promo-page {
-    position: relative;
     width: 100%;
     min-height: auto;
-    top: auto;
-    left: auto;
-    transform: none;
-    transform-origin: unset;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    padding-bottom: 40px;
-    overflow: visible;
   }
 
-  /* Все .abs переводим в поточный режим */
-  .promo-page .abs {
+  /* Cancel absolute positioning for .abs children (диалог — отдельно, см. .dialog-mac) */
+  .promo-page .abs:not(.dialog-mac) {
     position: relative;
     left: auto;
     top: auto;
     right: auto;
     bottom: auto;
     transform: none;
-    width: 100%;
-    box-sizing: border-box;
+    width: auto;
+    height: auto;
   }
 
-  /* Бегущая строка — скрываем */
+  /* ── Running line ── */
   .running-line {
-    display: none;
+    width: 100%;
+    height: 28px;
   }
 
-  /* Фоновое изображение — скрываем */
-  .hero-bg-img {
-    display: none;
+  .running-line-track span {
+    font-size: 20px;
   }
 
-  /* Монстр — баннер-изображение */
+  /* ── Hero: GIF убран на узком экране ── */
+  .promo-page .hero-bg-img {
+    display: none !important;
+  }
+
+  .promo-page .hero-bg-img img {
+    display: none !important;
+  }
+
   .hero-monster {
     width: 100%;
-    height: 220px;
     overflow: hidden;
-    margin: 0;
+    margin-top: 0;
   }
 
   .hero-monster img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
+    height: auto;
+    object-fit: contain;
+    display: block;
   }
 
-  /* Глаза — скрываем */
-  .eye-group-left,
-  .eye-group-right {
-    display: none;
+  /* ── Eye groups: скрыты на узком экране ── */
+  .promo-page .eye-group-left,
+  .promo-page .eye-group-right {
+    display: none !important;
   }
 
-  /* Заголовок ЧИЛЛС */
+  /* ── Title ── */
   .hero-title {
-    font-size: 90px;
-    text-align: center;
-    padding: 4px 8px;
-    -webkit-text-stroke: 3px #760000;
     width: 100%;
-    line-height: 1;
+    font-size: 22vw;
+    text-align: center;
+    -webkit-text-stroke: 4px #760000;
+    line-height: 0.9;
+    margin-top: -12px;
   }
 
-  /* Подзаголовок */
-  .hero-subtitle {
-    width: calc(100% - 32px);
-    margin: 0 16px;
-    min-height: 36px;
-    padding: 4px;
+  /* ── Subtitle: по центру экрана (перебиваем width:auto у .abs:not(.dialog-mac)) ── */
+  .promo-page .abs.hero-subtitle {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: clamp(4px, 1vw, 8px) clamp(8px, 3vw, 24px);
+    margin: 12px auto 0;
+    min-height: auto;
+    overflow: visible;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 
   .hero-subtitle p {
-    font-size: 16px;
+    font-size: clamp(11px, 2.5vw, 36px);
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    line-height: 1.25;
+    text-align: center;
+    width: 100%;
   }
 
-  /* Блок "Что такое ЧИЛЛС" */
+  /* ── What is Chills ── */
   .m-what-chills {
     width: calc(100% - 32px);
-    margin: 20px 16px 0;
-    gap: 10px;
-  }
-
-  .m-what-chills .label {
-    font-size: 15px;
-  }
-
-  .m-what-chills .body {
-    font-size: 20px;
-  }
-
-  /* GIF и стрелка со текстом — скрываем */
-  .gif-qqq {
-    display: none;
-  }
-
-  .m-text-arrow {
-    display: none;
-  }
-
-  /* Баннер "ВЕДЬ СТРАХ ЕДИН" */
-  .a-fear-the-one {
-    width: 100%;
-    min-height: 56px;
-    height: auto;
-    padding: 10px 16px;
-    margin: 20px 0 0;
-  }
-
-  .a-fear-the-one p {
-    font-size: 36px;
-    white-space: normal;
-    -webkit-text-stroke: 1px #000;
-  }
-
-  /* Диалог */
-  .dialog-mac {
-    width: 280px;
-    max-width: calc(100% - 32px);
-    height: auto;
-    min-height: 160px;
-    margin: 20px auto 0;
-    align-self: center;
-    border-radius: 6px;
+    margin: 24px auto 0;
+    gap: 12px;
     overflow: visible;
   }
 
-  .dialog-view {
+  .m-what-chills .label {
+    font-size: 16px;
+  }
+
+  .m-what-chills .body {
+    font-size: 22px;
+  }
+
+  /* ── GIF question marks ── */
+  .gif-qqq {
+    width: calc(100% - 32px);
+    height: auto;
+    aspect-ratio: 499 / 241;
+    margin: 16px auto 0;
+    overflow: visible;
+  }
+
+  .gif-qqq img {
     width: 100%;
     height: auto;
-    min-height: 160px;
-    position: relative;
-    inset: auto;
+    object-fit: contain;
   }
 
-  .dialog-mac .title-bar {
-    position: relative;
-    left: auto;
-    top: auto;
-    padding: 5px 8px;
-    display: block;
-    font-size: 10px;
+  /* ── Text + arrow ── */
+  .m-text-arrow {
+    width: calc(100% - 32px);
+    margin: 24px auto 0;
+    overflow: visible;
   }
 
-  .dialog-mac .close-btn {
-    position: absolute;
-    left: auto;
-    right: 0;
-    top: 0;
-    width: 40px;
+  .m-text-arrow .text {
+    font-size: 16px;
   }
 
-  .dialog-mac .body {
-    position: relative;
-    left: auto;
-    top: auto;
+  /* ── "Ведь страх един" banner ── */
+  .a-fear-the-one {
     width: 100%;
-    margin: 0;
-    padding: 10px 8px 16px;
+    height: auto;
+    padding: 16px;
+    margin-top: 24px;
     box-sizing: border-box;
+    overflow: visible;
   }
 
-  .dialog-mac .body h4 {
-    font-size: 12px;
-    margin-bottom: 10px;
+  .a-fear-the-one p {
+    font-size: 13vw;
     white-space: normal;
+    word-break: break-word;
+    -webkit-text-stroke: 1px #000;
   }
 
-  .dialog-mac .row {
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-
-  .dialog-mac .meta {
-    font-size: 12px;
-  }
-
-  .dialog-mac .win-btn {
-    font-size: 12px;
-    height: 20px;
-    width: 70px;
-  }
-
-  .dialog-mac .back-btn {
+  /* ── Dialog: 517×240, масштаб под ширину; по центру горизонтально ── */
+  .promo-page .abs.dialog-mac {
     position: relative;
     left: auto;
+    right: auto;
     top: auto;
-    width: auto;
-    margin: 8px auto;
-    display: block;
+    width: 517px;
+    height: 240px;
+    max-width: none;
+    margin: 24px auto 0;
+    margin-bottom: calc(240px * var(--dialog-scale) - 240px);
+    box-sizing: border-box;
+    --dialog-scale: min(1, calc((100vw - 32px) / 517));
+    transform: scale(var(--dialog-scale));
+    transform-origin: center top;
+    overflow: hidden;
+    z-index: 1;
   }
 
-  /* Стрелки к таймлайну — скрываем */
+  .promo-page .abs.dialog-mac.state-closed {
+    margin-bottom: calc(240px * var(--dialog-scale) - 240px);
+  }
+
+  .dialog-view {
+    position: absolute;
+    inset: 0;
+    width: 517px;
+    height: 240px;
+  }
+
+  /* ── Timeline arrows: hide ── */
   .arrow-left-timeline,
   .arrow-right {
     display: none;
   }
 
-  /* Ссылка на таймлайн */
+  /* ── Timeline link ── */
   .a-click-timeline {
     width: calc(100% - 32px);
-    margin: 16px 16px 0;
-    min-height: 50px;
-    padding: 8px 10px;
+    margin: 24px auto 0;
+    box-sizing: border-box;
+    min-height: auto;
+    padding: 12px;
+    overflow: visible;
   }
 
   .a-click-timeline p {
-    font-size: 17px;
+    font-size: 18px;
   }
 
-  /* Руки, фон и секция "угадайте" — скрываем */
-  .hands-section-bg,
-  .guess-section,
-  .hand-left,
-  .hand-right {
-    display: none;
+  /* ── Руки + лого: одна картинка перед футером (вместо отдельных блоков) ── */
+  .promo-page img.hands-section-bg,
+  .promo-page .hand-left,
+  .promo-page .hand-right,
+  .promo-page .m-youre-welcome {
+    display: none !important;
   }
 
-  /* Финальный блок */
-  .m-youre-welcome {
+  .index-mobile-hands-banner {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 24px auto 0;
+    padding: 0 clamp(12px, 4vw, 24px);
+    box-sizing: border-box;
+    object-fit: contain;
+  }
+
+  /* ── Guess section ── */
+  .guess-section {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
     width: 100%;
     height: auto;
-    margin: 24px 0 0;
-    padding: 16px;
+    overflow: visible;
+    padding: 32px 0 40px;
+    margin-top: 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
   }
 
-  .m-youre-welcome .fun-logo {
-    font-size: 40px;
-    width: 64px;
-    height: 64px;
+  .guess-title {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    margin-bottom: 12px;
   }
 
-  .m-youre-welcome .text {
-    font-size: 22px;
+  .guess-title p {
+    font-size: 20px;
+    white-space: normal;
   }
 
-  /* Футер */
-  .o-footer.home-footer {
-    position: relative;
-    left: auto;
-    top: auto;
+  .guess-hint {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: calc(100% - 32px);
+    height: auto;
+    margin-bottom: 16px;
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .guess-content {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
     width: 100%;
-    margin: 24px 0 0;
+    gap: 12px;
+  }
+
+  .guess-arrow {
+    display: none;
+  }
+
+  .guess-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 12px;
+    overflow-x: visible;
+    padding: 0 16px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Три карточки в ряд → два ряда (6 шт.). Перенос, если (ширина − 2×gap) / 3 < min-width карточки */
+  .guess-cards .card {
+    flex: 0 1 calc((100% - 24px) / 3);
+    width: calc((100% - 24px) / 3);
+    max-width: calc((100% - 24px) / 3);
+    min-width: 96px;
+    height: auto;
+    aspect-ratio: 200 / 301;
+    flex-shrink: 1;
+    scroll-snap-align: unset;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Смена обложки по клику на мобильном — без эффекта hover-масштаба */
+  .guess-cards .card:hover {
+    transform: none;
+    outline-color: transparent;
+  }
+
+  /* ── Footer главной: пропорции как у блока 1280px при 1440 (93+178+204+172+203+206+224) ── */
+  .o-footer.home-footer {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100%;
+    margin-top: 32px;
+    box-sizing: border-box;
+    padding: clamp(10px, 2vw, 16px) clamp(12px, 2.8vw, 24px);
+    display: grid;
+    grid-template-columns:
+      minmax(36px, 93fr)
+      minmax(0, 204fr)
+      minmax(0, 203fr)
+      minmax(48px, 224fr);
+    grid-template-rows: auto;
+    column-gap: clamp(6px, 4.34vw, 40px);
+    row-gap: 8px;
+    align-items: start;
+  }
+
+  .o-footer.home-footer .footer-right {
+    display: contents;
+    margin-left: 0;
+  }
+
+  .o-footer.home-footer .footer-info {
+    display: contents;
+  }
+
+  .o-footer.home-footer .footer-logo {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    justify-self: stretch;
+    padding: clamp(2px, 0.5vw, 5px);
+    box-sizing: border-box;
+  }
+
+  .o-footer.home-footer .footer-info > .footer-col:nth-child(1) {
+    grid-column: 2;
+    grid-row: 1;
+    width: auto !important;
+    max-width: none;
+    min-width: 0;
+    overflow-wrap: break-word;
+    align-self: start;
+  }
+
+  .o-footer.home-footer .footer-info > .footer-col:nth-child(2) {
+    grid-column: 3;
+    grid-row: 1;
+    width: auto !important;
+    max-width: none;
+    min-width: 0;
+    overflow-wrap: break-word;
+    align-self: start;
+  }
+
+  .o-footer.home-footer .footer-heart {
+    grid-column: 4;
+    grid-row: 1;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 224 / 86;
+    min-height: 0;
+    min-width: 0;
+    align-self: center;
+    justify-self: stretch;
+    border-width: clamp(1px, 0.2vw, 2px);
+    box-sizing: border-box;
+  }
+
+  .o-footer.home-footer .footer-heart img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .o-footer.home-footer .footer-col {
+    gap: clamp(6px, 1vw, 15px);
+  }
+
+  .o-footer.home-footer .footer-col .bold,
+  .o-footer.home-footer .footer-col .regular,
+  .o-footer.home-footer .footer-col .red {
+    font-size: clamp(8px, calc(100vw * 16 / 1280), 16px);
   }
 }

@@ -20,13 +20,6 @@ body {
   overflow-x: hidden;
 }
 
-@media (max-width: 1440px) {
-  .scale-wrap {
-    width: 100vw;
-    max-width: 100%;
-  }
-}
-
 .o-header {
   position: fixed;
   top: 0;
@@ -181,8 +174,74 @@ body {
   display: block;
 }
 
-/* ── Mobile 360px ── */
-@media (max-width: 480px) {
+@media (max-width: 1440px) {
+  .scale-wrap {
+    width: 100vw;
+    max-width: 100%;
+  }
+}
+
+/* ── Tablet 768px ── */
+@media (max-width: 768px) {
+  .o-header {
+    padding: 0 48px;
+    justify-content: space-between;
+  }
+
+  .o-header .a-logo {
+    width: 37px;
+    height: 37px;
+  }
+
+  .o-header-nav {
+    position: static;
+    transform: none;
+    gap: 42px;
+  }
+
+  .o-header-nav .btn {
+    font-size: 18px;
+    padding: 4px 2px;
+  }
+
+  .o-footer {
+    gap: 0;
+  }
+
+  .o-footer .footer-logo {
+    width: 61px;
+    height: 61px;
+  }
+
+  .o-footer .footer-right {
+    margin-left: 102px;
+    gap: 16px;
+  }
+
+  .o-footer .footer-info {
+    gap: 109px;
+  }
+
+  .o-footer .footer-col {
+    font-size: 12px;
+    gap: 10px;
+  }
+
+  .o-footer .footer-col .bold,
+  .o-footer .footer-col .regular,
+  .o-footer .footer-col .red {
+    font-size: 12px;
+  }
+
+  .o-footer .footer-heart {
+    width: 140px;
+    height: 54px;
+    flex-shrink: 0;
+  }
+}
+
+/* ── Mobile 360–767px ── */
+@media (min-width: 360px) and (max-width: 767px) {
   body {
     padding-top: 48px;
   }
@@ -223,6 +282,7 @@ body {
 
   .o-footer .footer-right {
     display: contents;
+    margin-left: 0;
   }
 
   .o-footer .footer-info {
@@ -248,7 +308,6 @@ body {
     font-size: 11px;
   }
 
-  /* Heart spans all 3 columns, row 2 */
   .o-footer .footer-heart {
     grid-column: 1 / -1;
     grid-row: 2;

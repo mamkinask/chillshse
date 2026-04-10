@@ -89,8 +89,17 @@ function renderTimeline(groups) {
       + '</div>'
   }).join('')
 
+  syncTimelinePageMinHeight()
+}
+
+function syncTimelinePageMinHeight() {
   var page = document.querySelector('.timeline-page')
-  if (page) page.style.minHeight = '1130px'
+  if (!page) return
+  if (window.matchMedia('(max-width: 767px)').matches) {
+    page.style.minHeight = ''
+  } else {
+    page.style.minHeight = '1130px'
+  }
 }
 
 function initSearch(allGroups) {
@@ -195,6 +204,8 @@ function initScrubber() {
 
 document.addEventListener('DOMContentLoaded', function () {
   var loadingEl = document.getElementById('timeline-loading')
+
+  window.addEventListener('resize', syncTimelinePageMinHeight)
 
   document.addEventListener('click', function (e) {
     var t = e.target
