@@ -330,8 +330,8 @@ body {
   z-index: 10;
 }
 
-/* ── Mobile ≤767px ── */
-@media (max-width: 767px) {
+/* ── Mobile ≤768px ── */
+@media (max-width: 768px) {
   .articles-page {
     width: 100%;
     /* фон должен заполнять хотя бы весь экран */

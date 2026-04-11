@@ -275,8 +275,71 @@ body {
   top: 934px;
 }
 
-/* ── Mobile 360–767px ── */
-@media (min-width: 360px) and (max-width: 767px) {
+/* ── Tablet 768–1023px ── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .diag-page {
+    width: 100%;
+    min-height: auto;
+    overflow: visible;
+    padding-bottom: 40px;
+  }
+
+  .diag-cta {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 480px;
+    height: auto;
+    padding: 20px 12px;
+    margin: 100px auto 0;
+  }
+
+  .diag-cta p {
+    font-size: 48px;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .diag-hand,
+  .deco {
+    display: none;
+  }
+
+  .diag-intro {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 560px;
+    height: auto;
+    padding: 20px;
+    margin: 28px auto 0;
+  }
+
+  .diag-intro .text {
+    font-size: 18px;
+    max-width: 100%;
+  }
+
+  .diag-page .o-footer {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    padding: 0 48px;
+    box-sizing: border-box;
+    margin-top: 48px;
+  }
+
+  .footer-col--info,
+  .footer-col--contacts {
+    width: auto;
+  }
+}
+
+/* ── Mobile 360–768px ── */
+@media (min-width: 360px) and (max-width: 768px) {
   .diag-page {
     transform: none !important;
     width: 100%;

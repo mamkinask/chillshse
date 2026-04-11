@@ -824,8 +824,8 @@ body {
   display: none;
 }
 
-/* ── Mobile 360–767px ── */
-@media (max-width: 767px) {
+/* ── Mobile 360–768px ── */
+@media (max-width: 768px) {
 
   /* ── Page wrapper ── */
   .promo-scale-wrap {

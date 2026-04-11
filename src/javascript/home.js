@@ -32,7 +32,7 @@ function showDialogState(state) {
 }
 
 function isGuessClickMode() {
-  return window.matchMedia('(max-width: 767px)').matches
+  return window.matchMedia('(max-width: 768px)').matches
 }
 
 function setGuessHintText() {

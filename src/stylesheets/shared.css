@@ -240,8 +240,8 @@ body {
   }
 }
 
-/* ── Mobile 360–767px ── */
-@media (min-width: 360px) and (max-width: 767px) {
+/* ── Mobile 360–768px ── */
+@media (min-width: 360px) and (max-width: 768px) {
   body {
     padding-top: 48px;
   }

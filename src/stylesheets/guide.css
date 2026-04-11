@@ -490,8 +490,8 @@ body {
   padding: 0 2px;
 }
 
-/* ── Mobile 360–767px ── */
-@media (min-width: 360px) and (max-width: 767px) {
+/* ── Mobile 360–768px ── */
+@media (min-width: 360px) and (max-width: 768px) {
   .guide-page {
     width: 100%;
     min-height: auto;

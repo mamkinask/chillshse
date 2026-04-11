@@ -79,7 +79,7 @@ function renderTimeline(groups) {
 function syncTimelinePageMinHeight() {
   var page = document.querySelector('.timeline-page');
   if (!page) return;
-  if (window.matchMedia('(max-width: 767px)').matches) {
+  if (window.matchMedia('(max-width: 768px)').matches) {
     page.style.minHeight = '';
   } else {
     page.style.minHeight = '1130px';

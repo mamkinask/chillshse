@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python:*)",
+      "Bash(node:*)",
+      "Bash(grep -r \"transform\\\\|scale\\(\\\\|resize\\\\|767\\\\|768\\\\|viewport\" C:/Users/sofya/Desktop/chillshse/docs/*.js --include=\"*.js\" -l)"
+    ]
+  }
+}

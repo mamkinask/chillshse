@@ -354,6 +354,52 @@ body {
   line-height: 1.4;
 }
 
+/* ── Tablet 768–1023px ── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .test-page {
+    width: 100%;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .test-content {
+    width: 680px;
+  }
+
+  .test-card {
+    min-height: auto;
+  }
+
+  .test-card-image {
+    height: 240px;
+  }
+
+  .test-card-question {
+    font-size: 26px;
+  }
+
+  .test-card-number {
+    font-size: 26px;
+  }
+
+  .test-card-nav {
+    right: 80px;
+    bottom: 40px;
+  }
+
+  .test-result {
+    width: 680px;
+  }
+
+  .test-page .o-footer {
+    left: auto;
+    transform: none;
+    width: 100%;
+    padding: 40px 48px 60px;
+    box-sizing: border-box;
+  }
+}
+
 /* ── Mobile 360–767px ── */
 @media (min-width: 360px) and (max-width: 767px) {
   .test-page {

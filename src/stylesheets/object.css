@@ -712,14 +712,14 @@ body {
 }
 
 /* Декор трейлера скрыт на узких экранах (как в макете мобильной версии) */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .obj-trailer-decor {
     display: none !important;
   }
 }
 
-/* ── Mobile 0–767px ── */
-@media (max-width: 767px) {
+/* ── Mobile 0–768px ── */
+@media (max-width: 768px) {
   .object-page {
     width: 100%;
   }
@@ -1166,8 +1166,8 @@ body {
   }
 }
 
-/* ── 600–767px: постер слева по высоте блока метаданных; ниже — трейлер и остальное столбиком ── */
-@media (min-width: 600px) and (max-width: 767px) {
+/* ── 600–768px: постер слева по высоте блока метаданных; ниже — трейлер и остальное столбиком ── */
+@media (min-width: 600px) and (max-width: 768px) {
   .obj-cols {
     display: grid;
     grid-template-columns: minmax(100px, 34vw) minmax(0, 1fr);
@@ -1258,8 +1258,8 @@ body {
   }
 }
 
-/* ── 665–767px: постер на всю ширину первого столбца (сетка уже из 600–767) ── */
-@media (min-width: 665px) and (max-width: 767px) {
+/* ── 665–768px: постер на всю ширину первого столбца (сетка уже из 600–767) ── */
+@media (min-width: 665px) and (max-width: 768px) {
   .obj-cols {
     /* узкий столбец обложки ~27vw, остальное — метаданные */
     grid-template-columns: minmax(120px, 27vw) minmax(0, 1fr);
