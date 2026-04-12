@@ -490,6 +490,31 @@ body {
   padding: 0 2px;
 }
 
+/* ── Tablet 768–1023px ── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Release fixed 1440px container */
+  .guide-page {
+    width: 100%;
+    overflow: visible;
+  }
+
+  /* Reduce side padding; keep desktop top/bottom values */
+  .guide-main {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  /* Content column was tied to 1280px */
+  .guide-content {
+    width: 100%;
+  }
+
+  /* Footer was tied to 1280px */
+  .o-footer {
+    width: 100%;
+  }
+}
+
 /* ── Mobile 360–768px ── */
 @media (min-width: 360px) and (max-width: 768px) {
   .guide-page {

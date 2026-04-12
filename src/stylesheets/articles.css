@@ -330,6 +330,81 @@ body {
   z-index: 10;
 }
 
+/* ── Tablet 768–1023px ── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Release fixed 1440px container */
+  .articles-page {
+    width: 100%;
+    overflow: visible;
+    padding-bottom: 60px;
+  }
+
+  /* Filter bar: release absolute positioning, flow above the grid */
+  .filter-bar {
+    position: relative;
+    left: auto;
+    top: auto;
+    margin: 32px 40px 0;
+  }
+
+  /*
+   * Grid: auto-fit columns — stays at 3 columns (like desktop) when the
+   * viewport is ≥918px, drops to 2 columns on narrower tablets.
+   * Each column minimum matches a readable card width.
+   */
+  .articles-grid {
+    margin: 20px 40px 0;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    width: calc(100% - 80px);
+    box-sizing: border-box;
+  }
+
+  /* Cards: flow layout — card width is now fluid so absolute children must reset */
+  .article-card {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .card-img {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: 0;
+    padding-bottom: 73%;
+  }
+
+  .card-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .card-label-bar {
+    width: 100%;
+  }
+
+  .card-label-bar .section {
+    width: auto;
+  }
+
+  .card-info {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    padding: 6px 0 8px;
+  }
+
+  /* Footer: release fixed 1280px width */
+  .o-footer {
+    margin-left: 40px;
+    width: calc(100% - 80px);
+  }
+}
+
 /* ── Mobile ≤768px ── */
 @media (max-width: 768px) {
   .articles-page {

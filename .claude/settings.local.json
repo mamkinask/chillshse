@@ -3,7 +3,16 @@
     "allow": [
       "Bash(python:*)",
       "Bash(node:*)",
-      "Bash(grep -r \"transform\\\\|scale\\(\\\\|resize\\\\|767\\\\|768\\\\|viewport\" C:/Users/sofya/Desktop/chillshse/docs/*.js --include=\"*.js\" -l)"
+      "Bash(grep -r \"transform\\\\|scale\\(\\\\|resize\\\\|767\\\\|768\\\\|viewport\" C:/Users/sofya/Desktop/chillshse/docs/*.js --include=\"*.js\" -l)",
+      "Bash(npm run build 2>&1 | tail -20)",
+      "Bash(npm install 2>&1 | tail -5)",
+      "Bash(npm run build 2>&1 | tail -15)",
+      "Bash(npm run build 2>&1 | tail -8)",
+      "Bash(grep -o \"min-width:768px.*max-width:1023px\" /Users/sofyamamkina/Desktop/chillshse/docs/timeline.css | head -3\ngrep -o \"initZoneDrag\\\\|is-dragging\\\\|touchmove\" /Users/sofyamamkina/Desktop/chillshse/docs/timeline.js | sort -u)",
+      "Bash(npm run build 2>&1 | tail -6)",
+      "Bash(git checkout HEAD -- src/stylesheets/guide.css)",
+      "Bash(npm run build 2>&1 | tail -5)",
+      "Bash(git checkout HEAD -- src/stylesheets/timeline.css src/stylesheets/object.css && npm run build 2>&1 | tail -6)"
     ]
   }
 }

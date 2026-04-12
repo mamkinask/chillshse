@@ -79,7 +79,7 @@ function renderTimeline(groups) {
 function syncTimelinePageMinHeight() {
   var page = document.querySelector('.timeline-page');
   if (!page) return;
-  if (window.matchMedia('(max-width: 768px)').matches) {
+  if (window.matchMedia('(max-width: 1023px)').matches) {
     page.style.minHeight = '';
   } else {
     page.style.minHeight = '1130px';
@@ -187,6 +187,79 @@ function initScrubber() {
   });
   setTimeout(updateThumb, 200);
 }
+function initZoneDrag() {
+  var zone = document.getElementById('timeline-zone');
+  if (!zone) return;
+  var active = false;
+  var startX = 0;
+  var startY = 0;
+  var startScrollLeft = 0;
+  var didDrag = false;
+  var THRESHOLD = 6;
+
+  // ── Mouse ──────────────────────────────────────────────────────────────
+  zone.addEventListener('mousedown', function (e) {
+    if (e.button !== 0) return;
+    active = true;
+    didDrag = false;
+    startX = e.clientX;
+    startScrollLeft = zone.scrollLeft;
+    zone.classList.add('is-dragging');
+  });
+  document.addEventListener('mousemove', function (e) {
+    if (!active) return;
+    var dx = startX - e.clientX;
+    if (Math.abs(dx) > THRESHOLD) {
+      didDrag = true;
+      zone.scrollLeft = startScrollLeft + dx;
+      e.preventDefault();
+    }
+  });
+  document.addEventListener('mouseup', function () {
+    if (!active) return;
+    active = false;
+    zone.classList.remove('is-dragging');
+  });
+
+  // Suppress card clicks that follow a drag
+  zone.addEventListener('click', function (e) {
+    if (didDrag) {
+      e.preventDefault();
+      e.stopPropagation();
+      didDrag = false;
+    }
+  }, true);
+
+  // ── Touch ──────────────────────────────────────────────────────────────
+  zone.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) return;
+    active = true;
+    didDrag = false;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    startScrollLeft = zone.scrollLeft;
+  }, {
+    passive: true
+  });
+  zone.addEventListener('touchmove', function (e) {
+    if (!active || e.touches.length !== 1) return;
+    var dx = startX - e.touches[0].clientX;
+    var dy = startY - e.touches[0].clientY;
+    // Let vertical swipes pass through to the page scroll
+    if (Math.abs(dx) < Math.abs(dy) && !didDrag) return;
+    if (Math.abs(dx) > THRESHOLD) didDrag = true;
+    e.preventDefault();
+    zone.scrollLeft = startScrollLeft + dx;
+  }, {
+    passive: false
+  });
+  zone.addEventListener('touchend', function () {
+    active = false;
+    zone.classList.remove('is-dragging');
+  }, {
+    passive: true
+  });
+}
 document.addEventListener('DOMContentLoaded', function () {
   var loadingEl = document.getElementById('timeline-loading');
   window.addEventListener('resize', syncTimelinePageMinHeight);
@@ -197,6 +270,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (a) persistTimelineScroll(document.getElementById('timeline-zone'));
   }, true);
   initScrubber();
+  initZoneDrag();
   fetch('../assets/data/horror_media.json').then(function (r) {
     return r.json();
   }).then(function (items) {
