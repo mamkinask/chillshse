@@ -490,6 +490,22 @@ body {
   padding: 0 2px;
 }
 
+/* ── Large screen 1240px+ ── */
+@media (min-width: 1240px) {
+  .guide-page {
+    width: 100%;
+    overflow: visible;
+  }
+
+  .guide-content {
+    width: 100%;
+  }
+
+  .o-footer {
+    width: 100%;
+  }
+}
+
 /* ── Small laptop 1024–1279px ── */
 @media (min-width: 1024px) and (max-width: 1279px) {
   .guide-page {

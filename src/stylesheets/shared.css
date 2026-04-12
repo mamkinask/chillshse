@@ -181,6 +181,26 @@ body {
   }
 }
 
+/* ── Large screen 1240–1439px: shrink footer gaps to fit fluid container ── */
+@media (min-width: 1240px) and (max-width: 1439px) {
+  .o-footer {
+    gap: 80px;
+  }
+
+  .o-footer .footer-right {
+    gap: 80px;
+  }
+
+  .o-footer .footer-info {
+    gap: 80px;
+  }
+
+  .o-footer .footer-heart {
+    width: 185px;
+    height: 71px;
+  }
+}
+
 /* ── Small laptop 1024–1279px: shrink footer gaps ── */
 @media (min-width: 1024px) and (max-width: 1279px) {
   .o-footer {

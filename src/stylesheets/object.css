@@ -711,6 +711,43 @@ body {
   display: block;
 }
 
+/* ── Large screen 1240px+ ── */
+@media (min-width: 1240px) {
+  .object-page {
+    width: 100%;
+  }
+
+  .object-page--static .obj-nav {
+    margin-left: 80px;
+    margin-right: 80px;
+  }
+
+  .object-page--static .obj-content {
+    margin-left: 80px;
+    margin-right: 80px;
+    width: calc(100% - 160px);
+  }
+
+  .object-page:not(.object-page--static) .obj-content {
+    width: calc(100% - 160px);
+  }
+
+  .obj-title-inner {
+    width: calc(100% - 26px);
+    box-sizing: border-box;
+  }
+
+  .footer-col--info,
+  .footer-col--contacts {
+    width: auto;
+  }
+
+  .o-footer {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
 /* ── Small laptop 1024–1279px ── */
 @media (min-width: 1024px) and (max-width: 1279px) {
   .object-page {
