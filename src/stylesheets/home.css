@@ -1211,7 +1211,7 @@ body {
     min-height: auto;
   }
 
-  .promo-page .abs:not(.dialog-mac) {
+  .promo-page .abs:not(.dialog-mac):not(.hero-bg-img):not(.hero-monster) {
     position: relative;
     left: auto;
     top: auto;
@@ -1231,21 +1231,40 @@ body {
     font-size: 28px;
   }
 
-  /* ── Hero BG / monster stacking — mirror desktop z-index ── */
+  /* Hero: как на 1440px — фон и монстр в одной зоне, монстр выше по z-index */
   .promo-page .hero-bg-img {
+    position: absolute;
+    left: 0;
+    top: calc(162 * 100vw / 1440);
+    width: 100%;
+    max-width: 100%;
+    height: calc(351 * 100vw / 1440);
     z-index: 1;
-  }
-
-  .hero-monster {
-    width: 100%;
     overflow: hidden;
-    z-index: 999;
   }
 
-  .hero-monster img {
+  .promo-page .hero-bg-img img {
     width: 100%;
-    height: auto;
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .promo-page .hero-monster {
+    position: absolute;
+    left: 50%;
+    top: calc(62 * 100vw / 1440);
+    transform: translateX(-50%);
+    width: min(100%, calc(959 * 100% / 1440));
+    height: calc(629 * 100vw / 1440);
+    z-index: 999;
+    overflow: hidden;
+  }
+
+  .promo-page .hero-monster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
   }
 
@@ -1260,7 +1279,8 @@ body {
     text-align: center;
     -webkit-text-stroke: 7px #760000;
     line-height: 0.9;
-    margin-top: -10px;
+    /* в потоке после бегущей строки (36px); визуально как top: 601px макета 1440 */
+    margin-top: calc(601 * 100vw / 1440 - 36px);
   }
 
   .promo-page .abs.hero-subtitle {

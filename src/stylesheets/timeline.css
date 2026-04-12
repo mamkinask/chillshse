@@ -506,8 +506,11 @@ body {
     height: 256px;
   }
 
-  .timeline-card-info,
   .timeline-card:hover .timeline-card-info {
+    opacity: 0;
+  }
+
+  .timeline-card-img:hover + .timeline-card-info {
     opacity: 1;
   }
 
