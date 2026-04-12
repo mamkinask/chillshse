@@ -414,7 +414,7 @@ body {
   position: absolute;
   left: 80px;
   top: 992px;
-  width: 1280px;
+  width: calc(1440px - 160px);
   z-index: 10;
 }
 
@@ -504,14 +504,6 @@ body {
   .timeline-card-img {
     width: 170px;
     height: 256px;
-  }
-
-  .timeline-card:hover .timeline-card-info {
-    opacity: 0;
-  }
-
-  .timeline-card-img:hover + .timeline-card-info {
-    opacity: 1;
   }
 
   .timeline-scrubber-wrap {
@@ -626,11 +618,6 @@ body {
     height: 226px;
   }
 
-  .timeline-card-info,
-  .timeline-card:hover .timeline-card-info {
-    opacity: 1;
-  }
-
   .timeline-scrubber-wrap {
     position: relative;
     left: auto;
@@ -652,6 +639,17 @@ body {
     padding: 0 24px;
     box-sizing: border-box;
     margin-top: 16px;
+  }
+}
+
+/* ── 768–1279px: описание карточки только при наведении на обложку ── */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .timeline-card:hover .timeline-card-info {
+    opacity: 0;
+  }
+
+  .timeline-card-img:hover + .timeline-card-info {
+    opacity: 1;
   }
 }
 

@@ -174,7 +174,7 @@ body {
   position: absolute;
   left: 80px;
   top: 1129px;
-  width: 1280px;
+  width: calc(1440px - 160px);
   z-index: 10;
 }
 
@@ -464,5 +464,41 @@ body {
   .footer-col--info,
   .footer-col--contacts {
     width: auto;
+  }
+}
+
+/* ── До 1279px: фоновый GIF от верха экрана на всю высоту вьюпорта, адаптивно ── */
+@media (max-width: 1279px) {
+  .diag-page {
+    min-height: 100vh;
+  }
+
+  .diag-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+  }
+
+  .diag-bg-img1 {
+    position: absolute;
+    inset: 0;
+  }
+
+  .diag-bg-img1 img {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .diag-bg-grad {
+    position: absolute;
+    inset: 0;
   }
 }

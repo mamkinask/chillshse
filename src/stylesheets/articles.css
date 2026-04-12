@@ -12,48 +12,13 @@ body {
   width: 1440px;
   min-height: auto;
   margin: 0 auto;
-  background: #fff;
+  background-color: #000;
+  background-image: url("../assets/media/background_pictures/GuideAlienBg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   overflow: hidden;
   padding-bottom: 80px;
-}
-
-.articles-bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.articles-bg-base {
-  position: absolute;
-  inset: 0;
-  background: #fff;
-}
-
-.articles-bg-photo {
-  position: absolute;
-  inset: 0;
-}
-
-.articles-bg-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.articles-bg-noise {
-  position: absolute;
-  inset: 0;
-  opacity: 0.55;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-}
-
-.articles-bg-grad {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(270deg, rgba(0, 0, 0, 0.53) 7.69%, rgba(58, 58, 58, 0.41) 16.35%, rgba(255, 255, 255, 0) 45.67%, rgba(68, 68, 68, 0.56) 79.81%, rgba(0, 0, 0, 0.77) 97.12%);
 }
 
 .filter-bar {
@@ -326,7 +291,7 @@ body {
   position: relative;
   margin-left: 80px;
   margin-top: 60px;
-  width: 1280px;
+  width: calc(1440px - 160px);
   z-index: 10;
 }
 
@@ -342,7 +307,10 @@ body {
     position: relative;
     left: auto;
     top: auto;
-    margin: 32px 80px 0;
+    margin: 32px auto 0;
+    width: fit-content;
+    max-width: calc(100% - 80px);
+    box-sizing: border-box;
   }
 
   .articles-grid {
@@ -405,12 +373,15 @@ body {
     padding-bottom: 60px;
   }
 
-  /* Filter bar: release absolute positioning, flow above the grid */
+  /* Filter bar: по центру страницы */
   .filter-bar {
     position: relative;
     left: auto;
     top: auto;
-    margin: 32px 40px 0;
+    margin: 32px auto 0;
+    width: fit-content;
+    max-width: calc(100% - 80px);
+    box-sizing: border-box;
   }
 
   /*
@@ -464,11 +435,6 @@ body {
     padding: 6px 0 8px;
   }
 
-  /* Footer: release fixed 1280px width */
-  .o-footer {
-    margin-left: 40px;
-    width: calc(100% - 80px);
-  }
 }
 
 /* ── Mobile ≤768px ── */
@@ -479,13 +445,6 @@ body {
     min-height: calc(100vh - 57px);
     overflow: visible;
     padding-bottom: 40px;
-  }
-
-  /* фон на всю ширину экрана */
-  .articles-bg {
-    left: 0;
-    right: 0;
-    width: 100%;
   }
 
   /* Filter bar: flow, centred */
@@ -559,12 +518,6 @@ body {
     font-size: 9px;
   }
 
-  /* Footer — match index.html (shared.css grid takes over) */
-  .o-footer {
-    margin-left: 0;
-    width: 100%;
-    margin-top: 32px;
-  }
 }
 
 /* ── Small mobile ≤560px: карточки в одну колонку ── */

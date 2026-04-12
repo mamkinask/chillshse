@@ -43,7 +43,7 @@ body {
   z-index: 10;
   left: 50%;
   transform: translateX(-50%);
-  width: 1280px;
+  width: calc(1440px - 160px);
   padding: 40px 0 60px;
 }
 
@@ -359,7 +359,9 @@ body {
   .test-page {
     width: 100%;
     min-height: auto;
-    overflow: visible;
+    overflow-x: hidden;
+    overflow-y: visible;
+    box-sizing: border-box;
   }
 
   /* Release fixed 1061px content width — use 80px margins each side */
@@ -377,14 +379,16 @@ body {
     width: min(800px, calc(100% - 160px));
   }
 
-  /* Footer: release fixed 1280px, keep centered with 80px margins */
+  /* Footer: fixed content width (1440 − 2×80), centered with side margins */
   .test-page .o-footer {
-    left: auto;
-    transform: none;
-    width: calc(100% - 160px);
-    padding: 40px 0 60px;
-    margin: 0 auto;
-    box-sizing: border-box;
+    left: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 100%;
+    padding: 40px clamp(16px, 4vw, 80px) 60px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
   }
 }
 

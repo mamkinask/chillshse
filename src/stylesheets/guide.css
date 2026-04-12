@@ -86,7 +86,7 @@ body {
 }
 
 .guide-content {
-  width: 1280px;
+  width: calc(1440px - 160px);
   display: flex;
   flex-direction: column;
   gap: 200px;
@@ -342,7 +342,7 @@ body {
 }
 
 .o-footer {
-  width: 1280px;
+  width: calc(1440px - 160px);
 }
 
 /* Blue title bar variant (without_monster и др.) */
@@ -520,12 +520,12 @@ body {
     padding-right: 40px;
   }
 
-  /* Content column was tied to 1280px */
+  /* Content column: full width within tablet padding */
   .guide-content {
     width: 100%;
   }
 
-  /* Footer was tied to 1280px */
+  /* Footer: full width on tablet */
   .o-footer {
     width: 100%;
   }

@@ -779,7 +779,7 @@ body {
 .o-footer.home-footer {
   left: 80px;
   top: 3925px;
-  width: 1280px;
+  width: calc(1440px - 160px);
   z-index: 10;
 }
 
@@ -837,8 +837,8 @@ body {
     min-height: auto;
   }
 
-  /* Reset absolute positioning for all .abs children except the dialog */
-  .promo-page .abs:not(.dialog-mac) {
+  /* Reset absolute positioning for all .abs children except dialog, hero и пара what-chills + gif */
+  .promo-page .abs:not(.dialog-mac):not(.hero-bg-img):not(.hero-monster):not(.m-what-chills):not(.gif-qqq) {
     position: relative;
     left: auto;
     top: auto;
@@ -859,23 +859,76 @@ body {
     font-size: 22px;
   }
 
-  /* ── Hero BG / monster stacking — mirror desktop z-index ── */
+  /* Hero: как на 1440px — фон и монстр в одной зоне, монстр выше по z-index */
   .promo-page .hero-bg-img {
+    position: absolute;
+    left: 0;
+    top: calc(162 * 100vw / 1440);
+    width: 100%;
+    max-width: 100%;
+    height: calc(351 * 100vw / 1440);
     z-index: 1;
-  }
-
-  /* ── Hero monster ── */
-  .hero-monster {
-    width: 100%;
     overflow: hidden;
-    z-index: 999;
   }
 
-  .hero-monster img {
+  .promo-page .hero-bg-img img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .promo-page .hero-monster {
+    position: absolute;
+    left: 50%;
+    top: calc(62 * 100vw / 1440);
+    transform: translateX(-50%);
+    width: min(100%, calc(959 * 100% / 1440));
+    height: calc(629 * 100vw / 1440);
+    z-index: 999;
+    overflow: hidden;
+  }
+
+  .promo-page .hero-monster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Как на 1440px: блок «что такое чиллс» и GIF в одной полосе */
+  .promo-page .m-what-chills {
+    position: absolute;
+    left: calc(188 * 100% / 1440);
+    top: calc(1095 * 100vw / 1440);
+    width: calc(436 * 100% / 1440);
+    max-width: 46%;
+    transform: none;
+    margin: 0;
+    z-index: 5;
+    overflow: visible;
+    gap: 16px;
+  }
+
+  .promo-page .gif-qqq {
+    position: absolute;
+    left: calc(769 * 100% / 1440);
+    top: calc(1134 * 100vw / 1440);
+    width: calc(499 * 100% / 1440);
+    max-width: 52%;
+    height: calc(241 * 100vw / 1440);
+    transform: none;
+    margin: 0;
+    z-index: 5;
+    overflow: hidden;
+  }
+
+  .promo-page .gif-qqq img {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
     display: block;
+    mix-blend-mode: luminosity;
   }
 
   /* ── Eye groups — decorative side panels, skip on tablet ── */
@@ -891,7 +944,8 @@ body {
     text-align: center;
     -webkit-text-stroke: 6px #760000;
     line-height: 0.9;
-    margin-top: -10px;
+    /* бегущая строка в потоке 32px; визуально как top: 601px макета 1440 */
+    margin-top: calc(601 * 100vw / 1440 - 32px);
   }
 
   /* ── Subtitle ── */
@@ -917,41 +971,18 @@ body {
     width: 100%;
   }
 
-  /* ── "What is Chills" block ── */
-  .m-what-chills {
-    width: calc(100% - 80px);
-    margin: 32px auto 0;
-    gap: 16px;
-    overflow: visible;
-  }
-
-  .m-what-chills .label {
+  .promo-page .m-what-chills .label {
     font-size: 20px;
   }
 
-  .m-what-chills .body {
-    font-size: 28px;
+  .promo-page .m-what-chills .body {
+    font-size: clamp(18px, 2.5vw, 28px);
   }
 
-  /* ── GIF question marks ── */
-  .gif-qqq {
-    width: calc(100% - 80px);
-    height: auto;
-    aspect-ratio: 499 / 241;
-    margin: 24px auto 0;
-    overflow: visible;
-  }
-
-  .gif-qqq img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-  }
-
-  /* ── Text + arrow ── */
+  /* ── Text + arrow (отступ под абсолютные what-chills / gif, как на макете 1440) ── */
   .m-text-arrow {
     width: calc(100% - 80px);
-    margin: 32px auto 0;
+    margin: calc(520 * 100vw / 1440) auto 0;
     overflow: visible;
   }
 
@@ -976,17 +1007,18 @@ body {
     -webkit-text-stroke: 1.5px #000;
   }
 
-  /* ── Dialog: 517×240 fits in any tablet viewport, no scaling needed ── */
+  /* ── Dialog: по центру страницы, как на 1440px (left 50% + translateX) ── */
   .promo-page .abs.dialog-mac {
     position: relative;
-    left: auto;
+    left: 50%;
     right: auto;
     top: auto;
+    transform: translateX(-50%);
     width: 517px;
     height: 240px;
-    margin: 32px auto 0;
+    margin: 32px 0 0;
     box-sizing: border-box;
-    z-index: 1;
+    z-index: 50;
   }
 
   .dialog-view {
@@ -1087,24 +1119,25 @@ body {
     display: none;
   }
 
-  /* 3 cards per row on tablet (fits comfortably from 768px up) */
+  /* Один ряд из 6 карточек, логика как на 1440px: flex, gap 16px, без переноса */
   .guess-cards {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
-    align-items: flex-start;
-    gap: 14px;
+    align-items: center;
+    gap: 16px;
     padding: 0 40px;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .guess-cards .card {
-    flex: 0 1 calc((100% - 28px) / 3);
-    width: calc((100% - 28px) / 3);
-    max-width: calc((100% - 28px) / 3);
-    min-width: 120px;
+    flex: 1 1 0;
+    min-width: 58px;
+    max-width: 200px;
     height: auto;
     aspect-ratio: 200 / 301;
   }
@@ -1200,8 +1233,8 @@ body {
   }
 }
 
-/* ── Small laptop 1024–1279px ── */
-@media (min-width: 1024px) and (max-width: 1279px) {
+/* ── Small laptop 1024–1239px (от 1240px — масштаб макета 1440, см. ниже) ── */
+@media (min-width: 1024px) and (max-width: 1239px) {
   .promo-scale-wrap {
     overflow-x: hidden;
   }
@@ -1211,7 +1244,7 @@ body {
     min-height: auto;
   }
 
-  .promo-page .abs:not(.dialog-mac):not(.hero-bg-img):not(.hero-monster) {
+  .promo-page .abs:not(.dialog-mac):not(.hero-bg-img):not(.hero-monster):not(.m-what-chills):not(.gif-qqq) {
     position: relative;
     left: auto;
     top: auto;
@@ -1268,6 +1301,41 @@ body {
     display: block;
   }
 
+  /* Как на 1440px: текст слева, GIF справа */
+  .promo-page .m-what-chills {
+    position: absolute;
+    left: calc(188 * 100% / 1440);
+    top: calc(1095 * 100vw / 1440);
+    width: calc(436 * 100% / 1440);
+    max-width: 46%;
+    transform: none;
+    margin: 0;
+    z-index: 5;
+    overflow: visible;
+    gap: 16px;
+  }
+
+  .promo-page .gif-qqq {
+    position: absolute;
+    left: calc(769 * 100% / 1440);
+    top: calc(1134 * 100vw / 1440);
+    width: calc(499 * 100% / 1440);
+    max-width: 52%;
+    height: calc(241 * 100vw / 1440);
+    transform: none;
+    margin: 0;
+    z-index: 5;
+    overflow: hidden;
+  }
+
+  .promo-page .gif-qqq img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    mix-blend-mode: luminosity;
+  }
+
   .promo-page .eye-group-left,
   .promo-page .eye-group-right {
     display: none !important;
@@ -1305,38 +1373,17 @@ body {
     width: 100%;
   }
 
-  .m-what-chills {
-    width: calc(100% - 80px);
-    margin: 32px auto 0;
-    gap: 16px;
-    overflow: visible;
-  }
-
-  .m-what-chills .label {
+  .promo-page .m-what-chills .label {
     font-size: 22px;
   }
 
-  .m-what-chills .body {
-    font-size: 32px;
-  }
-
-  .gif-qqq {
-    width: calc(100% - 80px);
-    height: auto;
-    aspect-ratio: 499 / 241;
-    margin: 24px auto 0;
-    overflow: visible;
-  }
-
-  .gif-qqq img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
+  .promo-page .m-what-chills .body {
+    font-size: clamp(22px, 2.8vw, 32px);
   }
 
   .m-text-arrow {
     width: calc(100% - 80px);
-    margin: 32px auto 0;
+    margin: calc(520 * 100vw / 1440) auto 0;
     overflow: visible;
   }
 
@@ -1362,14 +1409,15 @@ body {
 
   .promo-page .abs.dialog-mac {
     position: relative;
-    left: auto;
+    left: 50%;
     right: auto;
     top: auto;
+    transform: translateX(-50%);
     width: 517px;
     height: 240px;
-    margin: 32px auto 0;
+    margin: 32px 0 0;
     box-sizing: border-box;
-    z-index: 1;
+    z-index: 50;
   }
 
   .dialog-view {
@@ -1448,22 +1496,43 @@ body {
     left: auto !important;
     top: auto !important;
     width: calc(100% - 80px);
+    max-width: calc(315 * 100% / 1440);
     height: auto;
     margin-bottom: 20px;
     padding: 10px 16px;
     font-size: 14px;
   }
 
+  /* Как на 1440px: колонка по центру, стрелка + карточки, gap 15px */
   .guess-content {
     position: relative !important;
     left: auto !important;
     top: auto !important;
     width: 100%;
-    gap: 16px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    box-sizing: border-box;
+    z-index: 2;
   }
 
   .guess-arrow {
-    display: none;
+    display: block;
+    width: 100%;
+    max-width: min(100%, calc(1443 * 100vw / 1440));
+    height: auto;
+    aspect-ratio: 1443 / 47;
+    padding: 0 40px;
+    box-sizing: border-box;
+  }
+
+  .guess-arrow img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
   }
 
   .guess-cards {
@@ -1574,6 +1643,31 @@ body {
   .o-footer.home-footer .footer-col .regular,
   .o-footer.home-footer .footer-col .red {
     font-size: clamp(12px, 1.6vw, 16px);
+  }
+}
+
+/* ── От 1240px: обёртка и макет 1440px по центру, масштаб ≤1 пока вьюпорт < 1440 ── */
+@media (min-width: 1240px) {
+  .promo-scale-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  .promo-page {
+    width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    flex-shrink: 0;
+    /* Безразмерное 100vw/1440px без length/length в calc (postcss-calc) */
+    --promo-fit: min(1, tan(atan2(100vw, 1440px)));
+    transform: scale(var(--promo-fit));
+    transform-origin: top center;
+    margin-bottom: calc((var(--promo-fit) - 1) * 3982px);
   }
 }
 
@@ -1888,7 +1982,7 @@ body {
     outline-color: transparent;
   }
 
-  /* ── Footer главной: пропорции как у блока 1280px при 1440 (93+178+204+172+203+206+224) ── */
+  /* ── Footer главной: пропорции сетки как при 1440 (93+178+204+172+203+206+224) ── */
   .o-footer.home-footer {
     position: relative !important;
     left: auto !important;
@@ -1977,6 +2071,6 @@ body {
   .o-footer.home-footer .footer-col .bold,
   .o-footer.home-footer .footer-col .regular,
   .o-footer.home-footer .footer-col .red {
-    font-size: clamp(8px, calc(100vw * 16 / 1280), 16px);
+    font-size: clamp(8px, 1.25vw, 16px);
   }
 }
