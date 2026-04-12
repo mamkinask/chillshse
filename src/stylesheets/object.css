@@ -711,6 +711,38 @@ body {
   display: block;
 }
 
+/* ── Tablet 769–1023px ── */
+@media (min-width: 769px) and (max-width: 1023px) {
+  /* Release fixed 1440px container */
+  .object-page {
+    width: 100%;
+  }
+
+  /* Reduce side margins from 80px → 40px */
+  .object-page--static .obj-nav {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+
+  .object-page--static .obj-content {
+    margin-left: 40px;
+    margin-right: 40px;
+    width: calc(100% - 80px);
+  }
+
+  /* Release fixed inner title width (was 1254px) */
+  .obj-title-inner {
+    width: calc(100% - 26px);
+    box-sizing: border-box;
+  }
+
+  /* Footer was tied to 1280px */
+  .o-footer {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
 /* Декор трейлера скрыт на узких экранах (как в макете мобильной версии) */
 @media (max-width: 768px) {
   .obj-trailer-decor {

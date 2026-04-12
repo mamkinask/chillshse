@@ -12,7 +12,8 @@
       "Bash(npm run build 2>&1 | tail -6)",
       "Bash(git checkout HEAD -- src/stylesheets/guide.css)",
       "Bash(npm run build 2>&1 | tail -5)",
-      "Bash(git checkout HEAD -- src/stylesheets/timeline.css src/stylesheets/object.css && npm run build 2>&1 | tail -6)"
+      "Bash(git checkout HEAD -- src/stylesheets/timeline.css src/stylesheets/object.css && npm run build 2>&1 | tail -6)",
+      "Bash(git add src/javascript/timeline.js src/stylesheets/articles.css src/stylesheets/guide.css src/stylesheets/home.css docs/timeline.js docs/articles.css docs/guide-body-horror.css docs/guide-child-imagery.css docs/guide-found-footage.css docs/guide-gothic.css docs/guide-pagan-cults.css docs/guide-paper-nightmares.css docs/guide-robot.css docs/guide-scandinavian.css docs/guide-survival-horror.css docs/guide-without-monster.css docs/home.css docs/index.html docs/pages/ docs/timeline.js yarn.lock && git add docs/images/ && git commit -m \"$\\(cat <<'EOF'\nадаптив 768–1023px для timeline, articles, guide, object, home\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   }
 }

@@ -824,8 +824,8 @@ body {
   display: none;
 }
 
-/* ── Tablet 768–1023px ── */
-@media (min-width: 768px) and (max-width: 1023px) {
+/* ── Tablet 769–1023px ── */
+@media (min-width: 769px) and (max-width: 1023px) {
 
   .promo-scale-wrap {
     overflow-x: hidden;
@@ -857,11 +857,6 @@ body {
 
   .running-line-track span {
     font-size: 22px;
-  }
-
-  /* ── Hero BG GIF — skip in flow layout ── */
-  .promo-page .hero-bg-img {
-    display: none !important;
   }
 
   /* ── Hero monster ── */
