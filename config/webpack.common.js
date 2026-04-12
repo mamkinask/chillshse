@@ -27,7 +27,9 @@ module.exports = {
     'guide-scandinavian': './src/javascript/guide-scandinavian.js',
     'guide-child-imagery': './src/javascript/guide-child-imagery.js',
     'guide-paper-nightmares': './src/javascript/guide-paper-nightmares.js',
-    'guide-gothic': './src/javascript/guide-gothic.js'
+    'guide-gothic': './src/javascript/guide-gothic.js',
+    search: './src/javascript/search.js',
+    routes: './src/javascript/routes.js'
   },
   output: {
     filename: '[name].js',

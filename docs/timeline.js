@@ -85,16 +85,16 @@ function syncTimelinePageMinHeight() {
     page.style.minHeight = '1130px';
   }
 }
-function initSearch(allGroups) {
+function initSearch(baseGroups) {
   var searchInput = document.getElementById('timeline-search');
   if (!searchInput) return;
   searchInput.addEventListener('input', function () {
     var q = this.value.trim().toLowerCase();
     if (!q) {
-      renderTimeline(allGroups);
+      renderTimeline(baseGroups);
       return;
     }
-    var filtered = allGroups.map(function (g) {
+    var filtered = baseGroups.map(function (g) {
       return {
         year: g.year,
         items: g.items.filter(function (item) {
@@ -107,6 +107,136 @@ function initSearch(allGroups) {
     renderTimeline(filtered);
   });
 }
+
+// ── Filter logic ────────────────────────────────────────────────────────────
+
+function parseFilterParams() {
+  var params = new URLSearchParams(window.location.search);
+  return {
+    type: params.get('type') ? params.get('type').split(',').filter(Boolean) : [],
+    decade: params.get('decade') ? params.get('decade').split(',').filter(Boolean) : [],
+    scare: params.get('scare') ? parseInt(params.get('scare'), 10) : 0,
+    fear: params.get('fear') ? params.get('fear').split(',').filter(Boolean) : [],
+    subgenre: params.get('subgenre') ? params.get('subgenre').split(',').filter(Boolean) : [],
+    country: params.get('country') ? params.get('country').split(',').filter(Boolean) : [],
+    emotion: params.get('emotion') ? params.get('emotion').split(',').filter(Boolean) : []
+  };
+}
+function hasActiveFilters(fp) {
+  return fp.type.length > 0 || fp.decade.length > 0 || fp.scare > 0 || fp.fear.length > 0 || fp.subgenre.length > 0 || fp.country.length > 0 || fp.emotion.length > 0;
+}
+function decadeContains(year, decade) {
+  if (decade === 'до1980х') return year < 1980;
+  if (decade === '1980е') return year >= 1980 && year <= 1989;
+  if (decade === '1990е') return year >= 1990 && year <= 1999;
+  if (decade === '2000е') return year >= 2000 && year <= 2009;
+  if (decade === '2010е') return year >= 2010 && year <= 2019;
+  if (decade === '2020е') return year >= 2020 && year <= 2029;
+  return false;
+}
+function pipeContains(field, value) {
+  var parts = (field || '').split('|').map(function (s) {
+    return s.trim();
+  });
+  return parts.indexOf(value) !== -1;
+}
+function applyFilters(items, fp) {
+  return items.filter(function (item) {
+    if (fp.type.length > 0 && fp.type.indexOf(item.Type) === -1) return false;
+    if (fp.decade.length > 0) {
+      var yearOk = fp.decade.some(function (d) {
+        return decadeContains(item.Year, d);
+      });
+      if (!yearOk) return false;
+    }
+    if (fp.scare > 0 && (item['Scare Level'] || 0) < fp.scare) return false;
+    if (fp.fear.length > 0 && fp.fear.indexOf(item['Fear Type']) === -1) return false;
+    if (fp.subgenre.length > 0) {
+      var subOk = fp.subgenre.some(function (s) {
+        return pipeContains(item.Subgenres, s);
+      });
+      if (!subOk) return false;
+    }
+    if (fp.country.length > 0 && fp.country.indexOf(item.Country) === -1) return false;
+    if (fp.emotion.length > 0) {
+      var emoOk = fp.emotion.some(function (e) {
+        return pipeContains(item.Emotions, e);
+      });
+      if (!emoOk) return false;
+    }
+    return true;
+  });
+}
+function removeFilterParam(param, value) {
+  var params = new URLSearchParams(window.location.search);
+  if (param === 'scare') {
+    params["delete"]('scare');
+  } else {
+    var current = params.get(param) ? params.get(param).split(',').filter(Boolean) : [];
+    var next = current.filter(function (v) {
+      return v !== value;
+    });
+    if (next.length === 0) {
+      params["delete"](param);
+    } else {
+      params.set(param, next.join(','));
+    }
+  }
+  var qs = params.toString();
+  window.location.href = window.location.pathname + (qs ? '?' + qs : '');
+}
+function makeTag(param, value, label) {
+  return '<span class="filter-tag">' + escH(label) + ' <button class="filter-tag-remove" data-param="' + escH(param) + '" data-value="' + escH(value) + '" aria-label="Убрать фильтр">×</button>' + '</span>';
+}
+function renderFilterTags(fp) {
+  var bar = document.getElementById('active-filters-bar');
+  if (!bar) return;
+  if (!hasActiveFilters(fp)) {
+    bar.innerHTML = '';
+    bar.classList.remove('has-tags');
+    return;
+  }
+  bar.classList.add('has-tags');
+  var html = '';
+  fp.type.forEach(function (v) {
+    html += makeTag('type', v, v);
+  });
+  fp.decade.forEach(function (v) {
+    html += makeTag('decade', v, v === 'до1980х' ? 'до 1980х' : v);
+  });
+  if (fp.scare > 0) {
+    html += makeTag('scare', String(fp.scare), 'СТРАХ ≥' + fp.scare);
+  }
+  fp.fear.forEach(function (v) {
+    html += makeTag('fear', v, v);
+  });
+  fp.subgenre.forEach(function (v) {
+    html += makeTag('subgenre', v, v);
+  });
+  fp.country.forEach(function (v) {
+    html += makeTag('country', v, v);
+  });
+  fp.emotion.forEach(function (v) {
+    html += makeTag('emotion', v, v);
+  });
+  html += '<button class="clear-all-filters" id="clear-all-filters">СБРОСИТЬ ВСЁ</button>';
+  bar.innerHTML = html;
+  bar.querySelectorAll('.filter-tag-remove').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      removeFilterParam(this.dataset.param, this.dataset.value);
+    });
+  });
+  var clearAll = document.getElementById('clear-all-filters');
+  if (clearAll) {
+    clearAll.addEventListener('click', function () {
+      window.location.href = window.location.pathname;
+    });
+  }
+}
+
+// ── Scrubber ────────────────────────────────────────────────────────────────
+
 function initScrubber() {
   var zone = document.getElementById('timeline-zone');
   var track = document.getElementById('scrubber-track');
@@ -262,6 +392,7 @@ function initZoneDrag() {
 }
 document.addEventListener('DOMContentLoaded', function () {
   var loadingEl = document.getElementById('timeline-loading');
+  var fp = parseFilterParams();
   window.addEventListener('resize', syncTimelinePageMinHeight);
   document.addEventListener('click', function (e) {
     var t = e.target;
@@ -274,10 +405,13 @@ document.addEventListener('DOMContentLoaded', function () {
   fetch('../assets/data/horror_media.json').then(function (r) {
     return r.json();
   }).then(function (items) {
-    var allGroups = groupByYear(items);
+    var displayItems = hasActiveFilters(fp) ? applyFilters(items, fp) : items;
+    var displayGroups = groupByYear(displayItems);
     if (loadingEl) loadingEl.remove();
-    renderTimeline(allGroups);
-    initSearch(allGroups);
+    renderTimeline(displayGroups);
+    renderFilterTags(fp);
+    // Search operates on the current display set (filtered or all)
+    initSearch(displayGroups);
     var zone = document.getElementById('timeline-zone');
     restoreTimelineScroll(zone);
   })["catch"](function (err) {

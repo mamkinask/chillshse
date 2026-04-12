@@ -23,9 +23,15 @@ body {
   top: 71px;
   width: 1282px;
   display: flex;
+  flex-direction: column;
+  gap: 0;
+  z-index: 10;
+}
+
+.timeline-toolbar-top {
+  display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 10;
 }
 
 .timeline-toolbar-left {
@@ -34,7 +40,10 @@ body {
   align-items: center;
 }
 
-.btn-white {
+.btn-make-route,
+.btn-made-routes {
+  display: inline-block;
+  text-decoration: none;
   border: 2px solid #fff;
   padding: 4px;
   color: #fff;
@@ -45,7 +54,65 @@ body {
   background: transparent;
 }
 
-.btn-white span {
+/* Active filter tags bar */
+.active-filters-bar {
+  display: none;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  padding: 6px 0 0;
+}
+
+.active-filters-bar.has-tags {
+  display: flex;
+}
+
+.filter-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #760000;
+  color: #fff;
+  font-family: 'Greybeard 22px', sans-serif;
+  font-size: 12px;
+  padding: 2px 6px;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.filter-tag-remove {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+.filter-tag-remove:hover {
+  opacity: 1;
+}
+
+.clear-all-filters {
+  background: #1900ff;
+  border: none;
+  color: #fff;
+  font-family: 'Greybeard 22px', sans-serif;
+  font-size: 12px;
+  padding: 2px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.clear-all-filters:hover {
+  background: #2a10ff;
+}
+
+.btn-make-route span,
+.btn-made-routes span {
   display: block;
   border: 1px solid #fff;
   padding: 2px 6px;
@@ -433,9 +500,19 @@ body {
     left: auto;
     top: auto;
     width: 100%;
-    padding: 14px 80px;
+    padding: 14px 80px 8px;
     box-sizing: border-box;
     z-index: 10;
+  }
+
+  .timeline-toolbar-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .active-filters-bar.has-tags {
+    padding: 6px 0 0;
   }
 
   .timeline-zone {
@@ -545,9 +622,15 @@ body {
     left: auto;
     top: auto;
     width: 100%;
-    padding: 14px 40px;
+    padding: 14px 40px 8px;
     box-sizing: border-box;
     z-index: 10;
+  }
+
+  .timeline-toolbar-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .timeline-zone {
@@ -657,9 +740,15 @@ body {
     left: auto;
     top: auto;
     width: 100%;
-    padding: 14px 24px;
+    padding: 14px 24px 8px;
     box-sizing: border-box;
     z-index: 10;
+  }
+
+  .timeline-toolbar-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .timeline-zone {
@@ -784,11 +873,17 @@ body {
     left: auto;
     top: auto;
     width: 100%;
-    padding: 10px 12px;
+    padding: 10px 12px 6px;
     box-sizing: border-box;
-    flex-wrap: wrap;
-    gap: 10px;
     z-index: 10;
+  }
+
+  .timeline-toolbar-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
   }
 
   .timeline-toolbar-left {
@@ -796,7 +891,8 @@ body {
     gap: 8px;
   }
 
-  .btn-white {
+  .btn-make-route,
+  .btn-made-routes {
     font-size: 12px;
   }
 
@@ -807,6 +903,11 @@ body {
   .btn-search .input-wrap {
     width: 100%;
     box-sizing: border-box;
+  }
+
+  .active-filters-bar.has-tags {
+    padding: 4px 0 0;
+    gap: 4px;
   }
 
   /* Зона таймлайна: без горизонтального скролла — скроллит страница */

@@ -24,7 +24,9 @@ const htmlPages = [
   createPage('./src/pages/scandinavian.html', './pages/scandinavian.html', ['shared', 'guide-scandinavian']),
   createPage('./src/pages/paper_nightmares.html', './pages/paper_nightmares.html', ['shared', 'guide-paper-nightmares']),
   createPage('./src/pages/gothic.html', './pages/gothic.html', ['shared', 'guide-gothic']),
-  createPage('./src/pages/object.html', './pages/object.html', ['shared', 'object-from', 'object'])
+  createPage('./src/pages/object.html', './pages/object.html', ['shared', 'object-from', 'object']),
+  createPage('./src/pages/search.html', './pages/search.html', ['shared', 'search']),
+  createPage('./src/pages/routes.html', './pages/routes.html', ['shared', 'routes'])
 ]
 
 module.exports = htmlPages
