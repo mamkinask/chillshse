@@ -354,6 +354,40 @@ body {
   line-height: 1.4;
 }
 
+/* ── Small laptop 1024–1279px ── */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .test-page {
+    width: 100%;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  /* Release fixed 1061px content width — use 80px margins each side */
+  .test-content {
+    width: calc(100% - 160px);
+  }
+
+  /* Release fixed min-height so card grows with content */
+  .test-card {
+    min-height: auto;
+  }
+
+  /* Result screen: cap at 800px, never overflow */
+  .test-result {
+    width: min(800px, calc(100% - 160px));
+  }
+
+  /* Footer: release fixed 1280px, keep centered with 80px margins */
+  .test-page .o-footer {
+    left: auto;
+    transform: none;
+    width: calc(100% - 160px);
+    padding: 40px 0 60px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+}
+
 /* ── Tablet 768–1023px ── */
 @media (min-width: 768px) and (max-width: 1023px) {
   .test-page {

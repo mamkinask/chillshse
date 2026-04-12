@@ -711,6 +711,45 @@ body {
   display: block;
 }
 
+/* ── Small laptop 1024–1279px ── */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .object-page {
+    width: 100%;
+  }
+
+  /* Keep desktop 80px margins — 864px+ content at minimum viewport */
+  .object-page--static .obj-nav {
+    margin-left: 80px;
+    margin-right: 80px;
+  }
+
+  .object-page--static .obj-content {
+    margin-left: 80px;
+    margin-right: 80px;
+    width: calc(100% - 160px);
+  }
+
+  /* Non-static (SPA): release fixed 1280px content width */
+  .object-page:not(.object-page--static) .obj-content {
+    width: calc(100% - 160px);
+  }
+
+  .obj-title-inner {
+    width: calc(100% - 26px);
+    box-sizing: border-box;
+  }
+
+  .footer-col--info,
+  .footer-col--contacts {
+    width: auto;
+  }
+
+  .o-footer {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
 /* ── Tablet 769–1023px ── */
 @media (min-width: 769px) and (max-width: 1023px) {
   /* Release fixed 1440px container */

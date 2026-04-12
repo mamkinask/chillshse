@@ -275,6 +275,69 @@ body {
   top: 934px;
 }
 
+/* ── Small laptop 1024–1279px ── */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .diag-page {
+    width: 100%;
+    min-height: auto;
+    overflow: visible;
+    padding-bottom: 60px;
+  }
+
+  .diag-cta {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 535px;
+    height: auto;
+    padding: 20px 12px;
+    margin: 120px auto 0;
+  }
+
+  .diag-cta p {
+    font-size: 56px;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .diag-hand,
+  .deco {
+    display: none;
+  }
+
+  .diag-intro {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 600px;
+    height: auto;
+    padding: 20px;
+    margin: 32px auto 0;
+  }
+
+  .diag-intro .text {
+    font-size: 20px;
+    max-width: 100%;
+  }
+
+  .diag-page .o-footer {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: calc(100% - 160px);
+    padding: 0;
+    box-sizing: border-box;
+    margin: 60px auto 0;
+  }
+
+  .footer-col--info,
+  .footer-col--contacts {
+    width: auto;
+  }
+}
+
 /* ── Tablet 768–1023px ── */
 @media (min-width: 768px) and (max-width: 1023px) {
   .diag-page {

@@ -181,6 +181,26 @@ body {
   }
 }
 
+/* ── Small laptop 1024–1279px: shrink footer gaps ── */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .o-footer {
+    gap: 80px;
+  }
+
+  .o-footer .footer-right {
+    gap: 80px;
+  }
+
+  .o-footer .footer-info {
+    gap: 80px;
+  }
+
+  .o-footer .footer-heart {
+    width: 185px;
+    height: 71px;
+  }
+}
+
 /* ── Tablet 768px ── */
 @media (max-width: 768px) {
   .o-header {
