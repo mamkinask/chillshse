@@ -490,8 +490,8 @@ body {
   padding: 0 2px;
 }
 
-/* ── Large screen 1240px+ ── */
-@media (min-width: 1240px) {
+/* ── Large screen 1240–1439px ── */
+@media (min-width: 1240px) and (max-width: 1439px) {
   .guide-page {
     width: 100%;
     overflow: visible;

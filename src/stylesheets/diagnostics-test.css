@@ -354,8 +354,8 @@ body {
   line-height: 1.4;
 }
 
-/* ── Large screen 1240px+ ── */
-@media (min-width: 1240px) {
+/* ── Large screen 1240–1439px ── */
+@media (min-width: 1240px) and (max-width: 1439px) {
   .test-page {
     width: 100%;
     min-height: auto;
