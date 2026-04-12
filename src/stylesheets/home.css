@@ -859,10 +859,16 @@ body {
     font-size: 22px;
   }
 
+  /* ── Hero BG / monster stacking — mirror desktop z-index ── */
+  .promo-page .hero-bg-img {
+    z-index: 1;
+  }
+
   /* ── Hero monster ── */
   .hero-monster {
     width: 100%;
     overflow: hidden;
+    z-index: 999;
   }
 
   .hero-monster img {
@@ -1225,9 +1231,15 @@ body {
     font-size: 28px;
   }
 
+  /* ── Hero BG / monster stacking — mirror desktop z-index ── */
+  .promo-page .hero-bg-img {
+    z-index: 1;
+  }
+
   .hero-monster {
     width: 100%;
     overflow: hidden;
+    z-index: 999;
   }
 
   .hero-monster img {
