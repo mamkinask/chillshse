@@ -1646,28 +1646,36 @@ body {
   }
 }
 
-/* ── От 1240px: обёртка и макет 1440px по центру, масштаб ≤1 пока вьюпорт < 1440 ── */
+/* ── От 1240px: макет 1440px по центру, масштаб ≤1 при ширине < 1440 ──
+   scale() не меняет ширину в потоке — без отрицательных margin flex центрирует «полные» 1440px и визуал съезжает.
+   100% = ширина .promo-scale-wrap (как у viewport, но без рассинхрона со скроллбаром у 100vw). */
 @media (min-width: 1240px) {
+  html {
+    overflow-x: visible;
+  }
+
   .promo-scale-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     overflow-x: hidden;
+    overflow-y: visible;
   }
 
   .promo-page {
+    --promo-fit: min(1, tan(atan2(100%, 1440px)));
     width: 1440px;
-    margin-left: auto;
-    margin-right: auto;
     flex-shrink: 0;
-    /* Безразмерное 100vw/1440px без length/length в calc (postcss-calc) */
-    --promo-fit: min(1, tan(atan2(100vw, 1440px)));
+    box-sizing: border-box;
+    margin-left: calc((var(--promo-fit) - 1) * 720px);
+    margin-right: calc((var(--promo-fit) - 1) * 720px);
+    margin-bottom: calc((var(--promo-fit) - 1) * 3982px);
     transform: scale(var(--promo-fit));
     transform-origin: top center;
-    margin-bottom: calc((var(--promo-fit) - 1) * 3982px);
   }
 }
 
