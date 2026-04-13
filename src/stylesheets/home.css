@@ -1535,25 +1535,28 @@ body {
     display: block;
   }
 
+  /* Как на 1440px: один ряд карточек, gap 16px, горизонтальный скролл при нехватке ширины */
   .guess-cards {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
-    align-items: flex-start;
-    gap: 14px;
+    align-items: center;
+    gap: 16px;
     padding: 0 40px;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .guess-cards .card {
-    flex: 0 1 calc((100% - 28px) / 3);
-    width: calc((100% - 28px) / 3);
-    max-width: calc((100% - 28px) / 3);
-    min-width: 140px;
-    height: auto;
-    aspect-ratio: 200 / 301;
+    flex: 0 0 auto;
+    width: 200px;
+    max-width: 200px;
+    min-width: 58px;
+    height: 301px;
+    flex-shrink: 0;
   }
 
   .o-footer.home-footer {
@@ -1692,8 +1695,8 @@ body {
     min-height: auto;
   }
 
-  /* Cancel absolute positioning for .abs children (диалог — отдельно, см. .dialog-mac) */
-  .promo-page .abs:not(.dialog-mac) {
+  /* Cancel absolute positioning for .abs children (диалог и hero — отдельно) */
+  .promo-page .abs:not(.dialog-mac):not(.hero-bg-img):not(.hero-monster) {
     position: relative;
     left: auto;
     top: auto;
@@ -1714,25 +1717,40 @@ body {
     font-size: 20px;
   }
 
-  /* ── Hero: GIF убран на узком экране ── */
+  /* Hero: как на 1440px — GIF под монстром, монстр выше по z-index */
   .promo-page .hero-bg-img {
-    display: none !important;
+    position: absolute;
+    left: 0;
+    top: calc(162 * 100vw / 1440);
+    width: 100%;
+    max-width: 100%;
+    height: calc(351 * 100vw / 1440);
+    z-index: 1;
+    overflow: hidden;
   }
 
   .promo-page .hero-bg-img img {
-    display: none !important;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
-  .hero-monster {
-    width: 100%;
+  .promo-page .hero-monster {
+    position: absolute;
+    left: 50%;
+    top: calc(62 * 100vw / 1440);
+    transform: translateX(-50%);
+    width: min(100%, calc(959 * 100% / 1440));
+    height: calc(629 * 100vw / 1440);
+    z-index: 999;
     overflow: hidden;
-    margin-top: 0;
   }
 
-  .hero-monster img {
+  .promo-page .hero-monster img {
     width: 100%;
-    height: auto;
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
     display: block;
   }
 
@@ -1742,14 +1760,14 @@ body {
     display: none !important;
   }
 
-  /* ── Title ── */
+  /* ── Title ── (отступ как top: 601px на макете 1440, минус высота бегущей строки 28px) */
   .hero-title {
     width: 100%;
     font-size: 22vw;
     text-align: center;
     -webkit-text-stroke: 4px #760000;
     line-height: 0.9;
-    margin-top: -12px;
+    margin-top: calc(601 * 100vw / 1440 - 28px);
   }
 
   /* ── Subtitle: по центру экрана (перебиваем width:auto у .abs:not(.dialog-mac)) ── */
@@ -1777,20 +1795,26 @@ body {
     width: 100%;
   }
 
-  /* ── What is Chills ── */
+  /* ── What is Chills: 4px от левого и правого края экрана ── */
   .m-what-chills {
-    width: calc(100% - 32px);
-    margin: 24px auto 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin: 24px 0 0;
     gap: 12px;
     overflow: visible;
   }
 
   .m-what-chills .label {
     font-size: 16px;
+    box-sizing: border-box;
   }
 
   .m-what-chills .body {
     font-size: 22px;
+    box-sizing: border-box;
   }
 
   /* ── GIF question marks ── */
@@ -2080,5 +2104,79 @@ body {
   .o-footer.home-footer .footer-col .regular,
   .o-footer.home-footer .footer-col .red {
     font-size: clamp(8px, 1.25vw, 16px);
+  }
+}
+
+/* ── 360–768px: монстр +50%; поток ниже на 25vh (кроме running-line, hero-bg, hero-monster); диалог по центру ── */
+@media (min-width: 360px) and (max-width: 768px) {
+  /* Без padding-top: абсолютные hero остаются у верха; остальной поток опускаем от первого блока после бегущей строки */
+  .promo-page .running-line {
+    position: relative;
+    z-index: 90;
+  }
+
+  .promo-page .hero-title {
+    margin-top: calc(25vh + 601 * 100vw / 1440 - 28px);
+  }
+
+  .promo-page .hero-monster {
+    width: min(100%, calc(959 * 1.5 * 100% / 1440));
+    height: calc(629 * 1.5 * 100vw / 1440);
+    overflow: visible;
+  }
+
+  /*
+   * Диалог: ширина min(517, 100vw-32), высота через aspect-ratio (без calc(… * var(--dialog-scale)) —
+   * иначе в части движков кастомное свойство с min() даёт 0 и окно пропадает).
+   * Масштаб только на .dialog-view.
+   */
+  .promo-page .abs.dialog-mac {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    width: min(517px, calc(100vw - 32px));
+    max-width: calc(100vw - 32px);
+    height: auto;
+    aspect-ratio: 517 / 240;
+    margin: 32px auto 0;
+    margin-bottom: 0;
+    transform: none;
+    overflow: hidden;
+    z-index: 50;
+    box-sizing: border-box;
+  }
+
+  .promo-page .abs.dialog-mac.state-closed {
+    width: min(517px, calc(100vw - 32px));
+    max-width: calc(100vw - 32px);
+    height: auto;
+    aspect-ratio: 517 / 240;
+    margin-bottom: 0;
+  }
+
+  .promo-page .abs.dialog-mac .dialog-view {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 517px;
+    height: 240px;
+    transform: scale(calc(min(517px, calc(100vw - 32px)) / 517px));
+    transform-origin: 0 0;
+    box-sizing: border-box;
+  }
+
+  .promo-page .abs.dialog-mac .body {
+    overflow: visible;
+  }
+
+  .promo-page .abs.dialog-mac .close-btn,
+  .promo-page .abs.dialog-mac .win-btn,
+  .promo-page .abs.dialog-mac .back-btn,
+  .promo-page .abs.dialog-mac .btn-red {
+    transform: scale(
+      min(1.28, calc(517px / min(517px, calc(100vw - 32px))))
+    );
+    transform-origin: center center;
   }
 }

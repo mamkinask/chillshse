@@ -338,8 +338,8 @@ body {
   }
 }
 
-/* ── Small laptop 1024–1279px ── */
-@media (min-width: 1024px) and (max-width: 1279px) {
+/* ── Small laptop 1024–1239px (1240–1439 — отдельный блок ниже) ── */
+@media (min-width: 1024px) and (max-width: 1239px) {
   .diag-page {
     width: 100%;
     min-height: auto;
@@ -530,10 +530,11 @@ body {
   }
 }
 
-/* ── До 1279px: фоновый GIF от верха экрана на всю высоту вьюпорта, адаптивно ── */
-@media (max-width: 1279px) {
+/* ── До 1439px: GIF от верха вьюпорта на весь экран (включая 1240–1439; с 1440 — фон внутри макета 1440) ── */
+@media (max-width: 1439px) {
   .diag-page {
     min-height: 100vh;
+    min-height: 100dvh;
   }
 
   .diag-bg {
@@ -543,6 +544,9 @@ body {
     right: 0;
     width: 100%;
     height: 100vh;
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
     z-index: 0;
   }
 
