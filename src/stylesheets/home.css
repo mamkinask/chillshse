@@ -2116,7 +2116,7 @@ body {
   }
 
   .promo-page .hero-title {
-    margin-top: calc(25vh + 601 * 100vw / 1440 - 28px);
+    margin-top: calc(601 * 100vw / 1440 - 28px + 15vh);
   }
 
   .promo-page .hero-monster {
